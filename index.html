@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rotina do Apartamento</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F7F5F0;--surface:#fff;--border:#E4E0D8;--text:#1C1A17;--muted:#7A7670;--faint:#B0ACA6;
+  --roupa:#D6E8F5;--roupa-t:#1A4A6B;--cama:#E8E4F5;--cama-t:#3A2F72;
+  --limpeza:#DDF0E0;--limpeza-t:#1A5C28;--org:#F5EDD6;--org-t:#6B4A10;
+  --sacada:#F5E4D6;--sacada-t:#6B2F10;--prep:#F5D6E8;--prep-t:#6B1040;
+  --fax:#D6F0E8;--fax-t:#0D5C3A;
+  --ok-bg:#DDF0E0;--ok-t:#1A5C28;--soon-bg:#FDF3D6;--soon-t:#6B4A10;--over-bg:#FDE8E8;--over-t:#7A1A1A;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:1.5rem 1.25rem 5rem}
+header{max-width:980px;margin:0 auto 1.5rem;display:flex;align-items:baseline;gap:1rem}
+header h1{font-size:21px;font-weight:500;letter-spacing:-.3px}
+header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
+.tabs{max-width:980px;margin:0 auto 1.25rem;display:flex;gap:6px;flex-wrap:wrap}
+.tab{padding:6px 15px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s}
+.tab:hover{border-color:#C0BDB5;color:var(--text)}
+.tab.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.view{display:none;max-width:980px;margin:0 auto}
+.view.active{display:block}
+
+/* DAYS */
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}
+.day-col{background:var(--surface);border:1px solid var(--border);border-radius:13px;overflow:hidden}
+.day-col.today{border-color:var(--text);box-shadow:0 0 0 2px var(--text)}
+.day-head{padding:9px 6px 6px;text-align:center;font-size:10px;font-weight:500;font-family:'DM Mono',monospace;letter-spacing:.5px;border-bottom:1px solid var(--border);color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:4px}
+.day-head.fax{background:var(--fax);color:var(--fax-t);border-bottom-color:#B8E8D8}
+.day-col.today .day-head{background:var(--text);color:var(--bg);border-bottom-color:#000}
+.day-col.today .day-head.fax{background:#0a3528;color:#a0f0d8}
+.day-head-name{display:flex;align-items:center;justify-content:center;width:100%}
+.day-add-btn{background:none;border:none;cursor:pointer;color:var(--faint);font-size:14px;line-height:1;padding:0;opacity:0;transition:opacity .15s}
+.day-col:hover .day-add-btn{opacity:1}
+.day-col.today .day-add-btn{color:rgba(255,255,255,.5)}
+.day-col.today:hover .day-add-btn{color:rgba(255,255,255,.8)}
+.day-body{padding:7px 5px;display:flex;flex-direction:column;gap:4px}
+.slabel{font-size:8.5px;font-family:'DM Mono',monospace;letter-spacing:.5px;color:var(--faint);padding:3px 3px 0;text-transform:uppercase}
+.tag{font-size:10.5px;padding:3px 6px;border-radius:7px;line-height:1.35;display:flex;align-items:flex-start;gap:4px;cursor:pointer;position:relative}
+.tag:hover .tag-actions{display:flex}
+.tag-text{flex:1}
+.tag-actions{display:none;gap:2px;flex-shrink:0;margin-top:1px}
+.tag-btn{background:none;border:none;cursor:pointer;font-size:11px;padding:0 1px;line-height:1;opacity:.6;transition:opacity .15s}
+.tag-btn:hover{opacity:1}
+.tag svg{width:10px;height:10px;flex-shrink:0;margin-top:2px}
+.t-roupa{background:var(--roupa);color:var(--roupa-t)}
+.t-cama{background:var(--cama);color:var(--cama-t)}
+.t-limpeza{background:var(--limpeza);color:var(--limpeza-t)}
+.t-org{background:var(--org);color:var(--org-t)}
+.t-sacada{background:var(--sacada);color:var(--sacada-t)}
+.t-prep{background:var(--prep);color:var(--prep-t)}
+.t-fax{background:var(--fax);color:var(--fax-t);font-weight:500}
+.t-sm{font-size:10px;padding:2px 5px}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:1rem;padding:.85rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:11px}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
+.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* RECADOS */
+.recados-section{margin-top:1.25rem}
+.recados-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem}
+.recados-header h3{font-size:13px;font-weight:500;color:var(--muted)}
+.recados-list{display:flex;flex-direction:column;gap:6px;margin-bottom:.6rem}
+.recado-item{display:flex;align-items:flex-start;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:9px 11px}
+.recado-text{flex:1;font-size:13px;line-height:1.5}
+.recado-date{font-size:10px;color:var(--faint);font-family:'DM Mono',monospace;margin-top:2px}
+.recado-del{background:none;border:none;cursor:pointer;color:var(--faint);font-size:14px;padding:0;line-height:1;flex-shrink:0;transition:color .15s}
+.recado-del:hover{color:#c0392b}
+.recado-add-row{display:flex;gap:6px}
+.recado-input{flex:1;border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text);outline:none}
+.recado-input:focus{border-color:#999}
+.btn-sm{padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s;white-space:nowrap}
+.btn-sm:hover{background:var(--bg)}
+.btn-primary{background:var(--text);color:var(--bg);border-color:var(--text)}
+.btn-primary:hover{opacity:.85}
+
+/* PERIÓDICAS */
+.section-actions{display:flex;justify-content:flex-end;margin-bottom:.75rem}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.pcard{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:14px}
+.pcard-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;gap:6px}
+.pcard-top h4{font-size:13px;font-weight:500}
+.freq-badge{font-size:10px;font-family:'DM Mono',monospace;padding:2px 8px;border-radius:20px;background:var(--bg);color:var(--muted);white-space:nowrap;flex-shrink:0}
+.pcard p{font-size:11.5px;color:var(--muted);line-height:1.55;margin-bottom:9px}
+.pcard-footer{display:flex;align-items:flex-end;justify-content:space-between;gap:8px;padding-top:9px;border-top:1px solid var(--border);flex-wrap:wrap}
+.pcard-dates{display:flex;flex-direction:column;gap:3px}
+.date-row{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted)}
+.date-row strong{color:var(--text);font-weight:500}
+.sbadge{font-size:10px;padding:2px 7px;border-radius:20px;font-family:'DM Mono',monospace;margin-top:3px;display:inline-block}
+.s-ok{background:var(--ok-bg);color:var(--ok-t)}
+.s-soon{background:var(--soon-bg);color:var(--soon-t)}
+.s-over{background:var(--over-bg);color:var(--over-t)}
+.s-never{background:var(--bg);color:var(--faint)}
+.pcard-actions{display:flex;flex-direction:column;gap:4px;align-items:flex-end}
+.btn-done{font-size:11px;padding:4px 11px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;white-space:nowrap}
+.btn-done:hover{background:var(--limpeza);border-color:#B0DDB8;color:var(--limpeza-t)}
+.btn-del{font-size:10px;padding:3px 9px;border-radius:20px;border:1px solid var(--border);background:none;color:var(--faint);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.btn-del:hover{background:var(--over-bg);color:var(--over-t);border-color:#e0b0b0}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;z-index:100;padding:1rem}
+.modal-overlay.hidden{display:none}
+.modal{background:var(--surface);border-radius:16px;padding:1.5rem;width:100%;max-width:420px;box-shadow:0 8px 32px rgba(0,0,0,.15)}
+.modal h3{font-size:15px;font-weight:500;margin-bottom:1rem}
+.form-row{display:flex;flex-direction:column;gap:4px;margin-bottom:.75rem}
+.form-row label{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.4px}
+.form-row input,.form-row textarea,.form-row select{border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);outline:none;width:100%}
+.form-row input:focus,.form-row textarea:focus{border-color:#999}
+.form-row textarea{resize:vertical;min-height:60px}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:1rem}
+
+/* PLANTAS */
+.plant-group{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:14px;margin-bottom:10px}
+.pg-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.pg-title{font-size:13px;font-weight:500}
+.pg-badge{font-size:10px;font-family:'DM Mono',monospace;padding:2px 8px;border-radius:20px;background:var(--bg);color:var(--muted)}
+.pg-water-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:10px}
+.btn-water{font-size:12px;padding:5px 13px;border-radius:20px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.btn-water:hover{background:var(--limpeza);border-color:#B0DDB8;color:var(--limpeza-t)}
+.water-info{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);display:flex;flex-direction:column;gap:2px}
+.water-info span{color:var(--text);font-weight:500}
+.plant-list{display:flex;flex-direction:column;gap:5px}
+.plant-row{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:8px;background:var(--bg)}
+.plant-row-info{flex:1}
+.plant-name{font-size:12px;font-weight:500}
+.plant-freq{font-size:10.5px;color:var(--muted);font-family:'DM Mono',monospace}
+.plant-tip{font-size:11px;color:var(--muted);margin-top:1px;line-height:1.4}
+.btn-icon{background:none;border:none;cursor:pointer;color:var(--faint);font-size:14px;padding:2px;transition:color .15s;line-height:1}
+.btn-icon:hover{color:#c0392b}
+
+/* COMPRAS */
+.compras-section{margin-bottom:1.25rem}
+.compras-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem;gap:8px;flex-wrap:wrap}
+.compras-title{font-size:14px;font-weight:500}
+.compras-subtitle{font-size:11px;color:var(--muted)}
+.compras-list{display:flex;flex-direction:column;gap:4px}
+.compra-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:9px;background:var(--surface);border:1px solid var(--border)}
+.compra-item.comprado{opacity:.5}
+.compra-item.comprado .compra-name{text-decoration:line-through;color:var(--muted)}
+.compra-check{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;background:var(--bg)}
+.compra-check.checked{background:var(--limpeza-t);border-color:var(--limpeza-t);color:#fff}
+.compra-name{flex:1;font-size:13px}
+.compra-qty{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;white-space:nowrap}
+.prio-badge{font-size:10px;padding:1px 7px;border-radius:20px;font-family:'DM Mono',monospace;white-space:nowrap;flex-shrink:0}
+.p-alta{background:#FDE8E8;color:#7A1A1A}
+.p-media{background:#FDF3D6;color:#6B4A10}
+.p-baixa{background:#DDF0E0;color:#1A5C28}
+.compra-add-row{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap}
+.compra-add-row input,.compra-add-row select{border:1px solid var(--border);border-radius:7px;padding:5px 9px;font-size:12px;font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text);outline:none}
+.compra-add-row input{flex:1;min-width:100px}
+.compra-add-row input:focus{border-color:#999}
+.compras-actions{display:flex;gap:5px}
+.tab-bar-compras{display:flex;gap:5px;margin-bottom:.85rem;flex-wrap:wrap}
+.ctab{padding:4px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.ctab.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Rotina do apartamento</h1>
+  <span id="header-date"></span>
+</header>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('semana',this)">Semana</button>
+  <button class="tab" onclick="showTab('periodicas',this)">Tarefas periódicas</button>
+  <button class="tab" onclick="showTab('plantas',this)">Plantas</button>
+  <button class="tab" onclick="showTab('compras',this)">Lista de compras</button>
+</div>
+
+<!-- ══ SEMANA ══ -->
+<div id="semana" class="view active">
+  <div class="days" id="days-grid"></div>
+  <div class="legend">
+    <div class="leg"><div class="leg-dot" style="background:#6AAED4"></div>Roupas</div>
+    <div class="leg"><div class="leg-dot" style="background:#8A80CC"></div>Cama/banho</div>
+    <div class="leg"><div class="leg-dot" style="background:#5CAE70"></div>Limpeza</div>
+    <div class="leg"><div class="leg-dot" style="background:#C49A3A"></div>Organização</div>
+    <div class="leg"><div class="leg-dot" style="background:#C47A3A"></div>Sacada/pets</div>
+    <div class="leg"><div class="leg-dot" style="background:#2EAD80"></div>Faxineira</div>
+    <div class="leg"><div class="leg-dot" style="background:#C36FA0"></div>Prep</div>
+  </div>
+  <div class="recados-section">
+    <div class="recados-header"><h3>📌 Recados</h3></div>
+    <div class="recados-list" id="recados-list"></div>
+    <div class="recado-add-row">
+      <input class="recado-input" id="recado-input" placeholder="Novo recado..." onkeydown="if(event.key==='Enter')addRecado()">
+      <button class="btn-sm btn-primary" onclick="addRecado()">Fixar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PERIÓDICAS ══ -->
+<div id="periodicas" class="view">
+  <div class="section-actions">
+    <button class="btn-sm btn-primary" onclick="openPerModal()">+ Nova tarefa</button>
+  </div>
+  <div class="pgrid" id="pgrid"></div>
+</div>
+
+<!-- ══ PLANTAS ══ -->
+<div id="plantas" class="view">
+  <div class="section-actions">
+    <button class="btn-sm btn-primary" onclick="openPlantModal()">+ Nova planta</button>
+  </div>
+  <div id="plant-container"></div>
+</div>
+
+<!-- ══ COMPRAS ══ -->
+<div id="compras" class="view">
+  <div class="tab-bar-compras">
+    <button class="ctab active" onclick="showCat('despensa',this)">🛒 Despensa &amp; Higiene</button>
+    <button class="ctab" onclick="showCat('limpeza',this)">🧹 Limpeza &amp; Jardinagem</button>
+    <button class="ctab" onclick="showCat('utilidades',this)">🏠 Utilidades domésticas</button>
+  </div>
+  <div id="cat-despensa" class="compras-section"></div>
+  <div id="cat-limpeza" class="compras-section" style="display:none"></div>
+  <div id="cat-utilidades" class="compras-section" style="display:none"></div>
+</div>
+
+<!-- ══ MODAL: TAREFA DA SEMANA ══ -->
+<div class="modal-overlay hidden" id="week-modal">
+  <div class="modal">
+    <h3 id="week-modal-title">Nova tarefa</h3>
+    <div class="form-row">
+      <label>Dia da semana</label>
+      <select id="wm-day">
+        <option value="1">Segunda-feira</option>
+        <option value="2">Terça-feira</option>
+        <option value="3">Quarta-feira</option>
+        <option value="4">Quinta-feira</option>
+        <option value="5">Sexta-feira</option>
+        <option value="6">Sábado</option>
+        <option value="0">Domingo</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label>Período</label>
+      <select id="wm-period">
+        <option value="manha">Manhã</option>
+        <option value="tarde">Tarde</option>
+        <option value="noite">Noite</option>
+        <option value="">Dia todo</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label>Categoria</label>
+      <select id="wm-cat">
+        <option value="t-roupa">Roupas</option>
+        <option value="t-cama">Cama / Banho</option>
+        <option value="t-limpeza">Limpeza</option>
+        <option value="t-org">Organização</option>
+        <option value="t-sacada">Sacada / Pets</option>
+        <option value="t-prep">Preparação</option>
+        <option value="t-fax">Faxineira</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label>Nome da tarefa</label>
+      <input id="wm-name" placeholder="ex: Lavar roupa de cama">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-sm" onclick="closeWeekModal()">Cancelar</button>
+      <button class="btn-sm btn-primary" onclick="saveWeekTask()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: PERIÓDICA ══ -->
+<div class="modal-overlay hidden" id="per-modal">
+  <div class="modal">
+    <h3>Nova tarefa periódica</h3>
+    <div class="form-row"><label>Emoji + Nome</label><input id="pm-label" placeholder="🪥 Nome da tarefa"></div>
+    <div class="form-row"><label>Descrição (opcional)</label><textarea id="pm-desc" placeholder="Detalhes..."></textarea></div>
+    <div class="form-row"><label>Intervalo (dias)</label><input id="pm-days" type="number" min="1" placeholder="ex: 30"></div>
+    <div class="form-row"><label>Frequência (texto)</label><input id="pm-freq" placeholder="ex: mensal"></div>
+    <div class="modal-actions">
+      <button class="btn-sm" onclick="closePerModal()">Cancelar</button>
+      <button class="btn-sm btn-primary" onclick="savePerTask()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: PLANTA ══ -->
+<div class="modal-overlay hidden" id="plant-modal">
+  <div class="modal">
+    <h3>Nova planta</h3>
+    <div class="form-row"><label>Nome</label><input id="pl-name" placeholder="ex: Samambaia"></div>
+    <div class="form-row"><label>Frequência de rega</label><input id="pl-freq" placeholder="ex: 2x/semana"></div>
+    <div class="form-row"><label>Dica de cuidado</label><textarea id="pl-tip" placeholder="ex: Luz indireta, solo úmido..."></textarea></div>
+    <div class="form-row">
+      <label>Grupo de rega</label>
+      <select id="pl-group">
+          <option value="todo-dia">🪴 3-7x por semana</option>
+          <option value="2x-semana">💦 2× por semana</option>
+          <option value="1x-semana">💧 1× por semana</option>
+          <option value="quinzenal">🌿 A cada 10–14 dias</option>
+          <option value="mensal">🌵 A cada 2–3 semanas</option>
+          <option value="calice">🌺 Cálice (Bromélia)</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-sm" onclick="closePlantModal()">Cancelar</button>
+      <button class="btn-sm btn-primary" onclick="savePlant()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Storage ──────────────────────────────────────────────────────
+const S={
+  get(k){try{return JSON.parse(localStorage.getItem('rot3_'+k))}catch{return null}},
+  set(k,v){try{localStorage.setItem('rot3_'+k,JSON.stringify(v))}catch{}}
+};
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+
+// ── Date helpers ─────────────────────────────────────────────────
+function todayISO(){return new Date().toISOString().slice(0,10)}
+function fmtDate(iso){if(!iso)return'—';const[y,m,d]=iso.split('-');return`${d}/${m}/${y}`}
+function addDays(iso,n){const d=new Date(iso);d.setDate(d.getDate()+n);return d.toISOString().slice(0,10)}
+function daysSince(iso){if(!iso)return null;return Math.floor((new Date(todayISO())-new Date(iso))/86400000)}
+function statusInfo(iso,days){
+  const ds=daysSince(iso);
+  if(ds===null)return{cls:'s-never',txt:'nunca feito'};
+  const rem=days-ds;
+  if(rem<0)return{cls:'s-over',txt:`${Math.abs(rem)}d atrasado`};
+  if(rem<=7)return{cls:'s-soon',txt:`em ${rem}d`};
+  return{cls:'s-ok',txt:`ok — faltam ${rem}d`};
+}
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
+// ── Today highlight ──────────────────────────────────────────────
+const todayDOW=new Date().getDay();
+(function(){
+  const months=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  const n=new Date();
+  document.getElementById('header-date').textContent=n.getDate()+' '+months[n.getMonth()]+'/'+n.getFullYear();
+})();
+
+// ── Tab switching ────────────────────────────────────────────────
+function showTab(id,btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ══════════════════════════════════════════════════════════════════
+// SEMANA — estrutura dinâmica
+// ══════════════════════════════════════════════════════════════════
+const DAY_INFO=[
+  {dow:1,name:'SEG',fax:false},
+  {dow:2,name:'TER',fax:false},
+  {dow:3,name:'QUA',fax:true},
+  {dow:4,name:'QUI',fax:false},
+  {dow:5,name:'SEX',fax:false},
+  {dow:6,name:'SÁB',fax:false},
+  {dow:0,name:'DOM',fax:false},
+];
+const PERIOD_ORDER=['manha','tarde','noite',''];
+const PERIOD_LABEL={manha:'manhã',tarde:'tarde',noite:'noite','':'dia'};
+
+const DEFAULT_TASKS=[
+  {id:'t1',dow:1,period:'manha',cat:'t-roupa',name:'Roupas claras'},
+  {id:'t2',dow:1,period:'noite',cat:'t-org',name:'Escritório'},
+  {id:'t3',dow:2,period:'manha',cat:'t-cama',name:'Cama / banho'},
+  {id:'t4',dow:2,period:'tarde',cat:'t-prep',name:'Prep faxineira'},
+  {id:'t5',dow:3,period:'manha',cat:'t-fax',name:'Faxineira'},
+  {id:'t6',dow:3,period:'manha',cat:'t-limpeza',name:'Sacada + tapete',fixed:true},
+  {id:'t7',dow:3,period:'manha',cat:'t-limpeza',name:'Troca cama/toalhas',fixed:true},
+  {id:'t8',dow:3,period:'manha',cat:'t-limpeza',name:'Limpeza geral',fixed:true},
+  {id:'t9',dow:4,period:'manha',cat:'t-roupa',name:'Roupas coloridas'},
+  {id:'t10',dow:5,period:'manha',cat:'t-limpeza',name:'Regar plantas'},
+  {id:'t11',dow:6,period:'tarde',cat:'t-sacada',name:'Balde sacada'},
+  {id:'t12',dow:6,period:'tarde',cat:'t-sacada',name:'Tapete higiênico'},
+  {id:'t13',dow:6,period:'tarde',cat:'t-limpeza',name:'Pia / balcão banh.'},
+  {id:'t14',dow:0,period:'manha',cat:'t-org',name:'Mercado'},
+  {id:'t15',dow:0,period:'noite',cat:'t-prep',name:'Planejar semana'},
+  {id:'t16',dow:0,period:'noite',cat:'t-limpeza',name:'Checar plantas'},
+];
+
+function loadWeekTasks(){return S.get('week_tasks')||DEFAULT_TASKS}
+function saveWeekTasks(arr){S.set('week_tasks',arr)}
+
+function renderWeek(){
+  const tasks=loadWeekTasks();
+  const grid=document.getElementById('days-grid');
+  grid.innerHTML=DAY_INFO.map(d=>{
+    const isToday=d.dow===todayDOW;
+    const headCls=d.fax?'day-head fax':'day-head';
+    const colCls='day-col'+(isToday?' today':'');
+    const dayTasks=tasks.filter(t=>t.dow===d.dow);
+    // group by period in order
+    const byPeriod={};
+    PERIOD_ORDER.forEach(p=>{byPeriod[p]=dayTasks.filter(t=>t.period===p)});
+    let bodyHtml='';
+    PERIOD_ORDER.forEach(p=>{
+      const pt=byPeriod[p];
+      if(!pt.length)return;
+      bodyHtml+=`<div class="slabel">${PERIOD_LABEL[p]}</div>`;
+      pt.forEach(t=>{
+        const isFixed=t.fixed;
+        const actions=isFixed?'':`
+          <span class="tag-actions">
+            <button class="tag-btn" onclick="openEditWeekTask('${t.id}')" title="Editar">✎</button>
+            <button class="tag-btn" onclick="delWeekTask('${t.id}')" title="Remover">×</button>
+          </span>`;
+        bodyHtml+=`<div class="tag ${t.cat} t-sm"><span class="tag-text">${escHtml(t.name)}</span>${actions}</div>`;
+      });
+    });
+    return`<div class="${colCls}" id="day-${d.dow}">
+      <div class="${headCls}">
+        <span class="day-head-name">${d.name}</span>
+        <button class="day-add-btn" onclick="openAddWeekTask(${d.dow})" title="Adicionar tarefa">+</button>
+      </div>
+      <div class="day-body">${bodyHtml}</div>
+    </div>`;
+  }).join('');
+}
+
+// Modal semana
+let weekEditId=null;
+function openAddWeekTask(dow){
+  weekEditId=null;
+  document.getElementById('week-modal-title').textContent='Nova tarefa';
+  document.getElementById('wm-day').value=dow;
+  document.getElementById('wm-period').value='manha';
+  document.getElementById('wm-cat').value='t-limpeza';
+  document.getElementById('wm-name').value='';
+  document.getElementById('week-modal').classList.remove('hidden');
+  setTimeout(()=>document.getElementById('wm-name').focus(),50);
+}
+function openEditWeekTask(id){
+  const task=loadWeekTasks().find(t=>t.id===id);
+  if(!task)return;
+  weekEditId=id;
+  document.getElementById('week-modal-title').textContent='Editar tarefa';
+  document.getElementById('wm-day').value=task.dow;
+  document.getElementById('wm-period').value=task.period;
+  document.getElementById('wm-cat').value=task.cat;
+  document.getElementById('wm-name').value=task.name;
+  document.getElementById('week-modal').classList.remove('hidden');
+  setTimeout(()=>document.getElementById('wm-name').focus(),50);
+}
+function closeWeekModal(){document.getElementById('week-modal').classList.add('hidden');weekEditId=null}
+function saveWeekTask(){
+  const name=document.getElementById('wm-name').value.trim();
+  if(!name){alert('Digite o nome da tarefa.');return;}
+  const dow=parseInt(document.getElementById('wm-day').value);
+  const period=document.getElementById('wm-period').value;
+  const cat=document.getElementById('wm-cat').value;
+  let arr=loadWeekTasks();
+  if(weekEditId){
+    arr=arr.map(t=>t.id===weekEditId?{...t,dow,period,cat,name}:t);
+  }else{
+    arr.push({id:uid(),dow,period,cat,name});
+  }
+  saveWeekTasks(arr);closeWeekModal();renderWeek();
+}
+function delWeekTask(id){
+  if(!confirm('Remover esta tarefa?'))return;
+  saveWeekTasks(loadWeekTasks().filter(t=>t.id!==id));renderWeek();
+}
+// close modal on overlay click
+document.getElementById('week-modal').addEventListener('click',function(e){if(e.target===this)closeWeekModal()});
+
+// ══════════════════════════════════════════════════════════════════
+// RECADOS
+// ══════════════════════════════════════════════════════════════════
+function loadRecados(){return S.get('recados')||[]}
+function saveRecados(arr){S.set('recados',arr)}
+function addRecado(){
+  const inp=document.getElementById('recado-input');
+  const txt=inp.value.trim();if(!txt)return;
+  const arr=loadRecados();
+  arr.unshift({id:uid(),text:txt,date:todayISO()});
+  saveRecados(arr);inp.value='';renderRecados();
+}
+function delRecado(id){saveRecados(loadRecados().filter(r=>r.id!==id));renderRecados()}
+function renderRecados(){
+  const list=document.getElementById('recados-list');
+  const arr=loadRecados();
+  if(!arr.length){list.innerHTML='<div style="font-size:12px;color:var(--faint);padding:6px 2px">Nenhum recado ainda.</div>';return;}
+  list.innerHTML=arr.map(r=>`
+    <div class="recado-item">
+      <div style="flex:1">
+        <div class="recado-text">${escHtml(r.text)}</div>
+        <div class="recado-date">${fmtDate(r.date)}</div>
+      </div>
+      <button class="recado-del" onclick="delRecado('${r.id}')">×</button>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════
+// PERIÓDICAS
+// ══════════════════════════════════════════════════════════════════
+const DEFAULT_PER=[
+  {id:'tapete_sala',label:'🪣 Tapete da sala',days:42,freq:'6 semanas',desc:'Com pets, a cada 6 semanas equilibra higiene e custo. Se notar odor antes, antecipe.'},
+  {id:'manta_sofa',label:'🛋️ Manta do sofá',days:30,freq:'mensal',desc:'Lavar 1x por mês. Pode coincidir com a semana do tapete para facilitar.'},
+  {id:'almofadas',label:'🪑 Almofadas',days:60,freq:'2 meses',desc:'Capas a cada 2 meses, ou antes se houver muitos pelos de pets acumulados.'},
+  {id:'despensa',label:'📦 Despensa',days:15,freq:'quinzenal',desc:'Olhada quinzenal para validades e lista de compras. Reorganização completa mensal.'},
+  {id:'sacada_geral',label:'🌿 Sacada — geral',days:30,freq:'mensal',desc:'Além do balde semanal, limpeza mais completa do piso e vasos uma vez por mês.'},
+];
+function loadPerTasks(){return S.get('per_tasks')||DEFAULT_PER}
+function savePerTasks(arr){S.set('per_tasks',arr)}
+function renderPeriodicas(){
+  document.getElementById('pgrid').innerHTML=loadPerTasks().map(t=>{
+    const saved=S.get('p_done_'+t.id);
+    const iso=saved?saved.date:null;
+    const next=iso?addDays(iso,t.days):null;
+    const st=statusInfo(iso,t.days);
+    return`<div class="pcard">
+      <div class="pcard-top"><h4>${escHtml(t.label)}</h4><span class="freq-badge">${escHtml(t.freq)}</span></div>
+      <p>${escHtml(t.desc||'')}</p>
+      <div class="pcard-footer">
+        <div class="pcard-dates">
+          <div class="date-row">última: <strong>${fmtDate(iso)}</strong></div>
+          <div class="date-row">próxima: <strong>${fmtDate(next)}</strong></div>
+          <span class="sbadge ${st.cls}">${st.txt}</span>
+        </div>
+        <div class="pcard-actions">
+          <button class="btn-done" onclick="markPerDone('${t.id}')">✓ fiz hoje</button>
+          <button class="btn-del" onclick="delPerTask('${t.id}')">remover</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function markPerDone(id){S.set('p_done_'+id,{date:todayISO()});renderPeriodicas()}
+function delPerTask(id){
+  if(!confirm('Remover esta tarefa?'))return;
+  savePerTasks(loadPerTasks().filter(t=>t.id!==id));renderPeriodicas();
+}
+function openPerModal(){document.getElementById('per-modal').classList.remove('hidden')}
+function closePerModal(){document.getElementById('per-modal').classList.add('hidden')}
+document.getElementById('per-modal').addEventListener('click',function(e){if(e.target===this)closePerModal()});
+function savePerTask(){
+  const label=document.getElementById('pm-label').value.trim();
+  const days=parseInt(document.getElementById('pm-days').value);
+  const freq=document.getElementById('pm-freq').value.trim();
+  const desc=document.getElementById('pm-desc').value.trim();
+  if(!label||!days||!freq){alert('Preencha nome, intervalo e frequência.');return;}
+  const arr=loadPerTasks();arr.push({id:uid(),label,days,freq,desc});
+  savePerTasks(arr);closePerModal();
+  ['pm-label','pm-desc','pm-freq'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('pm-days').value='';
+  renderPeriodicas();
+}
+
+// ══════════════════════════════════════════════════════════════════
+// PLANTAS
+// ══════════════════════════════════════════════════════════════════
+const PLANT_GROUPS=[
+  { id: 'todo-dia', label: '🪴 3-7× por semana', badge:'frequência diária',tip_next:1},
+  {id: '2x-semana', label:'💦 2× por semana',badge:'alta frequência',tip_next:3},
+  {id:'1x-semana',label:'💧 1× por semana',badge:'frequência média',tip_next:7},
+  {id:'quinzenal',label:'🌿 A cada 10–14 dias',badge:'baixa frequência',tip_next:12},
+  {id:'mensal',label:'🌵 A cada 2–3 semanas',badge:'muito baixa',tip_next:18},
+  {id:'calice',label:'🌺 Cálice (trocar água)',badge:'bromélia',tip_next:14},
+];
+const DEFAULT_PLANTS=[
+  {id:'taioba',name:'Taioba',freq:'2x/semana',tip:'Solo sempre úmido. Meia sombra, evitar sol forte.',group:'2x-semana'},
+  {id:'begonia',name:'Begônia',freq:'2x/semana',tip:'Solo úmido. Luz indireta. Sensível a correntes de ar.',group:'2x-semana'},
+  {id:'antúrio',name:'Antúrio',freq:'1x/semana',tip:'Solo levemente úmido. Luz indireta. Borrifar folhas ajuda.',group:'1x-semana'},
+  {id:'rafa',name:'Ráfia',freq:'1x/semana',tip:'Deixar solo secar entre regas. Meia sombra.',group:'1x-semana'},
+  {id:'costela',name:'Costela-de-adão',freq:'1x/semana',tip:'Deixar vaso drenar. Luz indireta brilhante.',group:'1x-semana'},
+  {id:'jiboias',name:'Jiboias',freq:'1x/semana',tip:'Regar quando solo seco. Muito resistente.',group:'1x-semana'},
+  {id:'elefante',name:'Pé-de-elefante',freq:'a cada 10–14 dias',tip:'Tolerante à seca. Sol direto ou meia sombra.',group:'quinzenal'},
+  {id:'espada',name:'Espada-de-são-jorge',freq:'a cada 2 sem.',tip:'Extremamente resistente. Qualquer luminosidade.',group:'mensal'},
+  {id:'cactos',name:'Cactos',freq:'a cada 2–3 sem.',tip:'Não molhar demais — raiz apodrece. Sol pleno.',group:'mensal'},
+  {id:'bromelia',name:'Bromélia',freq:'trocar água 2x/mês',tip:'Manter água no cálice central. Solo raramente regado.',group:'calice'},
+];
+function loadPlants(){return S.get('plants')||DEFAULT_PLANTS}
+function savePlants(arr){S.set('plants',arr)}
+function renderPlants(){
+  const plants=loadPlants();
+  document.getElementById('plant-container').innerHTML=PLANT_GROUPS.map(g=>{
+    const gp=plants.filter(p=>p.group===g.id);if(!gp.length)return'';
+    const saved=S.get('water_'+g.id);
+    const iso=saved?saved.date:null;
+    const next=iso?addDays(iso,g.tip_next):null;
+    const ds=daysSince(iso);
+    return`<div class="plant-group">
+      <div class="pg-header"><span class="pg-title">${g.label}</span><span class="pg-badge">${g.badge}</span></div>
+      <div class="pg-water-row">
+        <button class="btn-water" onclick="markWater('${g.id}')">💧 reguei agora</button>
+        <div class="water-info">
+          <div>última rega: <span>${fmtDate(iso)}${ds!==null?' ('+ds+'d atrás)':''}</span></div>
+          <div>próxima rega: <span>${fmtDate(next)}</span></div>
+        </div>
+      </div>
+      <div class="plant-list">${gp.map(p=>`
+        <div class="plant-row">
+          <div class="plant-row-info">
+            <div class="plant-name">${escHtml(p.name)}</div>
+            <div class="plant-freq">${escHtml(p.freq)}</div>
+            <div class="plant-tip">${escHtml(p.tip)}</div>
+          </div>
+          <button class="btn-icon" onclick="delPlant('${p.id}')">×</button>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+function markWater(gid){S.set('water_'+gid,{date:todayISO()});renderPlants()}
+function delPlant(id){if(!confirm('Remover esta planta?'))return;savePlants(loadPlants().filter(p=>p.id!==id));renderPlants()}
+function openPlantModal(){document.getElementById('plant-modal').classList.remove('hidden')}
+function closePlantModal(){document.getElementById('plant-modal').classList.add('hidden')}
+document.getElementById('plant-modal').addEventListener('click',function(e){if(e.target===this)closePlantModal()});
+function savePlant(){
+  const name=document.getElementById('pl-name').value.trim();
+  const freq=document.getElementById('pl-freq').value.trim();
+  const tip=document.getElementById('pl-tip').value.trim();
+  const group=document.getElementById('pl-group').value;
+  if(!name||!freq){alert('Preencha nome e frequência.');return;}
+  const arr=loadPlants();arr.push({id:uid(),name,freq,tip,group});
+  savePlants(arr);closePlantModal();
+  ['pl-name','pl-freq','pl-tip'].forEach(i=>document.getElementById(i).value='');
+  renderPlants();
+}
+
+// ══════════════════════════════════════════════════════════════════
+// COMPRAS
+// ══════════════════════════════════════════════════════════════════
+const CAT_CONFIG={
+  despensa:{label:'🛒 Despensa & Higiene',subtitle:'Alimentos, higiene pessoal e limpeza do corpo',hasPrio:false},
+  limpeza:{label:'🧹 Limpeza & Jardinagem',subtitle:'Produtos de limpeza da casa, jardim e sacada',hasPrio:false},
+  utilidades:{label:'🏠 Utilidades domésticas',subtitle:'Móveis, utensílios e itens para a qualidade de vida',hasPrio:true},
+};
+function loadCompras(cat){return S.get('compras_'+cat)||[]}
+function saveCompras(cat,arr){S.set('compras_'+cat,arr)}
+function showCat(cat,btn){
+  document.querySelectorAll('.ctab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');
+  ['despensa','limpeza','utilidades'].forEach(c=>{document.getElementById('cat-'+c).style.display=c===cat?'block':'none'});
+  renderCompras(cat);
+}
+function renderCompras(cat){
+  const cfg=CAT_CONFIG[cat];const items=loadCompras(cat);const el=document.getElementById('cat-'+cat);const hasPrio=cfg.hasPrio;
+  const prioOrder={alta:0,media:1,baixa:2};
+  const sorted=[...items].sort((a,b)=>{
+    if(a.comprado!==b.comprado)return a.comprado?1:-1;
+    if(hasPrio){const pa=prioOrder[a.prio]??3,pb=prioOrder[b.prio]??3;return pa-pb;}
+    return 0;
+  });
+  el.innerHTML=`
+    <div class="compras-header">
+      <div><div class="compras-title">${cfg.label}</div><div class="compras-subtitle">${cfg.subtitle}</div></div>
+      <div class="compras-actions"><button class="btn-sm" onclick="clearComprados('${cat}')">Limpar comprados</button></div>
+    </div>
+    <div class="compras-list">${sorted.map(item=>`
+      <div class="compra-item${item.comprado?' comprado':''}">
+        <div class="compra-check${item.comprado?' checked':''}" onclick="toggleCompra('${cat}','${item.id}')">
+          ${item.comprado?'<svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1.5,6 4.5,9 10.5,3"/></svg>':''}
+        </div>
+        <span class="compra-name">${escHtml(item.name)}</span>
+        ${item.qty?`<span class="compra-qty">${escHtml(item.qty)}</span>`:''}
+        ${hasPrio&&item.prio?`<span class="prio-badge p-${item.prio}">${item.prio}</span>`:''}
+        <button class="btn-icon" onclick="delCompra('${cat}','${item.id}')">×</button>
+      </div>`).join('')}
+    </div>
+    <div class="compra-add-row">
+      <input id="ci-name-${cat}" placeholder="Adicionar item..." onkeydown="if(event.key==='Enter')addCompra('${cat}')">
+      <input id="ci-qty-${cat}" placeholder="qtd" style="width:60px">
+      ${hasPrio?`<select id="ci-prio-${cat}"><option value="">— prioridade</option><option value="alta">🔴 alta</option><option value="media">🟡 média</option><option value="baixa">🟢 baixa</option></select>`:''}
+      <button class="btn-sm btn-primary" onclick="addCompra('${cat}')">+</button>
+    </div>`;
+}
+function addCompra(cat){
+  const nameEl=document.getElementById('ci-name-'+cat);const name=nameEl.value.trim();if(!name)return;
+  const qty=(document.getElementById('ci-qty-'+cat)||{}).value||'';
+  const prio=(document.getElementById('ci-prio-'+cat)||{}).value||'';
+  const arr=loadCompras(cat);arr.push({id:uid(),name,qty,prio,comprado:false});
+  saveCompras(cat,arr);nameEl.value='';
+  if(document.getElementById('ci-qty-'+cat))document.getElementById('ci-qty-'+cat).value='';
+  if(document.getElementById('ci-prio-'+cat))document.getElementById('ci-prio-'+cat).value='';
+  renderCompras(cat);
+}
+function toggleCompra(cat,id){const arr=loadCompras(cat);const item=arr.find(i=>i.id===id);if(item)item.comprado=!item.comprado;saveCompras(cat,arr);renderCompras(cat)}
+function delCompra(cat,id){saveCompras(cat,loadCompras(cat).filter(i=>i.id!==id));renderCompras(cat)}
+function clearComprados(cat){saveCompras(cat,loadCompras(cat).filter(i=>!i.comprado));renderCompras(cat)}
+
+// ── Init ─────────────────────────────────────────────────────────
+renderWeek();
+renderRecados();
+renderPeriodicas();
+renderPlants();
+renderCompras('despensa');
+</script>
+</body>
+</html>
