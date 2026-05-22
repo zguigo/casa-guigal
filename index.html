@@ -2,10 +2,10 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Rotina do Apartamento</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#F7F5F0;--surface:#fff;--border:#E4E0D8;--text:#1C1A17;--muted:#7A7670;--faint:#B0ACA6;
@@ -14,41 +14,66 @@
   --sacada:#F5E4D6;--sacada-t:#6B2F10;--prep:#F5D6E8;--prep-t:#6B1040;
   --fax:#D6F0E8;--fax-t:#0D5C3A;
   --ok-bg:#DDF0E0;--ok-t:#1A5C28;--soon-bg:#FDF3D6;--soon-t:#6B4A10;--over-bg:#FDE8E8;--over-t:#7A1A1A;
+  --radius:13px;
+}
+[data-dark="1"]{
+  --bg:#18181A;--surface:#232325;--border:#38383C;--text:#F0EFEB;--muted:#9A9693;--faint:#5A5855;
+  --roupa:#1A2D40;--roupa-t:#8DC8F0;--cama:#28244A;--cama-t:#B0A8F0;
+  --limpeza:#1A2F20;--limpeza-t:#78D898;--org:#2F2A14;--org-t:#D4B060;
+  --sacada:#2F2014;--sacada-t:#D49060;--prep:#2F1428;--prep-t:#E090C0;
+  --fax:#142F28;--fax-t:#60D8A8;
+  --ok-bg:#1A2F20;--ok-t:#78D898;--soon-bg:#2F2A14;--soon-t:#D4B060;--over-bg:#2F1414;--over-t:#F08080;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:1.5rem 1.25rem 5rem}
-header{max-width:980px;margin:0 auto 1.5rem;display:flex;align-items:baseline;gap:1rem}
-header h1{font-size:21px;font-weight:500;letter-spacing:-.3px}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:1.25rem 1rem 5rem;transition:background .2s,color .2s}
+header{max-width:980px;margin:0 auto 1.25rem;display:flex;align-items:center;gap:.75rem}
+header h1{font-size:20px;font-weight:500;letter-spacing:-.3px;flex:1}
 header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
+.dark-btn{background:none;border:1px solid var(--border);border-radius:20px;padding:5px 12px;cursor:pointer;font-size:13px;color:var(--muted);font-family:'DM Sans',sans-serif;transition:all .15s;flex-shrink:0}
+.dark-btn:hover{border-color:var(--text);color:var(--text)}
 .tabs{max-width:980px;margin:0 auto 1.25rem;display:flex;gap:6px;flex-wrap:wrap}
-.tab{padding:6px 15px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s}
-.tab:hover{border-color:#C0BDB5;color:var(--text)}
+.tab{padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s}
+.tab:hover{border-color:var(--faint);color:var(--text)}
 .tab.active{background:var(--text);color:var(--bg);border-color:var(--text)}
 .view{display:none;max-width:980px;margin:0 auto}
 .view.active{display:block}
 
-/* DAYS */
-.days{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}
-.day-col{background:var(--surface);border:1px solid var(--border);border-radius:13px;overflow:hidden}
+/* ── SEMANA: CARROSSEL ── */
+.carousel-wrap{position:relative;overflow:hidden}
+.carousel-track{display:flex;transition:transform .35s cubic-bezier(.4,0,.2,1);will-change:transform}
+.carousel-slide{flex:0 0 100%;min-width:0;padding:0 2px}
+@media(min-width:640px){
+  .carousel-track{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;transform:none!important}
+  .carousel-slide{flex:none;padding:0}
+  .carousel-dots{display:none!important}
+  .carousel-nav{display:none!important}
+}
+.carousel-dots{display:flex;justify-content:center;gap:6px;margin-top:10px}
+.cdot{width:7px;height:7px;border-radius:50%;background:var(--border);cursor:pointer;transition:background .15s}
+.cdot.active{background:var(--text)}
+.carousel-nav{display:flex;justify-content:space-between;margin-bottom:6px}
+.cnav-btn{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:4px 14px;font-size:18px;cursor:pointer;color:var(--muted);transition:all .15s}
+.cnav-btn:hover{color:var(--text);border-color:var(--text)}
+
+/* DAY CARD */
+.day-col{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:background .2s,border-color .2s}
 .day-col.today{border-color:var(--text);box-shadow:0 0 0 2px var(--text)}
-.day-head{padding:9px 6px 6px;text-align:center;font-size:10px;font-weight:500;font-family:'DM Mono',monospace;letter-spacing:.5px;border-bottom:1px solid var(--border);color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:4px}
-.day-head.fax{background:var(--fax);color:var(--fax-t);border-bottom-color:#B8E8D8}
-.day-col.today .day-head{background:var(--text);color:var(--bg);border-bottom-color:#000}
-.day-col.today .day-head.fax{background:#0a3528;color:#a0f0d8}
-.day-head-name{display:flex;align-items:center;justify-content:center;width:100%}
-.day-add-btn{background:none;border:none;cursor:pointer;color:var(--faint);font-size:14px;line-height:1;padding:0;opacity:0;transition:opacity .15s}
-.day-col:hover .day-add-btn{opacity:1}
-.day-col.today .day-add-btn{color:rgba(255,255,255,.5)}
-.day-col.today:hover .day-add-btn{color:rgba(255,255,255,.8)}
-.day-body{padding:7px 5px;display:flex;flex-direction:column;gap:4px}
-.slabel{font-size:8.5px;font-family:'DM Mono',monospace;letter-spacing:.5px;color:var(--faint);padding:3px 3px 0;text-transform:uppercase}
-.tag{font-size:10.5px;padding:3px 6px;border-radius:7px;line-height:1.35;display:flex;align-items:flex-start;gap:4px;cursor:pointer;position:relative}
-.tag:hover .tag-actions{display:flex}
+.day-head{padding:9px 8px 6px;font-size:10px;font-weight:500;font-family:'DM Mono',monospace;letter-spacing:.5px;border-bottom:1px solid var(--border);color:var(--muted);display:flex;align-items:center;justify-content:space-between}
+.day-head.fax{background:var(--fax);color:var(--fax-t);border-bottom-color:var(--border)}
+.day-col.today .day-head{background:var(--text);color:var(--bg);border-bottom-color:transparent}
+.day-col.today .day-head.fax{background:var(--fax-t);color:var(--fax)}
+.day-add-btn{background:none;border:none;cursor:pointer;font-size:16px;line-height:1;color:var(--faint);padding:0 2px;transition:color .15s}
+.day-add-btn:hover{color:var(--text)}
+.day-col.today .day-add-btn{color:var(--bg);opacity:.6}
+.day-col.today .day-add-btn:hover{opacity:1}
+.day-body{padding:8px 6px;display:flex;flex-direction:column;gap:4px;min-height:40px}
+.slabel{font-size:8.5px;font-family:'DM Mono',monospace;letter-spacing:.5px;color:var(--faint);padding:4px 2px 0;text-transform:uppercase}
+.tag{font-size:11px;padding:4px 7px;border-radius:7px;line-height:1.35;display:flex;align-items:flex-start;gap:4px;cursor:default}
+.tag:hover .tag-act{opacity:1}
 .tag-text{flex:1}
-.tag-actions{display:none;gap:2px;flex-shrink:0;margin-top:1px}
-.tag-btn{background:none;border:none;cursor:pointer;font-size:11px;padding:0 1px;line-height:1;opacity:.6;transition:opacity .15s}
+.tag-act{opacity:0;display:flex;gap:2px;flex-shrink:0;margin-top:1px;transition:opacity .15s}
+.tag-btn{background:none;border:none;cursor:pointer;font-size:12px;line-height:1;padding:0 1px;color:inherit;opacity:.7}
 .tag-btn:hover{opacity:1}
-.tag svg{width:10px;height:10px;flex-shrink:0;margin-top:2px}
 .t-roupa{background:var(--roupa);color:var(--roupa-t)}
 .t-cama{background:var(--cama);color:var(--cama-t)}
 .t-limpeza{background:var(--limpeza);color:var(--limpeza-t)}
@@ -61,122 +86,158 @@ header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
 .leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
 .leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 
-/* RECADOS */
+/* ── RECADOS ── */
 .recados-section{margin-top:1.25rem}
-.recados-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem}
-.recados-header h3{font-size:13px;font-weight:500;color:var(--muted)}
+.recados-header{margin-bottom:.6rem;font-size:13px;font-weight:500;color:var(--muted)}
 .recados-list{display:flex;flex-direction:column;gap:6px;margin-bottom:.6rem}
 .recado-item{display:flex;align-items:flex-start;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:9px 11px}
 .recado-text{flex:1;font-size:13px;line-height:1.5}
 .recado-date{font-size:10px;color:var(--faint);font-family:'DM Mono',monospace;margin-top:2px}
-.recado-del{background:none;border:none;cursor:pointer;color:var(--faint);font-size:14px;padding:0;line-height:1;flex-shrink:0;transition:color .15s}
+.recado-del{background:none;border:none;cursor:pointer;color:var(--faint);font-size:16px;padding:0;line-height:1;flex-shrink:0;transition:color .15s}
 .recado-del:hover{color:#c0392b}
 .recado-add-row{display:flex;gap:6px}
-.recado-input{flex:1;border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text);outline:none}
-.recado-input:focus{border-color:#999}
-.btn-sm{padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s;white-space:nowrap}
+.recado-input{flex:1;border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text);outline:none}
+.recado-input:focus{border-color:var(--muted)}
+
+/* ── SHARED BUTTONS ── */
+.btn-sm{padding:7px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s;white-space:nowrap}
 .btn-sm:hover{background:var(--bg)}
 .btn-primary{background:var(--text);color:var(--bg);border-color:var(--text)}
 .btn-primary:hover{opacity:.85}
-
-/* PERIÓDICAS */
 .section-actions{display:flex;justify-content:flex-end;margin-bottom:.75rem}
-.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
-.pcard{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:14px}
+
+/* ── PERIÓDICAS ── */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.pcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px}
 .pcard-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;gap:6px}
 .pcard-top h4{font-size:13px;font-weight:500}
 .freq-badge{font-size:10px;font-family:'DM Mono',monospace;padding:2px 8px;border-radius:20px;background:var(--bg);color:var(--muted);white-space:nowrap;flex-shrink:0}
 .pcard p{font-size:11.5px;color:var(--muted);line-height:1.55;margin-bottom:9px}
-.pcard-footer{display:flex;align-items:flex-end;justify-content:space-between;gap:8px;padding-top:9px;border-top:1px solid var(--border);flex-wrap:wrap}
-.pcard-dates{display:flex;flex-direction:column;gap:3px}
-.date-row{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted)}
+.pcard-footer{padding-top:9px;border-top:1px solid var(--border)}
+.pcard-dates{display:flex;flex-direction:column;gap:3px;margin-bottom:8px}
+.date-row{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);display:flex;align-items:center;gap:6px}
 .date-row strong{color:var(--text);font-weight:500}
-.sbadge{font-size:10px;padding:2px 7px;border-radius:20px;font-family:'DM Mono',monospace;margin-top:3px;display:inline-block}
+.cal-link{font-size:10px;padding:1px 7px;border-radius:20px;background:var(--cama);color:var(--cama-t);text-decoration:none;white-space:nowrap;display:inline-flex;align-items:center;gap:3px;transition:opacity .15s}
+.cal-link:hover{opacity:.75}
+.sbadge{font-size:10px;padding:2px 7px;border-radius:20px;font-family:'DM Mono',monospace;display:inline-block;margin-top:4px}
 .s-ok{background:var(--ok-bg);color:var(--ok-t)}
 .s-soon{background:var(--soon-bg);color:var(--soon-t)}
 .s-over{background:var(--over-bg);color:var(--over-t)}
 .s-never{background:var(--bg);color:var(--faint)}
-.pcard-actions{display:flex;flex-direction:column;gap:4px;align-items:flex-end}
-.btn-done{font-size:11px;padding:4px 11px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;white-space:nowrap}
-.btn-done:hover{background:var(--limpeza);border-color:#B0DDB8;color:var(--limpeza-t)}
-.btn-del{font-size:10px;padding:3px 9px;border-radius:20px;border:1px solid var(--border);background:none;color:var(--faint);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
-.btn-del:hover{background:var(--over-bg);color:var(--over-t);border-color:#e0b0b0}
+.pcard-actions{display:flex;gap:6px;flex-wrap:wrap}
+.btn-done{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;white-space:nowrap}
+.btn-done:hover{background:var(--limpeza);border-color:var(--limpeza-t);color:var(--limpeza-t)}
+.btn-del{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid var(--border);background:none;color:var(--faint);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.btn-del:hover{background:var(--over-bg);color:var(--over-t);border-color:var(--over-t)}
 
-/* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;z-index:100;padding:1rem}
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center;z-index:200;padding:0}
+@media(min-width:540px){.modal-overlay{align-items:center;padding:1rem}}
 .modal-overlay.hidden{display:none}
-.modal{background:var(--surface);border-radius:16px;padding:1.5rem;width:100%;max-width:420px;box-shadow:0 8px 32px rgba(0,0,0,.15)}
-.modal h3{font-size:15px;font-weight:500;margin-bottom:1rem}
-.form-row{display:flex;flex-direction:column;gap:4px;margin-bottom:.75rem}
+.modal{background:var(--surface);border-radius:20px 20px 0 0;padding:1.5rem 1.25rem 2rem;width:100%;max-width:460px;box-shadow:0 -4px 32px rgba(0,0,0,.18);max-height:92vh;overflow-y:auto}
+@media(min-width:540px){.modal{border-radius:16px;padding:1.5rem}}
+.modal h3{font-size:15px;font-weight:500;margin-bottom:1.1rem}
+.form-row{display:flex;flex-direction:column;gap:4px;margin-bottom:.8rem}
 .form-row label{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.4px}
-.form-row input,.form-row textarea,.form-row select{border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);outline:none;width:100%}
-.form-row input:focus,.form-row textarea:focus{border-color:#999}
+.form-row input,.form-row textarea,.form-row select{border:1px solid var(--border);border-radius:9px;padding:9px 11px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);outline:none;width:100%}
+.form-row input:focus,.form-row textarea:focus,.form-row select:focus{border-color:var(--muted)}
 .form-row textarea{resize:vertical;min-height:60px}
-.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:1rem}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:1.1rem}
 
-/* PLANTAS */
-.plant-group{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:14px;margin-bottom:10px}
+/* ── PLANTAS ── */
+.plant-group{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px}
 .pg-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
 .pg-title{font-size:13px;font-weight:500}
 .pg-badge{font-size:10px;font-family:'DM Mono',monospace;padding:2px 8px;border-radius:20px;background:var(--bg);color:var(--muted)}
-.pg-water-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:10px}
-.btn-water{font-size:12px;padding:5px 13px;border-radius:20px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
-.btn-water:hover{background:var(--limpeza);border-color:#B0DDB8;color:var(--limpeza-t)}
-.water-info{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);display:flex;flex-direction:column;gap:2px}
+.pg-water-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:10px}
+.btn-water{font-size:13px;padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.btn-water:hover{background:var(--limpeza);border-color:var(--limpeza-t);color:var(--limpeza-t)}
+.water-info{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);display:flex;flex-direction:column;gap:3px}
 .water-info span{color:var(--text);font-weight:500}
 .plant-list{display:flex;flex-direction:column;gap:5px}
-.plant-row{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:8px;background:var(--bg)}
+.plant-row{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:8px;background:var(--bg)}
 .plant-row-info{flex:1}
 .plant-name{font-size:12px;font-weight:500}
 .plant-freq{font-size:10.5px;color:var(--muted);font-family:'DM Mono',monospace}
-.plant-tip{font-size:11px;color:var(--muted);margin-top:1px;line-height:1.4}
-.btn-icon{background:none;border:none;cursor:pointer;color:var(--faint);font-size:14px;padding:2px;transition:color .15s;line-height:1}
-.btn-icon:hover{color:#c0392b}
+.plant-tip{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.4}
+.btn-icon{background:none;border:none;cursor:pointer;color:var(--faint);font-size:16px;padding:2px 4px;transition:color .15s;line-height:1}
+.btn-icon:hover{color:var(--over-t)}
 
-/* COMPRAS */
-.compras-section{margin-bottom:1.25rem}
-.compras-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem;gap:8px;flex-wrap:wrap}
+/* ── COMPRAS ── */
+.tab-bar-compras{display:flex;gap:6px;margin-bottom:.9rem;flex-wrap:wrap}
+.ctab{padding:5px 13px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.ctab.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.compras-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.75rem;gap:8px;flex-wrap:wrap}
 .compras-title{font-size:14px;font-weight:500}
-.compras-subtitle{font-size:11px;color:var(--muted)}
-.compras-list{display:flex;flex-direction:column;gap:4px}
-.compra-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:9px;background:var(--surface);border:1px solid var(--border)}
+.compras-subtitle{font-size:11px;color:var(--muted);margin-top:2px}
+.compras-actions{display:flex;gap:6px;flex-wrap:wrap}
+.compras-list{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+.compra-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;background:var(--surface);border:1px solid var(--border)}
 .compra-item.comprado{opacity:.5}
 .compra-item.comprado .compra-name{text-decoration:line-through;color:var(--muted)}
-.compra-check{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;background:var(--bg)}
+.compra-check{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--border);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;background:var(--bg)}
 .compra-check.checked{background:var(--limpeza-t);border-color:var(--limpeza-t);color:#fff}
 .compra-name{flex:1;font-size:13px}
 .compra-qty{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;white-space:nowrap}
-.prio-badge{font-size:10px;padding:1px 7px;border-radius:20px;font-family:'DM Mono',monospace;white-space:nowrap;flex-shrink:0}
+.prio-badge{font-size:10px;padding:2px 7px;border-radius:20px;font-family:'DM Mono',monospace;white-space:nowrap;flex-shrink:0}
 .p-alta{background:#FDE8E8;color:#7A1A1A}
 .p-media{background:#FDF3D6;color:#6B4A10}
 .p-baixa{background:#DDF0E0;color:#1A5C28}
-.compra-add-row{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap}
-.compra-add-row input,.compra-add-row select{border:1px solid var(--border);border-radius:7px;padding:5px 9px;font-size:12px;font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text);outline:none}
-.compra-add-row input{flex:1;min-width:100px}
-.compra-add-row input:focus{border-color:#999}
-.compras-actions{display:flex;gap:5px}
-.tab-bar-compras{display:flex;gap:5px;margin-bottom:.85rem;flex-wrap:wrap}
-.ctab{padding:4px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
-.ctab.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.item-tag-chip{font-size:10px;padding:1px 7px;border-radius:20px;background:var(--bg);color:var(--muted);border:1px solid var(--border);white-space:nowrap;flex-shrink:0}
+.compra-btns{display:flex;gap:2px;flex-shrink:0}
+.compra-add-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.compra-add-row input,.compra-add-row select{border:1px solid var(--border);border-radius:9px;padding:7px 10px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text);outline:none}
+.compra-add-row input:focus,.compra-add-row select:focus{border-color:var(--muted)}
+.compra-add-row input.cn{flex:1;min-width:120px}
+.compra-add-row input.cq{width:64px}
+
+/* tags manager */
+.tags-section{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
+.tags-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem}
+.tags-header h4{font-size:12px;color:var(--muted)}
+.tags-list{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:.6rem}
+.tag-chip{display:flex;align-items:center;gap:4px;font-size:12px;padding:3px 10px;border-radius:20px;background:var(--bg);border:1px solid var(--border);color:var(--text)}
+.tag-chip-del{background:none;border:none;cursor:pointer;color:var(--faint);font-size:14px;padding:0;line-height:1}
+.tag-chip-del:hover{color:var(--over-t)}
+.tags-add-row{display:flex;gap:6px}
+.tags-add-row input{flex:1;border:1px solid var(--border);border-radius:8px;padding:6px 9px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text);outline:none}
+
+/* saved items */
+.saved-section{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
+.saved-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem}
+.saved-header h4{font-size:12px;color:var(--muted)}
+.saved-list{display:flex;flex-wrap:wrap;gap:6px}
+.saved-chip{display:flex;align-items:center;gap:4px;font-size:12px;padding:4px 10px;border-radius:20px;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;transition:all .15s}
+.saved-chip:hover{background:var(--limpeza);border-color:var(--limpeza-t);color:var(--limpeza-t)}
+.saved-chip-del{background:none;border:none;cursor:pointer;color:var(--faint);font-size:14px;padding:0;line-height:1;margin-left:2px}
+.saved-chip-del:hover{color:var(--over-t)}
 </style>
 </head>
 <body>
 
 <header>
-  <h1>Rotina do apartamento</h1>
+  <h1>Casa 🏠</h1>
   <span id="header-date"></span>
+  <button class="dark-btn" id="dark-toggle" onclick="toggleDark()">🌙</button>
 </header>
 
 <div class="tabs">
   <button class="tab active" onclick="showTab('semana',this)">Semana</button>
-  <button class="tab" onclick="showTab('periodicas',this)">Tarefas periódicas</button>
+  <button class="tab" onclick="showTab('periodicas',this)">Periódicas</button>
   <button class="tab" onclick="showTab('plantas',this)">Plantas</button>
-  <button class="tab" onclick="showTab('compras',this)">Lista de compras</button>
+  <button class="tab" onclick="showTab('compras',this)">Compras</button>
 </div>
 
 <!-- ══ SEMANA ══ -->
 <div id="semana" class="view active">
-  <div class="days" id="days-grid"></div>
+  <div class="carousel-wrap">
+    <div class="carousel-nav">
+      <button class="cnav-btn" onclick="carouselMove(-1)">‹</button>
+      <button class="cnav-btn" onclick="carouselMove(1)">›</button>
+    </div>
+    <div class="carousel-track" id="carousel-track"></div>
+    <div class="carousel-dots" id="carousel-dots"></div>
+  </div>
   <div class="legend">
     <div class="leg"><div class="leg-dot" style="background:#6AAED4"></div>Roupas</div>
     <div class="leg"><div class="leg-dot" style="background:#8A80CC"></div>Cama/banho</div>
@@ -187,7 +248,7 @@ header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
     <div class="leg"><div class="leg-dot" style="background:#C36FA0"></div>Prep</div>
   </div>
   <div class="recados-section">
-    <div class="recados-header"><h3>📌 Recados</h3></div>
+    <div class="recados-header">📌 Recados</div>
     <div class="recados-list" id="recados-list"></div>
     <div class="recado-add-row">
       <input class="recado-input" id="recado-input" placeholder="Novo recado..." onkeydown="if(event.key==='Enter')addRecado()">
@@ -198,17 +259,13 @@ header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
 
 <!-- ══ PERIÓDICAS ══ -->
 <div id="periodicas" class="view">
-  <div class="section-actions">
-    <button class="btn-sm btn-primary" onclick="openPerModal()">+ Nova tarefa</button>
-  </div>
+  <div class="section-actions"><button class="btn-sm btn-primary" onclick="openPerModal()">+ Nova tarefa</button></div>
   <div class="pgrid" id="pgrid"></div>
 </div>
 
 <!-- ══ PLANTAS ══ -->
 <div id="plantas" class="view">
-  <div class="section-actions">
-    <button class="btn-sm btn-primary" onclick="openPlantModal()">+ Nova planta</button>
-  </div>
+  <div class="section-actions"><button class="btn-sm btn-primary" onclick="openPlantModal()">+ Nova planta</button></div>
   <div id="plant-container"></div>
 </div>
 
@@ -216,63 +273,40 @@ header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
 <div id="compras" class="view">
   <div class="tab-bar-compras">
     <button class="ctab active" onclick="showCat('despensa',this)">🛒 Despensa &amp; Higiene</button>
-    <button class="ctab" onclick="showCat('limpeza',this)">🧹 Limpeza &amp; Jardinagem</button>
-    <button class="ctab" onclick="showCat('utilidades',this)">🏠 Utilidades domésticas</button>
+    <button class="ctab" onclick="showCat('limpeza',this)">🧹 Limpeza &amp; Jardim</button>
+    <button class="ctab" onclick="showCat('utilidades',this)">🏠 Utilidades</button>
   </div>
-  <div id="cat-despensa" class="compras-section"></div>
-  <div id="cat-limpeza" class="compras-section" style="display:none"></div>
-  <div id="cat-utilidades" class="compras-section" style="display:none"></div>
+  <div id="cat-despensa"></div>
+  <div id="cat-limpeza" style="display:none"></div>
+  <div id="cat-utilidades" style="display:none"></div>
 </div>
 
-<!-- ══ MODAL: TAREFA DA SEMANA ══ -->
+<!-- ══ MODAIS ══ -->
+<!-- Semana -->
 <div class="modal-overlay hidden" id="week-modal">
   <div class="modal">
-    <h3 id="week-modal-title">Nova tarefa</h3>
-    <div class="form-row">
-      <label>Dia da semana</label>
+    <h3 id="wm-title">Nova tarefa</h3>
+    <div class="form-row"><label>Dia</label>
       <select id="wm-day">
-        <option value="1">Segunda-feira</option>
-        <option value="2">Terça-feira</option>
-        <option value="3">Quarta-feira</option>
-        <option value="4">Quinta-feira</option>
-        <option value="5">Sexta-feira</option>
-        <option value="6">Sábado</option>
-        <option value="0">Domingo</option>
-      </select>
-    </div>
-    <div class="form-row">
-      <label>Período</label>
-      <select id="wm-period">
-        <option value="manha">Manhã</option>
-        <option value="tarde">Tarde</option>
-        <option value="noite">Noite</option>
-        <option value="">Dia todo</option>
-      </select>
-    </div>
-    <div class="form-row">
-      <label>Categoria</label>
+        <option value="1">Segunda</option><option value="2">Terça</option><option value="3">Quarta</option>
+        <option value="4">Quinta</option><option value="5">Sexta</option><option value="6">Sábado</option><option value="0">Domingo</option>
+      </select></div>
+    <div class="form-row"><label>Período</label>
+      <select id="wm-period"><option value="manha">Manhã</option><option value="tarde">Tarde</option><option value="noite">Noite</option><option value="">Dia todo</option></select></div>
+    <div class="form-row"><label>Categoria</label>
       <select id="wm-cat">
-        <option value="t-roupa">Roupas</option>
-        <option value="t-cama">Cama / Banho</option>
-        <option value="t-limpeza">Limpeza</option>
-        <option value="t-org">Organização</option>
-        <option value="t-sacada">Sacada / Pets</option>
-        <option value="t-prep">Preparação</option>
-        <option value="t-fax">Faxineira</option>
-      </select>
-    </div>
-    <div class="form-row">
-      <label>Nome da tarefa</label>
-      <input id="wm-name" placeholder="ex: Lavar roupa de cama">
-    </div>
+        <option value="t-roupa">Roupas</option><option value="t-cama">Cama / Banho</option><option value="t-limpeza">Limpeza</option>
+        <option value="t-org">Organização</option><option value="t-sacada">Sacada / Pets</option><option value="t-prep">Preparação</option><option value="t-fax">Faxineira</option>
+      </select></div>
+    <div class="form-row"><label>Nome</label><input id="wm-name" placeholder="ex: Lavar roupa de cama" onkeydown="if(event.key==='Enter')saveWeekTask()"></div>
     <div class="modal-actions">
-      <button class="btn-sm" onclick="closeWeekModal()">Cancelar</button>
+      <button class="btn-sm" onclick="closeModal('week-modal')">Cancelar</button>
       <button class="btn-sm btn-primary" onclick="saveWeekTask()">Salvar</button>
     </div>
   </div>
 </div>
 
-<!-- ══ MODAL: PERIÓDICA ══ -->
+<!-- Periódica -->
 <div class="modal-overlay hidden" id="per-modal">
   <div class="modal">
     <h3>Nova tarefa periódica</h3>
@@ -281,69 +315,134 @@ header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
     <div class="form-row"><label>Intervalo (dias)</label><input id="pm-days" type="number" min="1" placeholder="ex: 30"></div>
     <div class="form-row"><label>Frequência (texto)</label><input id="pm-freq" placeholder="ex: mensal"></div>
     <div class="modal-actions">
-      <button class="btn-sm" onclick="closePerModal()">Cancelar</button>
+      <button class="btn-sm" onclick="closeModal('per-modal')">Cancelar</button>
       <button class="btn-sm btn-primary" onclick="savePerTask()">Salvar</button>
     </div>
   </div>
 </div>
 
-<!-- ══ MODAL: PLANTA ══ -->
+<!-- Data livre (periódica + planta) -->
+<div class="modal-overlay hidden" id="date-modal">
+  <div class="modal">
+    <h3 id="date-modal-title">Registrar data</h3>
+    <div class="form-row"><label>Data</label><input type="date" id="date-input"></div>
+    <div class="modal-actions">
+      <button class="btn-sm" onclick="closeModal('date-modal')">Cancelar</button>
+      <button class="btn-sm btn-primary" onclick="saveFreeDate()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Planta -->
 <div class="modal-overlay hidden" id="plant-modal">
   <div class="modal">
     <h3>Nova planta</h3>
     <div class="form-row"><label>Nome</label><input id="pl-name" placeholder="ex: Samambaia"></div>
     <div class="form-row"><label>Frequência de rega</label><input id="pl-freq" placeholder="ex: 2x/semana"></div>
     <div class="form-row"><label>Dica de cuidado</label><textarea id="pl-tip" placeholder="ex: Luz indireta, solo úmido..."></textarea></div>
-    <div class="form-row">
-      <label>Grupo de rega</label>
+    <div class="form-row"><label>Grupo de rega</label>
       <select id="pl-group">
-          <option value="todo-dia">🪴 3-7x por semana</option>
-          <option value="2x-semana">💦 2× por semana</option>
-          <option value="1x-semana">💧 1× por semana</option>
-          <option value="quinzenal">🌿 A cada 10–14 dias</option>
-          <option value="mensal">🌵 A cada 2–3 semanas</option>
-          <option value="calice">🌺 Cálice (Bromélia)</option>
-      </select>
-    </div>
+          <option value="diario">🪴 3-7× por semana</option><option value="2x-semana">💦 2× por semana</option><option value="1x-semana">💧 1× por semana</option>
+        <option value="quinzenal">🌿 A cada 10–14 dias</option><option value="mensal">🌵 A cada 2–3 semanas</option><option value="calice">🌺 Cálice (Bromélia)</option>
+      </select></div>
     <div class="modal-actions">
-      <button class="btn-sm" onclick="closePlantModal()">Cancelar</button>
+      <button class="btn-sm" onclick="closeModal('plant-modal')">Cancelar</button>
       <button class="btn-sm btn-primary" onclick="savePlant()">Salvar</button>
     </div>
   </div>
 </div>
 
-<script>
-// ── Storage ──────────────────────────────────────────────────────
-const S={
-  get(k){try{return JSON.parse(localStorage.getItem('rot3_'+k))}catch{return null}},
-  set(k,v){try{localStorage.setItem('rot3_'+k,JSON.stringify(v))}catch{}}
-};
-function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+<!-- Compra edit -->
+<div class="modal-overlay hidden" id="compra-modal">
+  <div class="modal">
+    <h3>Editar item</h3>
+    <div class="form-row"><label>Nome</label><input id="cem-name" placeholder="Nome do item"></div>
+    <div class="form-row"><label>Quantidade</label><input id="cem-qty" placeholder="ex: 2 un"></div>
+    <div class="form-row"><label>Tag</label><select id="cem-tag"></select></div>
+    <div class="form-row"><label>Prioridade</label>
+      <select id="cem-prio"><option value="">— sem prioridade</option><option value="alta">🔴 alta</option><option value="media">🟡 média</option><option value="baixa">🟢 baixa</option></select></div>
+    <div class="form-row">
+      <label style="display:flex;align-items:center;gap:6px;cursor:pointer">
+        <input type="checkbox" id="cem-save"> Salvar como item recorrente
+      </label>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-sm" onclick="closeModal('compra-modal')">Cancelar</button>
+      <button class="btn-sm btn-primary" onclick="saveCompraEdit()">Salvar</button>
+    </div>
+  </div>
+</div>
 
-// ── Date helpers ─────────────────────────────────────────────────
-function todayISO(){return new Date().toISOString().slice(0,10)}
-function fmtDate(iso){if(!iso)return'—';const[y,m,d]=iso.split('-');return`${d}/${m}/${y}`}
-function addDays(iso,n){const d=new Date(iso);d.setDate(d.getDate()+n);return d.toISOString().slice(0,10)}
-function daysSince(iso){if(!iso)return null;return Math.floor((new Date(todayISO())-new Date(iso))/86400000)}
+<script>
+// ══════════════════════════════════════════════════════════════════
+// STORAGE — Claude persistent (shared) com fallback localStorage
+// ══════════════════════════════════════════════════════════════════
+const STORAGE_READY = typeof window.storage !== 'undefined';
+const LOCAL_PREFIX = 'rot4_';
+const pendingWrites = {};
+
+async function sGet(k) {
+  try {
+    if (STORAGE_READY) {
+      const r = await window.storage.get(k);
+      return r ? JSON.parse(r.value) : null;
+    }
+  } catch {}
+  try { return JSON.parse(localStorage.getItem(LOCAL_PREFIX + k)); } catch { return null; }
+}
+async function sSet(k, v) {
+  const str = JSON.stringify(v);
+  try { localStorage.setItem(LOCAL_PREFIX + k, str); } catch {}
+  if (!STORAGE_READY) return;
+  clearTimeout(pendingWrites[k]);
+  pendingWrites[k] = setTimeout(async () => {
+    try { await window.storage.set(k, str); } catch {}
+  }, 400);
+}
+
+// ── Helpers ──────────────────────────────────────────────────────
+function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,6) }
+function todayISO(){ return new Date().toISOString().slice(0,10) }
+function fmtDate(iso){ if(!iso)return'—'; const[y,m,d]=iso.split('-'); return`${d}/${m}` }
+function fmtDateFull(iso){ if(!iso)return'—'; const[y,m,d]=iso.split('-'); return`${d}/${m}/${y}` }
+function addDays(iso,n){ const d=new Date(iso); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10) }
+function daysSince(iso){ if(!iso)return null; return Math.floor((new Date(todayISO())-new Date(iso))/86400000) }
 function statusInfo(iso,days){
   const ds=daysSince(iso);
-  if(ds===null)return{cls:'s-never',txt:'nunca feito'};
+  if(ds===null) return{cls:'s-never',txt:'nunca feito'};
   const rem=days-ds;
-  if(rem<0)return{cls:'s-over',txt:`${Math.abs(rem)}d atrasado`};
-  if(rem<=7)return{cls:'s-soon',txt:`em ${rem}d`};
+  if(rem<0) return{cls:'s-over',txt:`${Math.abs(rem)}d atrasado`};
+  if(rem<=7) return{cls:'s-soon',txt:`em ${rem}d`};
   return{cls:'s-ok',txt:`ok — faltam ${rem}d`};
 }
-function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function escHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') }
+function makeICS(title, iso) {
+  const d = iso.replace(/-/g,'');
+  const next = addDays(iso,1).replace(/-/g,'');
+  const blob = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nSUMMARY:${title}\nDTSTART;VALUE=DATE:${d}\nDTEND;VALUE=DATE:${next}\nEND:VEVENT\nEND:VCALENDAR`;
+  return 'data:text/calendar;charset=utf8,' + encodeURIComponent(blob);
+}
 
-// ── Today highlight ──────────────────────────────────────────────
-const todayDOW=new Date().getDay();
+// ── Dark mode ─────────────────────────────────────────────────────
+function toggleDark(){
+  const on = document.documentElement.getAttribute('data-dark')==='1';
+  setDark(!on);
+  sSet('darkmode', !on);
+}
+function setDark(on){
+  document.documentElement.setAttribute('data-dark', on?'1':'0');
+  document.getElementById('dark-toggle').textContent = on ? '☀️' : '🌙';
+}
+
+// ── Date header ───────────────────────────────────────────────────
+const todayDOW = new Date().getDay();
 (function(){
   const months=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
   const n=new Date();
   document.getElementById('header-date').textContent=n.getDate()+' '+months[n.getMonth()]+'/'+n.getFullYear();
 })();
 
-// ── Tab switching ────────────────────────────────────────────────
+// ── Tab switching ─────────────────────────────────────────────────
 function showTab(id,btn){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -351,27 +450,28 @@ function showTab(id,btn){
   btn.classList.add('active');
 }
 
+// ── Modal helpers ─────────────────────────────────────────────────
+function closeModal(id){ document.getElementById(id).classList.add('hidden') }
+function openModal(id){ document.getElementById(id).classList.remove('hidden') }
+document.querySelectorAll('.modal-overlay').forEach(o=>{
+  o.addEventListener('click', e=>{ if(e.target===o) o.classList.add('hidden') });
+});
+
 // ══════════════════════════════════════════════════════════════════
-// SEMANA — estrutura dinâmica
+// SEMANA — CARROSSEL
 // ══════════════════════════════════════════════════════════════════
 const DAY_INFO=[
-  {dow:1,name:'SEG',fax:false},
-  {dow:2,name:'TER',fax:false},
-  {dow:3,name:'QUA',fax:true},
-  {dow:4,name:'QUI',fax:false},
-  {dow:5,name:'SEX',fax:false},
-  {dow:6,name:'SÁB',fax:false},
-  {dow:0,name:'DOM',fax:false},
+  {dow:1,name:'SEG',fax:false},{dow:2,name:'TER',fax:false},{dow:3,name:'QUA',fax:true},
+  {dow:4,name:'QUI',fax:false},{dow:5,name:'SEX',fax:false},{dow:6,name:'SÁB',fax:false},{dow:0,name:'DOM',fax:false}
 ];
 const PERIOD_ORDER=['manha','tarde','noite',''];
 const PERIOD_LABEL={manha:'manhã',tarde:'tarde',noite:'noite','':'dia'};
-
 const DEFAULT_TASKS=[
   {id:'t1',dow:1,period:'manha',cat:'t-roupa',name:'Roupas claras'},
   {id:'t2',dow:1,period:'noite',cat:'t-org',name:'Escritório'},
   {id:'t3',dow:2,period:'manha',cat:'t-cama',name:'Cama / banho'},
   {id:'t4',dow:2,period:'tarde',cat:'t-prep',name:'Prep faxineira'},
-  {id:'t5',dow:3,period:'manha',cat:'t-fax',name:'Faxineira'},
+  {id:'t5',dow:3,period:'manha',cat:'t-fax',name:'Faxineira',fixed:true},
   {id:'t6',dow:3,period:'manha',cat:'t-limpeza',name:'Sacada + tapete',fixed:true},
   {id:'t7',dow:3,period:'manha',cat:'t-limpeza',name:'Troca cama/toalhas',fixed:true},
   {id:'t8',dow:3,period:'manha',cat:'t-limpeza',name:'Limpeza geral',fixed:true},
@@ -385,187 +485,206 @@ const DEFAULT_TASKS=[
   {id:'t16',dow:0,period:'noite',cat:'t-limpeza',name:'Checar plantas'},
 ];
 
-function loadWeekTasks(){return S.get('week_tasks')||DEFAULT_TASKS}
-function saveWeekTasks(arr){S.set('week_tasks',arr)}
+let weekTasks = DEFAULT_TASKS.slice();
+let carouselIdx = DAY_INFO.findIndex(d=>d.dow===todayDOW);
+if(carouselIdx<0) carouselIdx=0;
 
 function renderWeek(){
-  const tasks=loadWeekTasks();
-  const grid=document.getElementById('days-grid');
-  grid.innerHTML=DAY_INFO.map(d=>{
+  const track=document.getElementById('carousel-track');
+  const dots=document.getElementById('carousel-dots');
+  track.innerHTML=DAY_INFO.map((d,i)=>{
     const isToday=d.dow===todayDOW;
-    const headCls=d.fax?'day-head fax':'day-head';
     const colCls='day-col'+(isToday?' today':'');
-    const dayTasks=tasks.filter(t=>t.dow===d.dow);
-    // group by period in order
-    const byPeriod={};
-    PERIOD_ORDER.forEach(p=>{byPeriod[p]=dayTasks.filter(t=>t.period===p)});
-    let bodyHtml='';
+    const headCls='day-head'+(d.fax?' fax':'');
+    const dayTasks=weekTasks.filter(t=>t.dow===d.dow);
+    const byPeriod={};PERIOD_ORDER.forEach(p=>{byPeriod[p]=dayTasks.filter(t=>t.period===p)});
+    let body='';
     PERIOD_ORDER.forEach(p=>{
-      const pt=byPeriod[p];
-      if(!pt.length)return;
-      bodyHtml+=`<div class="slabel">${PERIOD_LABEL[p]}</div>`;
+      const pt=byPeriod[p]; if(!pt.length) return;
+      body+=`<div class="slabel">${PERIOD_LABEL[p]}</div>`;
       pt.forEach(t=>{
-        const isFixed=t.fixed;
-        const actions=isFixed?'':`
-          <span class="tag-actions">
-            <button class="tag-btn" onclick="openEditWeekTask('${t.id}')" title="Editar">✎</button>
-            <button class="tag-btn" onclick="delWeekTask('${t.id}')" title="Remover">×</button>
-          </span>`;
-        bodyHtml+=`<div class="tag ${t.cat} t-sm"><span class="tag-text">${escHtml(t.name)}</span>${actions}</div>`;
+        const acts=t.fixed?'':`<span class="tag-act"><button class="tag-btn" onclick="openEditWeek('${t.id}')">✎</button><button class="tag-btn" onclick="delWeekTask('${t.id}')">×</button></span>`;
+        body+=`<div class="tag ${t.cat}"><span class="tag-text">${escHtml(t.name)}</span>${acts}</div>`;
       });
     });
-    return`<div class="${colCls}" id="day-${d.dow}">
-      <div class="${headCls}">
-        <span class="day-head-name">${d.name}</span>
-        <button class="day-add-btn" onclick="openAddWeekTask(${d.dow})" title="Adicionar tarefa">+</button>
-      </div>
-      <div class="day-body">${bodyHtml}</div>
-    </div>`;
+    return`<div class="carousel-slide"><div class="${colCls}">
+      <div class="${headCls}"><span>${d.name}</span><button class="day-add-btn" onclick="openAddWeek(${d.dow})">+</button></div>
+      <div class="day-body">${body||'<div style="font-size:11px;color:var(--faint);padding:4px 2px">—</div>'}</div>
+    </div></div>`;
   }).join('');
+  dots.innerHTML=DAY_INFO.map((d,i)=>`<div class="cdot${i===carouselIdx?' active':''}" onclick="goSlide(${i})"></div>`).join('');
+  applyCarousel();
 }
+function applyCarousel(){
+  const track=document.getElementById('carousel-track');
+  const isMobile=window.innerWidth<640;
+  if(!isMobile){track.style.transform='';return;}
+  track.style.transform=`translateX(-${carouselIdx*100}%)`;
+  document.querySelectorAll('.cdot').forEach((d,i)=>d.classList.toggle('active',i===carouselIdx));
+}
+function goSlide(i){ carouselIdx=Math.max(0,Math.min(6,i)); applyCarousel(); }
+function carouselMove(dir){ goSlide(carouselIdx+dir); }
+window.addEventListener('resize',applyCarousel);
 
-// Modal semana
+// touch swipe
+let _tx=null;
+document.getElementById('carousel-track').addEventListener('touchstart',e=>{_tx=e.touches[0].clientX},{passive:true});
+document.getElementById('carousel-track').addEventListener('touchend',e=>{
+  if(_tx===null)return;
+  const dx=e.changedTouches[0].clientX-_tx;
+  if(Math.abs(dx)>40) carouselMove(dx<0?1:-1);
+  _tx=null;
+},{passive:true});
+
+// week modal
 let weekEditId=null;
-function openAddWeekTask(dow){
+function openAddWeek(dow){
   weekEditId=null;
-  document.getElementById('week-modal-title').textContent='Nova tarefa';
+  document.getElementById('wm-title').textContent='Nova tarefa';
   document.getElementById('wm-day').value=dow;
   document.getElementById('wm-period').value='manha';
   document.getElementById('wm-cat').value='t-limpeza';
   document.getElementById('wm-name').value='';
-  document.getElementById('week-modal').classList.remove('hidden');
-  setTimeout(()=>document.getElementById('wm-name').focus(),50);
+  openModal('week-modal');
+  setTimeout(()=>document.getElementById('wm-name').focus(),60);
 }
-function openEditWeekTask(id){
-  const task=loadWeekTasks().find(t=>t.id===id);
-  if(!task)return;
+function openEditWeek(id){
+  const t=weekTasks.find(t=>t.id===id); if(!t) return;
   weekEditId=id;
-  document.getElementById('week-modal-title').textContent='Editar tarefa';
-  document.getElementById('wm-day').value=task.dow;
-  document.getElementById('wm-period').value=task.period;
-  document.getElementById('wm-cat').value=task.cat;
-  document.getElementById('wm-name').value=task.name;
-  document.getElementById('week-modal').classList.remove('hidden');
-  setTimeout(()=>document.getElementById('wm-name').focus(),50);
+  document.getElementById('wm-title').textContent='Editar tarefa';
+  document.getElementById('wm-day').value=t.dow;
+  document.getElementById('wm-period').value=t.period;
+  document.getElementById('wm-cat').value=t.cat;
+  document.getElementById('wm-name').value=t.name;
+  openModal('week-modal');
 }
-function closeWeekModal(){document.getElementById('week-modal').classList.add('hidden');weekEditId=null}
 function saveWeekTask(){
-  const name=document.getElementById('wm-name').value.trim();
-  if(!name){alert('Digite o nome da tarefa.');return;}
+  const name=document.getElementById('wm-name').value.trim(); if(!name){alert('Digite o nome.');return;}
   const dow=parseInt(document.getElementById('wm-day').value);
   const period=document.getElementById('wm-period').value;
   const cat=document.getElementById('wm-cat').value;
-  let arr=loadWeekTasks();
   if(weekEditId){
-    arr=arr.map(t=>t.id===weekEditId?{...t,dow,period,cat,name}:t);
-  }else{
-    arr.push({id:uid(),dow,period,cat,name});
+    weekTasks=weekTasks.map(t=>t.id===weekEditId?{...t,dow,period,cat,name}:t);
+  } else {
+    weekTasks.push({id:uid(),dow,period,cat,name});
   }
-  saveWeekTasks(arr);closeWeekModal();renderWeek();
+  sSet('week_tasks',weekTasks); closeModal('week-modal'); renderWeek();
 }
 function delWeekTask(id){
-  if(!confirm('Remover esta tarefa?'))return;
-  saveWeekTasks(loadWeekTasks().filter(t=>t.id!==id));renderWeek();
+  if(!confirm('Remover?'))return;
+  weekTasks=weekTasks.filter(t=>t.id!==id);
+  sSet('week_tasks',weekTasks); renderWeek();
 }
-// close modal on overlay click
-document.getElementById('week-modal').addEventListener('click',function(e){if(e.target===this)closeWeekModal()});
 
 // ══════════════════════════════════════════════════════════════════
 // RECADOS
 // ══════════════════════════════════════════════════════════════════
-function loadRecados(){return S.get('recados')||[]}
-function saveRecados(arr){S.set('recados',arr)}
+let recados=[];
 function addRecado(){
   const inp=document.getElementById('recado-input');
-  const txt=inp.value.trim();if(!txt)return;
-  const arr=loadRecados();
-  arr.unshift({id:uid(),text:txt,date:todayISO()});
-  saveRecados(arr);inp.value='';renderRecados();
+  const txt=inp.value.trim(); if(!txt) return;
+  recados.unshift({id:uid(),text:txt,date:todayISO()});
+  sSet('recados',recados); inp.value=''; renderRecados();
 }
-function delRecado(id){saveRecados(loadRecados().filter(r=>r.id!==id));renderRecados()}
+function delRecado(id){ recados=recados.filter(r=>r.id!==id); sSet('recados',recados); renderRecados(); }
 function renderRecados(){
   const list=document.getElementById('recados-list');
-  const arr=loadRecados();
-  if(!arr.length){list.innerHTML='<div style="font-size:12px;color:var(--faint);padding:6px 2px">Nenhum recado ainda.</div>';return;}
-  list.innerHTML=arr.map(r=>`
-    <div class="recado-item">
-      <div style="flex:1">
-        <div class="recado-text">${escHtml(r.text)}</div>
-        <div class="recado-date">${fmtDate(r.date)}</div>
-      </div>
-      <button class="recado-del" onclick="delRecado('${r.id}')">×</button>
-    </div>`).join('');
+  if(!recados.length){list.innerHTML='<div style="font-size:12px;color:var(--faint);padding:6px 2px">Nenhum recado ainda.</div>';return;}
+  list.innerHTML=recados.map(r=>`<div class="recado-item">
+    <div style="flex:1"><div class="recado-text">${escHtml(r.text)}</div><div class="recado-date">${fmtDateFull(r.date)}</div></div>
+    <button class="recado-del" onclick="delRecado('${r.id}')">×</button>
+  </div>`).join('');
 }
 
 // ══════════════════════════════════════════════════════════════════
 // PERIÓDICAS
 // ══════════════════════════════════════════════════════════════════
 const DEFAULT_PER=[
-  {id:'tapete_sala',label:'🪣 Tapete da sala',days:42,freq:'6 semanas',desc:'Com pets, a cada 6 semanas equilibra higiene e custo. Se notar odor antes, antecipe.'},
-  {id:'manta_sofa',label:'🛋️ Manta do sofá',days:30,freq:'mensal',desc:'Lavar 1x por mês. Pode coincidir com a semana do tapete para facilitar.'},
-  {id:'almofadas',label:'🪑 Almofadas',days:60,freq:'2 meses',desc:'Capas a cada 2 meses, ou antes se houver muitos pelos de pets acumulados.'},
-  {id:'despensa',label:'📦 Despensa',days:15,freq:'quinzenal',desc:'Olhada quinzenal para validades e lista de compras. Reorganização completa mensal.'},
-  {id:'sacada_geral',label:'🌿 Sacada — geral',days:30,freq:'mensal',desc:'Além do balde semanal, limpeza mais completa do piso e vasos uma vez por mês.'},
+  {id:'tapete_sala',label:'🪣 Tapete da sala',days:42,freq:'6 semanas',desc:'Com pets, a cada 6 semanas equilibra higiene e custo.'},
+  {id:'manta_sofa',label:'🛋️ Manta do sofá',days:30,freq:'mensal',desc:'Lavar 1x por mês. Pode coincidir com a semana do tapete.'},
+  {id:'almofadas',label:'🪑 Almofadas',days:60,freq:'2 meses',desc:'Capas a cada 2 meses, ou antes se houver muitos pelos.'},
+  {id:'despensa_task',label:'📦 Despensa',days:15,freq:'quinzenal',desc:'Olhada quinzenal para validades e lista de compras.'},
+  {id:'sacada_geral',label:'🌿 Sacada — geral',days:30,freq:'mensal',desc:'Além do balde semanal, limpeza completa do piso e vasos.'},
 ];
-function loadPerTasks(){return S.get('per_tasks')||DEFAULT_PER}
-function savePerTasks(arr){S.set('per_tasks',arr)}
+let perTasks=[];
+let perDates={};
+
 function renderPeriodicas(){
-  document.getElementById('pgrid').innerHTML=loadPerTasks().map(t=>{
-    const saved=S.get('p_done_'+t.id);
-    const iso=saved?saved.date:null;
+  document.getElementById('pgrid').innerHTML=perTasks.map(t=>{
+    const iso=perDates[t.id]||null;
     const next=iso?addDays(iso,t.days):null;
     const st=statusInfo(iso,t.days);
+    const calLink=next?`<a class="cal-link" href="${makeICS(t.label,next)}" download="lembrete.ics">📅 add ao calendário</a>`:'';
     return`<div class="pcard">
       <div class="pcard-top"><h4>${escHtml(t.label)}</h4><span class="freq-badge">${escHtml(t.freq)}</span></div>
       <p>${escHtml(t.desc||'')}</p>
       <div class="pcard-footer">
         <div class="pcard-dates">
-          <div class="date-row">última: <strong>${fmtDate(iso)}</strong></div>
-          <div class="date-row">próxima: <strong>${fmtDate(next)}</strong></div>
+          <div class="date-row">última: <strong>${fmtDateFull(iso)}</strong></div>
+          <div class="date-row">próxima: <strong>${fmtDateFull(next)}</strong> ${calLink}</div>
           <span class="sbadge ${st.cls}">${st.txt}</span>
         </div>
-        <div class="pcard-actions">
+        <div class="pcard-actions" style="margin-top:8px">
           <button class="btn-done" onclick="markPerDone('${t.id}')">✓ fiz hoje</button>
+          <button class="btn-done" onclick="openFreeDate('per','${t.id}')">📅 outra data</button>
           <button class="btn-del" onclick="delPerTask('${t.id}')">remover</button>
         </div>
       </div>
     </div>`;
   }).join('');
 }
-function markPerDone(id){S.set('p_done_'+id,{date:todayISO()});renderPeriodicas()}
+function markPerDone(id){ perDates[id]=todayISO(); sSet('per_dates',perDates); renderPeriodicas(); }
 function delPerTask(id){
   if(!confirm('Remover esta tarefa?'))return;
-  savePerTasks(loadPerTasks().filter(t=>t.id!==id));renderPeriodicas();
+  perTasks=perTasks.filter(t=>t.id!==id); sSet('per_tasks',perTasks); renderPeriodicas();
 }
-function openPerModal(){document.getElementById('per-modal').classList.remove('hidden')}
-function closePerModal(){document.getElementById('per-modal').classList.add('hidden')}
-document.getElementById('per-modal').addEventListener('click',function(e){if(e.target===this)closePerModal()});
+function openPerModal(){ openModal('per-modal'); }
 function savePerTask(){
   const label=document.getElementById('pm-label').value.trim();
   const days=parseInt(document.getElementById('pm-days').value);
   const freq=document.getElementById('pm-freq').value.trim();
   const desc=document.getElementById('pm-desc').value.trim();
   if(!label||!days||!freq){alert('Preencha nome, intervalo e frequência.');return;}
-  const arr=loadPerTasks();arr.push({id:uid(),label,days,freq,desc});
-  savePerTasks(arr);closePerModal();
+  perTasks.push({id:uid(),label,days,freq,desc});
+  sSet('per_tasks',perTasks); closeModal('per-modal');
   ['pm-label','pm-desc','pm-freq'].forEach(i=>document.getElementById(i).value='');
   document.getElementById('pm-days').value='';
   renderPeriodicas();
+}
+
+// ── free date modal ────────────────────────────────────────────────
+let freeDateCtx=null;
+function openFreeDate(type,id){
+  freeDateCtx={type,id};
+  document.getElementById('date-modal-title').textContent=type==='per'?'Registrar data da tarefa':'Registrar data de rega';
+  document.getElementById('date-input').value=todayISO();
+  openModal('date-modal');
+}
+function saveFreeDate(){
+  const iso=document.getElementById('date-input').value;
+  if(!iso)return;
+  if(freeDateCtx.type==='per'){
+    perDates[freeDateCtx.id]=iso; sSet('per_dates',perDates); renderPeriodicas();
+  } else {
+    waterDates[freeDateCtx.id]=iso; sSet('water_dates',waterDates); renderPlants();
+  }
+  closeModal('date-modal');
 }
 
 // ══════════════════════════════════════════════════════════════════
 // PLANTAS
 // ══════════════════════════════════════════════════════════════════
 const PLANT_GROUPS=[
-  { id: 'todo-dia', label: '🪴 3-7× por semana', badge:'frequência diária',tip_next:1},
-  {id: '2x-semana', label:'💦 2× por semana',badge:'alta frequência',tip_next:3},
+  {id:'diario',label:'🪴 3-7× por semana',badge:'diariamente',tip_next:1},
+  {id:'2x-semana',label:'💦 2× por semana',badge:'alta frequência',tip_next:3},
   {id:'1x-semana',label:'💧 1× por semana',badge:'frequência média',tip_next:7},
   {id:'quinzenal',label:'🌿 A cada 10–14 dias',badge:'baixa frequência',tip_next:12},
   {id:'mensal',label:'🌵 A cada 2–3 semanas',badge:'muito baixa',tip_next:18},
   {id:'calice',label:'🌺 Cálice (trocar água)',badge:'bromélia',tip_next:14},
 ];
 const DEFAULT_PLANTS=[
-  {id:'taioba',name:'Taioba',freq:'2x/semana',tip:'Solo sempre úmido. Meia sombra, evitar sol forte.',group:'2x-semana'},
+  { id: 'majericao', name: 'Manjericão', freq: 'diariamente', tip: 'Solo sempre úmido. Luz direta. Muito sensível.', group: 'diario' },
+  { id: 'taioba', name: 'Taioba', freq: '2x/semana', tip: 'Solo sempre úmido. Meia sombra, evitar sol forte.', group: '2x-semana' },
   {id:'begonia',name:'Begônia',freq:'2x/semana',tip:'Solo úmido. Luz indireta. Sensível a correntes de ar.',group:'2x-semana'},
   {id:'antúrio',name:'Antúrio',freq:'1x/semana',tip:'Solo levemente úmido. Luz indireta. Borrifar folhas ajuda.',group:'1x-semana'},
   {id:'rafa',name:'Ráfia',freq:'1x/semana',tip:'Deixar solo secar entre regas. Meia sombra.',group:'1x-semana'},
@@ -576,23 +695,23 @@ const DEFAULT_PLANTS=[
   {id:'cactos',name:'Cactos',freq:'a cada 2–3 sem.',tip:'Não molhar demais — raiz apodrece. Sol pleno.',group:'mensal'},
   {id:'bromelia',name:'Bromélia',freq:'trocar água 2x/mês',tip:'Manter água no cálice central. Solo raramente regado.',group:'calice'},
 ];
-function loadPlants(){return S.get('plants')||DEFAULT_PLANTS}
-function savePlants(arr){S.set('plants',arr)}
+let plants=[];
+let waterDates={};
+
 function renderPlants(){
-  const plants=loadPlants();
   document.getElementById('plant-container').innerHTML=PLANT_GROUPS.map(g=>{
-    const gp=plants.filter(p=>p.group===g.id);if(!gp.length)return'';
-    const saved=S.get('water_'+g.id);
-    const iso=saved?saved.date:null;
+    const gp=plants.filter(p=>p.group===g.id); if(!gp.length) return'';
+    const iso=waterDates[g.id]||null;
     const next=iso?addDays(iso,g.tip_next):null;
     const ds=daysSince(iso);
     return`<div class="plant-group">
       <div class="pg-header"><span class="pg-title">${g.label}</span><span class="pg-badge">${g.badge}</span></div>
       <div class="pg-water-row">
         <button class="btn-water" onclick="markWater('${g.id}')">💧 reguei agora</button>
+        <button class="btn-water" style="font-size:11px" onclick="openFreeDate('water','${g.id}')">📅 outra data</button>
         <div class="water-info">
-          <div>última rega: <span>${fmtDate(iso)}${ds!==null?' ('+ds+'d atrás)':''}</span></div>
-          <div>próxima rega: <span>${fmtDate(next)}</span></div>
+          <div>última rega: <span>${fmtDateFull(iso)}${ds!==null?' ('+ds+'d atrás)':''}</span></div>
+          <div>próxima rega: <span>${fmtDateFull(next)}</span></div>
         </div>
       </div>
       <div class="plant-list">${gp.map(p=>`
@@ -608,19 +727,20 @@ function renderPlants(){
     </div>`;
   }).join('');
 }
-function markWater(gid){S.set('water_'+gid,{date:todayISO()});renderPlants()}
-function delPlant(id){if(!confirm('Remover esta planta?'))return;savePlants(loadPlants().filter(p=>p.id!==id));renderPlants()}
-function openPlantModal(){document.getElementById('plant-modal').classList.remove('hidden')}
-function closePlantModal(){document.getElementById('plant-modal').classList.add('hidden')}
-document.getElementById('plant-modal').addEventListener('click',function(e){if(e.target===this)closePlantModal()});
+function markWater(gid){ waterDates[gid]=todayISO(); sSet('water_dates',waterDates); renderPlants(); }
+function delPlant(id){
+  if(!confirm('Remover esta planta?'))return;
+  plants=plants.filter(p=>p.id!==id); sSet('plants',plants); renderPlants();
+}
+function openPlantModal(){ openModal('plant-modal'); }
 function savePlant(){
   const name=document.getElementById('pl-name').value.trim();
   const freq=document.getElementById('pl-freq').value.trim();
   const tip=document.getElementById('pl-tip').value.trim();
   const group=document.getElementById('pl-group').value;
   if(!name||!freq){alert('Preencha nome e frequência.');return;}
-  const arr=loadPlants();arr.push({id:uid(),name,freq,tip,group});
-  savePlants(arr);closePlantModal();
+  plants.push({id:uid(),name,freq,tip,group});
+  sSet('plants',plants); closeModal('plant-modal');
   ['pl-name','pl-freq','pl-tip'].forEach(i=>document.getElementById(i).value='');
   renderPlants();
 }
@@ -630,67 +750,195 @@ function savePlant(){
 // ══════════════════════════════════════════════════════════════════
 const CAT_CONFIG={
   despensa:{label:'🛒 Despensa & Higiene',subtitle:'Alimentos, higiene pessoal e limpeza do corpo',hasPrio:false},
-  limpeza:{label:'🧹 Limpeza & Jardinagem',subtitle:'Produtos de limpeza da casa, jardim e sacada',hasPrio:false},
-  utilidades:{label:'🏠 Utilidades domésticas',subtitle:'Móveis, utensílios e itens para a qualidade de vida',hasPrio:true},
+  limpeza:{label:'🧹 Limpeza & Jardim',subtitle:'Produtos de limpeza da casa, jardim e sacada',hasPrio:false},
+  utilidades:{label:'🏠 Utilidades domésticas',subtitle:'Móveis, utensílios e itens para qualidade de vida',hasPrio:true},
 };
-function loadCompras(cat){return S.get('compras_'+cat)||[]}
-function saveCompras(cat,arr){S.set('compras_'+cat,arr)}
-function showCat(cat,btn){
-  document.querySelectorAll('.ctab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');
-  ['despensa','limpeza','utilidades'].forEach(c=>{document.getElementById('cat-'+c).style.display=c===cat?'block':'none'});
-  renderCompras(cat);
-}
+let comprasData={despensa:[],limpeza:[],utilidades:[]};
+let itemTags=['dia-a-dia','higiene','pet','jardim','receita'];
+let savedItems=[];
+let currentCat='despensa';
+let compraEditId=null;
+let compraEditCat=null;
+
 function renderCompras(cat){
-  const cfg=CAT_CONFIG[cat];const items=loadCompras(cat);const el=document.getElementById('cat-'+cat);const hasPrio=cfg.hasPrio;
+  const cfg=CAT_CONFIG[cat];
+  const items=comprasData[cat];
   const prioOrder={alta:0,media:1,baixa:2};
   const sorted=[...items].sort((a,b)=>{
-    if(a.comprado!==b.comprado)return a.comprado?1:-1;
-    if(hasPrio){const pa=prioOrder[a.prio]??3,pb=prioOrder[b.prio]??3;return pa-pb;}
+    if(a.comprado!==b.comprado) return a.comprado?1:-1;
+    if(cfg.hasPrio){const pa=prioOrder[a.prio]??3,pb=prioOrder[b.prio]??3; return pa-pb;}
     return 0;
   });
+  const tagsOpts=['<option value="">— sem tag</option>',...itemTags.map(t=>`<option value="${escHtml(t)}">${escHtml(t)}</option>`)].join('');
+  const tagFilterOpts=`<option value="">todas as tags</option>`+itemTags.map(t=>`<option value="${escHtml(t)}">${escHtml(t)}</option>`).join('');
+  const curFilter=document.getElementById('tag-filter-'+cat)?.value||'';
+  const filtered=curFilter?sorted.filter(i=>i.tag===curFilter):sorted;
+
+  const el=document.getElementById('cat-'+cat);
   el.innerHTML=`
     <div class="compras-header">
       <div><div class="compras-title">${cfg.label}</div><div class="compras-subtitle">${cfg.subtitle}</div></div>
-      <div class="compras-actions"><button class="btn-sm" onclick="clearComprados('${cat}')">Limpar comprados</button></div>
+      <div class="compras-actions">
+        <select style="border:1px solid var(--border);border-radius:8px;padding:5px 8px;font-size:12px;background:var(--surface);color:var(--text);cursor:pointer" id="tag-filter-${cat}" onchange="renderCompras('${cat}')">
+          ${tagFilterOpts}
+        </select>
+        <button class="btn-sm" onclick="clearComprados('${cat}')">Limpar ✓</button>
+      </div>
     </div>
-    <div class="compras-list">${sorted.map(item=>`
+    <div class="compras-list">
+      ${filtered.map(item=>`
       <div class="compra-item${item.comprado?' comprado':''}">
         <div class="compra-check${item.comprado?' checked':''}" onclick="toggleCompra('${cat}','${item.id}')">
           ${item.comprado?'<svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1.5,6 4.5,9 10.5,3"/></svg>':''}
         </div>
         <span class="compra-name">${escHtml(item.name)}</span>
         ${item.qty?`<span class="compra-qty">${escHtml(item.qty)}</span>`:''}
-        ${hasPrio&&item.prio?`<span class="prio-badge p-${item.prio}">${item.prio}</span>`:''}
-        <button class="btn-icon" onclick="delCompra('${cat}','${item.id}')">×</button>
+        ${item.tag?`<span class="item-tag-chip">${escHtml(item.tag)}</span>`:''}
+        ${cfg.hasPrio&&item.prio?`<span class="prio-badge p-${item.prio}">${item.prio}</span>`:''}
+        <div class="compra-btns">
+          <button class="btn-icon" onclick="openCompraEdit('${cat}','${item.id}')" style="font-size:13px">✎</button>
+          <button class="btn-icon" onclick="delCompra('${cat}','${item.id}')">×</button>
+        </div>
       </div>`).join('')}
     </div>
     <div class="compra-add-row">
-      <input id="ci-name-${cat}" placeholder="Adicionar item..." onkeydown="if(event.key==='Enter')addCompra('${cat}')">
-      <input id="ci-qty-${cat}" placeholder="qtd" style="width:60px">
-      ${hasPrio?`<select id="ci-prio-${cat}"><option value="">— prioridade</option><option value="alta">🔴 alta</option><option value="media">🟡 média</option><option value="baixa">🟢 baixa</option></select>`:''}
+      <input class="cn" id="ci-name-${cat}" placeholder="Adicionar item..." onkeydown="if(event.key==='Enter')addCompra('${cat}')">
+      <input class="cq" id="ci-qty-${cat}" placeholder="qtd">
+      <select id="ci-tag-${cat}">${tagsOpts}</select>
+      ${cfg.hasPrio?`<select id="ci-prio-${cat}"><option value="">— prio</option><option value="alta">🔴 alta</option><option value="media">🟡 média</option><option value="baixa">🟢 baixa</option></select>`:''}
       <button class="btn-sm btn-primary" onclick="addCompra('${cat}')">+</button>
+    </div>
+
+    <!-- Itens salvos -->
+    ${savedItems.filter(s=>s.cat===cat).length?`
+    <div class="saved-section">
+      <div class="saved-header"><h4>⭐ Itens recorrentes</h4></div>
+      <div class="saved-list">${savedItems.filter(s=>s.cat===cat).map(s=>`
+        <span class="saved-chip" onclick="addSavedItem('${cat}','${s.id}')">
+          + ${escHtml(s.name)}
+          <button class="saved-chip-del" onclick="event.stopPropagation();delSaved('${s.id}')">×</button>
+        </span>`).join('')}
+      </div>
+    </div>`:''}
+
+    <!-- Gerenciar tags -->
+    <div class="tags-section">
+      <div class="tags-header"><h4>🏷 Tags</h4></div>
+      <div class="tags-list">${itemTags.map(t=>`
+        <div class="tag-chip">${escHtml(t)}<button class="tag-chip-del" onclick="delTag('${escHtml(t)}')">×</button></div>`).join('')}
+      </div>
+      <div class="tags-add-row">
+        <input id="new-tag-input" placeholder="Nova tag..." onkeydown="if(event.key==='Enter')addTag()">
+        <button class="btn-sm" onclick="addTag()">+ Tag</button>
+      </div>
     </div>`;
+  // restore filter value after re-render
+  if(curFilter) { const f=document.getElementById('tag-filter-'+cat); if(f) f.value=curFilter; }
 }
-function addCompra(cat){
-  const nameEl=document.getElementById('ci-name-'+cat);const name=nameEl.value.trim();if(!name)return;
-  const qty=(document.getElementById('ci-qty-'+cat)||{}).value||'';
-  const prio=(document.getElementById('ci-prio-'+cat)||{}).value||'';
-  const arr=loadCompras(cat);arr.push({id:uid(),name,qty,prio,comprado:false});
-  saveCompras(cat,arr);nameEl.value='';
-  if(document.getElementById('ci-qty-'+cat))document.getElementById('ci-qty-'+cat).value='';
-  if(document.getElementById('ci-prio-'+cat))document.getElementById('ci-prio-'+cat).value='';
+
+function showCat(cat,btn){
+  currentCat=cat;
+  document.querySelectorAll('.ctab').forEach(t=>t.classList.remove('active')); btn.classList.add('active');
+  ['despensa','limpeza','utilidades'].forEach(c=>{ document.getElementById('cat-'+c).style.display=c===cat?'block':'none'; });
   renderCompras(cat);
 }
-function toggleCompra(cat,id){const arr=loadCompras(cat);const item=arr.find(i=>i.id===id);if(item)item.comprado=!item.comprado;saveCompras(cat,arr);renderCompras(cat)}
-function delCompra(cat,id){saveCompras(cat,loadCompras(cat).filter(i=>i.id!==id));renderCompras(cat)}
-function clearComprados(cat){saveCompras(cat,loadCompras(cat).filter(i=>!i.comprado));renderCompras(cat)}
 
-// ── Init ─────────────────────────────────────────────────────────
-renderWeek();
-renderRecados();
-renderPeriodicas();
-renderPlants();
-renderCompras('despensa');
+function addCompra(cat){
+  const nameEl=document.getElementById('ci-name-'+cat);
+  const name=nameEl.value.trim(); if(!name)return;
+  const qty=(document.getElementById('ci-qty-'+cat)||{}).value||'';
+  const tag=(document.getElementById('ci-tag-'+cat)||{}).value||'';
+  const prio=(document.getElementById('ci-prio-'+cat)||{}).value||'';
+  comprasData[cat].push({id:uid(),name,qty,tag,prio,comprado:false});
+  sSet('compras',comprasData); nameEl.value='';
+  if(document.getElementById('ci-qty-'+cat)) document.getElementById('ci-qty-'+cat).value='';
+  renderCompras(cat);
+}
+function toggleCompra(cat,id){
+  const item=comprasData[cat].find(i=>i.id===id); if(item) item.comprado=!item.comprado;
+  sSet('compras',comprasData); renderCompras(cat);
+}
+function delCompra(cat,id){
+  comprasData[cat]=comprasData[cat].filter(i=>i.id!==id);
+  sSet('compras',comprasData); renderCompras(cat);
+}
+function clearComprados(cat){
+  comprasData[cat]=comprasData[cat].filter(i=>!i.comprado);
+  sSet('compras',comprasData); renderCompras(cat);
+}
+function openCompraEdit(cat,id){
+  const item=comprasData[cat].find(i=>i.id===id); if(!item)return;
+  compraEditId=id; compraEditCat=cat;
+  document.getElementById('cem-name').value=item.name;
+  document.getElementById('cem-qty').value=item.qty||'';
+  document.getElementById('cem-prio').value=item.prio||'';
+  document.getElementById('cem-save').checked=false;
+  // populate tag select
+  const sel=document.getElementById('cem-tag');
+  sel.innerHTML='<option value="">— sem tag</option>'+itemTags.map(t=>`<option value="${escHtml(t)}">${escHtml(t)}</option>`).join('');
+  sel.value=item.tag||'';
+  openModal('compra-modal');
+}
+function saveCompraEdit(){
+  const item=comprasData[compraEditCat].find(i=>i.id===compraEditId); if(!item)return;
+  item.name=document.getElementById('cem-name').value.trim()||item.name;
+  item.qty=document.getElementById('cem-qty').value;
+  item.tag=document.getElementById('cem-tag').value;
+  item.prio=document.getElementById('cem-prio').value;
+  if(document.getElementById('cem-save').checked){
+    if(!savedItems.find(s=>s.name===item.name&&s.cat===compraEditCat)){
+      savedItems.push({id:uid(),name:item.name,cat:compraEditCat,tag:item.tag});
+      sSet('saved_items',savedItems);
+    }
+  }
+  sSet('compras',comprasData); closeModal('compra-modal'); renderCompras(compraEditCat);
+}
+function addSavedItem(cat,sid){
+  const s=savedItems.find(i=>i.id===sid); if(!s)return;
+  comprasData[cat].push({id:uid(),name:s.name,qty:'',tag:s.tag||'',prio:'',comprado:false});
+  sSet('compras',comprasData); renderCompras(cat);
+}
+function delSaved(id){ savedItems=savedItems.filter(s=>s.id!==id); sSet('saved_items',savedItems); renderCompras(currentCat); }
+function addTag(){
+  const inp=document.getElementById('new-tag-input');
+  const t=inp.value.trim().toLowerCase(); if(!t||itemTags.includes(t))return;
+  itemTags.push(t); sSet('item_tags',itemTags); inp.value=''; renderCompras(currentCat);
+}
+function delTag(t){
+  if(!confirm(`Remover tag "${t}"?`))return;
+  itemTags=itemTags.filter(x=>x!==t); sSet('item_tags',itemTags); renderCompras(currentCat);
+}
+
+// ══════════════════════════════════════════════════════════════════
+// INIT — load all from storage
+// ══════════════════════════════════════════════════════════════════
+async function init(){
+  const [dark,wt,rec,pt,pd,pl,wd,cd,tags,saved]=await Promise.all([
+    sGet('darkmode'),sGet('week_tasks'),sGet('recados'),
+    sGet('per_tasks'),sGet('per_dates'),
+    sGet('plants'),sGet('water_dates'),
+    sGet('compras'),sGet('item_tags'),sGet('saved_items')
+  ]);
+  setDark(!!dark);
+  weekTasks = wt || DEFAULT_TASKS.slice();
+  recados   = rec || [];
+  perTasks  = pt  || DEFAULT_PER.slice();
+  perDates  = pd  || {};
+  plants    = pl  || DEFAULT_PLANTS.slice();
+  waterDates= wd  || {};
+  if(cd){ comprasData=cd; } // keep default empty arrays if null
+  if(tags){ itemTags=tags; }
+  if(saved){ savedItems=saved; }
+
+  renderWeek();
+  // jump carousel to today
+  goSlide(carouselIdx);
+  renderRecados();
+  renderPeriodicas();
+  renderPlants();
+  renderCompras('despensa');
+}
+init();
 </script>
 </body>
 </html>
