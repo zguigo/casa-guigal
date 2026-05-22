@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Rotina do Apartamento</title>
+<title>Casa 🏠</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -28,7 +28,7 @@
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:1.25rem 1rem 5rem;transition:background .2s,color .2s}
 header{max-width:980px;margin:0 auto 1.25rem;display:flex;align-items:center;gap:.75rem}
 header h1{font-size:20px;font-weight:500;letter-spacing:-.3px;flex:1}
-header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
+header span.hdate{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
 .dark-btn{background:none;border:1px solid var(--border);border-radius:20px;padding:5px 12px;cursor:pointer;font-size:13px;color:var(--muted);font-family:'DM Sans',sans-serif;transition:all .15s;flex-shrink:0}
 .dark-btn:hover{border-color:var(--text);color:var(--text)}
 .tabs{max-width:980px;margin:0 auto 1.25rem;display:flex;gap:6px;flex-wrap:wrap}
@@ -38,7 +38,7 @@ header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
 .view{display:none;max-width:980px;margin:0 auto}
 .view.active{display:block}
 
-/* ── SEMANA: CARROSSEL ── */
+/* CAROUSEL */
 .carousel-wrap{position:relative;overflow:hidden}
 .carousel-track{display:flex;transition:transform .35s cubic-bezier(.4,0,.2,1);will-change:transform}
 .carousel-slide{flex:0 0 100%;min-width:0;padding:0 2px}
@@ -55,7 +55,7 @@ header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
 .cnav-btn{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:4px 14px;font-size:18px;cursor:pointer;color:var(--muted);transition:all .15s}
 .cnav-btn:hover{color:var(--text);border-color:var(--text)}
 
-/* DAY CARD */
+/* DAY */
 .day-col{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:background .2s,border-color .2s}
 .day-col.today{border-color:var(--text);box-shadow:0 0 0 2px var(--text)}
 .day-head{padding:9px 8px 6px;font-size:10px;font-weight:500;font-family:'DM Mono',monospace;letter-spacing:.5px;border-bottom:1px solid var(--border);color:var(--muted);display:flex;align-items:center;justify-content:space-between}
@@ -65,7 +65,6 @@ header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
 .day-add-btn{background:none;border:none;cursor:pointer;font-size:16px;line-height:1;color:var(--faint);padding:0 2px;transition:color .15s}
 .day-add-btn:hover{color:var(--text)}
 .day-col.today .day-add-btn{color:var(--bg);opacity:.6}
-.day-col.today .day-add-btn:hover{opacity:1}
 .day-body{padding:8px 6px;display:flex;flex-direction:column;gap:4px;min-height:40px}
 .slabel{font-size:8.5px;font-family:'DM Mono',monospace;letter-spacing:.5px;color:var(--faint);padding:4px 2px 0;text-transform:uppercase}
 .tag{font-size:11px;padding:4px 7px;border-radius:7px;line-height:1.35;display:flex;align-items:flex-start;gap:4px;cursor:default}
@@ -81,12 +80,11 @@ header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
 .t-sacada{background:var(--sacada);color:var(--sacada-t)}
 .t-prep{background:var(--prep);color:var(--prep-t)}
 .t-fax{background:var(--fax);color:var(--fax-t);font-weight:500}
-.t-sm{font-size:10px;padding:2px 5px}
 .legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:1rem;padding:.85rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:11px}
 .leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
 .leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 
-/* ── RECADOS ── */
+/* RECADOS */
 .recados-section{margin-top:1.25rem}
 .recados-header{margin-bottom:.6rem;font-size:13px;font-weight:500;color:var(--muted)}
 .recados-list{display:flex;flex-direction:column;gap:6px;margin-bottom:.6rem}
@@ -99,14 +97,15 @@ header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
 .recado-input{flex:1;border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text);outline:none}
 .recado-input:focus{border-color:var(--muted)}
 
-/* ── SHARED BUTTONS ── */
+/* SHARED */
 .btn-sm{padding:7px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s;white-space:nowrap}
 .btn-sm:hover{background:var(--bg)}
 .btn-primary{background:var(--text);color:var(--bg);border-color:var(--text)}
 .btn-primary:hover{opacity:.85}
 .section-actions{display:flex;justify-content:flex-end;margin-bottom:.75rem}
+.section-actions2{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;flex-wrap:wrap;gap:8px}
 
-/* ── PERIÓDICAS ── */
+/* PERIÓDICAS */
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
 .pcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px}
 .pcard-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;gap:6px}
@@ -130,7 +129,7 @@ header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
 .btn-del{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid var(--border);background:none;color:var(--faint);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
 .btn-del:hover{background:var(--over-bg);color:var(--over-t);border-color:var(--over-t)}
 
-/* ── MODAL ── */
+/* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center;z-index:200;padding:0}
 @media(min-width:540px){.modal-overlay{align-items:center;padding:1rem}}
 .modal-overlay.hidden{display:none}
@@ -144,7 +143,7 @@ header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
 .form-row textarea{resize:vertical;min-height:60px}
 .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:1.1rem}
 
-/* ── PLANTAS ── */
+/* PLANTAS */
 .plant-group{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px}
 .pg-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
 .pg-title{font-size:13px;font-weight:500}
@@ -164,32 +163,50 @@ header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
 .btn-icon:hover{color:var(--over-t)}
 
 /* ── COMPRAS ── */
-.tab-bar-compras{display:flex;gap:6px;margin-bottom:.9rem;flex-wrap:wrap}
+.ctab-bar{display:flex;gap:6px;margin-bottom:.9rem;flex-wrap:wrap}
 .ctab{padding:5px 13px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
 .ctab.active{background:var(--text);color:var(--bg);border-color:var(--text)}
-.compras-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.75rem;gap:8px;flex-wrap:wrap}
-.compras-title{font-size:14px;font-weight:500}
-.compras-subtitle{font-size:11px;color:var(--muted);margin-top:2px}
-.compras-actions{display:flex;gap:6px;flex-wrap:wrap}
-.compras-list{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
-.compra-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;background:var(--surface);border:1px solid var(--border)}
-.compra-item.comprado{opacity:.5}
-.compra-item.comprado .compra-name{text-decoration:line-through;color:var(--muted)}
-.compra-check{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--border);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;background:var(--bg)}
-.compra-check.checked{background:var(--limpeza-t);border-color:var(--limpeza-t);color:#fff}
-.compra-name{flex:1;font-size:13px}
-.compra-qty{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;white-space:nowrap}
+.section-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.75rem;gap:8px;flex-wrap:wrap}
+.section-title{font-size:14px;font-weight:500}
+.section-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.section-acts{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+
+/* tag colors */
+.tc-0{background:#E8F0FE;color:#1a47a0;border-color:#c5d4f8}
+.tc-1{background:#FDE8F5;color:#8B1a5A;border-color:#f5c0e0}
+.tc-2{background:#E8F8EE;color:#155c2a;border-color:#b0dfc0}
+.tc-3{background:#FDF3D6;color:#6B4A10;border-color:#e8d090}
+.tc-4{background:#F3E8FE;color:#5B1A8B;border-color:#d8b0f5}
+.tc-5{background:#FDE8E8;color:#8B1a1a;border-color:#f5c0c0}
+.tc-6{background:#E8F8F8;color:#0D5050;border-color:#9ADADA}
+.tc-7{background:#FEF0E8;color:#8B4010;border-color:#F5C8A0}
+
+/* item list */
+.item-list{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+.item-group-label{font-size:10px;font-family:'DM Mono',monospace;color:var(--faint);text-transform:uppercase;letter-spacing:.4px;padding:8px 2px 2px;border-top:1px solid var(--border);margin-top:4px}
+.item-group-label:first-child{border-top:none;margin-top:0}
+.item-row{display:flex;align-items:center;gap:7px;padding:7px 10px;border-radius:9px;background:var(--surface);border:1px solid var(--border)}
+.item-row.comprado{opacity:.5}
+.item-row.comprado .item-name{text-decoration:line-through;color:var(--muted)}
+.item-check{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--border);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;background:var(--bg)}
+.item-check.checked{background:var(--limpeza-t);border-color:var(--limpeza-t);color:#fff}
+.item-name{flex:1;font-size:13px}
+.item-qty-badge{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;white-space:nowrap}
+.item-tag-pill{font-size:10px;padding:2px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0;border:1px solid;cursor:default}
+.item-tag-empty{font-size:14px;color:var(--faint);cursor:pointer;padding:0 2px;flex-shrink:0;background:none;border:none;line-height:1}
+.item-tag-empty:hover{color:var(--muted)}
 .prio-badge{font-size:10px;padding:2px 7px;border-radius:20px;font-family:'DM Mono',monospace;white-space:nowrap;flex-shrink:0}
 .p-alta{background:#FDE8E8;color:#7A1A1A}
 .p-media{background:#FDF3D6;color:#6B4A10}
 .p-baixa{background:#DDF0E0;color:#1A5C28}
-.item-tag-chip{font-size:10px;padding:1px 7px;border-radius:20px;background:var(--bg);color:var(--muted);border:1px solid var(--border);white-space:nowrap;flex-shrink:0}
-.compra-btns{display:flex;gap:2px;flex-shrink:0}
-.compra-add-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
-.compra-add-row input,.compra-add-row select{border:1px solid var(--border);border-radius:9px;padding:7px 10px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text);outline:none}
-.compra-add-row input:focus,.compra-add-row select:focus{border-color:var(--muted)}
-.compra-add-row input.cn{flex:1;min-width:120px}
-.compra-add-row input.cq{width:64px}
+.item-acts{display:flex;gap:2px;flex-shrink:0}
+
+/* batch add */
+.batch-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;align-items:stretch}
+.batch-row input{border:1px solid var(--border);border-radius:9px;padding:8px 11px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text);outline:none;min-width:0}
+.batch-row input:focus{border-color:var(--muted)}
+.batch-inp{flex:1}
+.batch-help{font-size:11px;color:var(--faint);margin-bottom:8px;font-family:'DM Mono',monospace}
 
 /* tags manager */
 .tags-section{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
@@ -201,23 +218,46 @@ header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
 .tag-chip-del:hover{color:var(--over-t)}
 .tags-add-row{display:flex;gap:6px}
 .tags-add-row input{flex:1;border:1px solid var(--border);border-radius:8px;padding:6px 9px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text);outline:none}
+.tags-add-row input:focus{border-color:var(--muted)}
 
 /* saved items */
 .saved-section{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
-.saved-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem}
-.saved-header h4{font-size:12px;color:var(--muted)}
+.saved-header h4{font-size:12px;color:var(--muted);margin-bottom:.5rem}
 .saved-list{display:flex;flex-wrap:wrap;gap:6px}
 .saved-chip{display:flex;align-items:center;gap:4px;font-size:12px;padding:4px 10px;border-radius:20px;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;transition:all .15s}
 .saved-chip:hover{background:var(--limpeza);border-color:var(--limpeza-t);color:var(--limpeza-t)}
 .saved-chip-del{background:none;border:none;cursor:pointer;color:var(--faint);font-size:14px;padding:0;line-height:1;margin-left:2px}
 .saved-chip-del:hover{color:var(--over-t)}
+
+/* ── DESPENSA ── */
+.desp-tab-bar{display:flex;gap:6px;margin-bottom:.9rem;flex-wrap:wrap}
+.dtab{padding:5px 13px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.dtab.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.inv-list{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
+.inv-item{display:flex;align-items:center;gap:8px;padding:8px 11px;border-radius:10px;background:var(--surface);border:1px solid var(--border)}
+.inv-name{flex:1;font-size:13px;font-weight:500}
+.inv-tag-pill{font-size:10px;padding:2px 8px;border-radius:20px;border:1px solid;white-space:nowrap;flex-shrink:0}
+.qty-ctrl{display:flex;align-items:center;gap:5px;flex-shrink:0}
+.qty-btn{width:26px;height:26px;border-radius:50%;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:16px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
+.qty-btn:hover{background:var(--limpeza);border-color:var(--limpeza-t);color:var(--limpeza-t)}
+.qty-num{font-size:13px;font-family:'DM Mono',monospace;min-width:24px;text-align:center}
+.inv-low{opacity:.55}
+.inv-btns{display:flex;gap:3px;flex-shrink:0}
+.to-shop-btn{font-size:11px;padding:3px 8px;border-radius:20px;border:1px solid var(--border);background:var(--bg);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;white-space:nowrap}
+.to-shop-btn:hover{background:var(--roupa);border-color:var(--roupa-t);color:var(--roupa-t)}
+
+/* quick tag picker popover */
+.tag-picker{position:absolute;z-index:300;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:8px;box-shadow:0 4px 20px rgba(0,0,0,.15);display:flex;flex-wrap:wrap;gap:5px;max-width:220px}
+.tag-picker.hidden{display:none}
+.tp-chip{font-size:11px;padding:3px 9px;border-radius:20px;border:1px solid;cursor:pointer;transition:opacity .15s}
+.tp-chip:hover{opacity:.75}
 </style>
 </head>
 <body>
 
 <header>
   <h1>Casa 🏠</h1>
-  <span id="header-date"></span>
+  <span class="hdate" id="header-date"></span>
   <span id="sync-status" title="Status de sincronização" style="font-size:14px;cursor:default"></span>
   <button class="dark-btn" id="dark-toggle" onclick="toggleDark()">🌙</button>
 </header>
@@ -226,10 +266,11 @@ header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
   <button class="tab active" onclick="showTab('semana',this)">Semana</button>
   <button class="tab" onclick="showTab('periodicas',this)">Periódicas</button>
   <button class="tab" onclick="showTab('plantas',this)">Plantas</button>
+  <button class="tab" onclick="showTab('despensa',this)">Despensa</button>
   <button class="tab" onclick="showTab('compras',this)">Compras</button>
 </div>
 
-<!-- ══ SEMANA ══ -->
+<!-- SEMANA -->
 <div id="semana" class="view active">
   <div class="carousel-wrap">
     <div class="carousel-nav">
@@ -258,32 +299,40 @@ header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
   </div>
 </div>
 
-<!-- ══ PERIÓDICAS ══ -->
+<!-- PERIÓDICAS -->
 <div id="periodicas" class="view">
   <div class="section-actions"><button class="btn-sm btn-primary" onclick="openPerModal()">+ Nova tarefa</button></div>
   <div class="pgrid" id="pgrid"></div>
 </div>
 
-<!-- ══ PLANTAS ══ -->
+<!-- PLANTAS -->
 <div id="plantas" class="view">
   <div class="section-actions"><button class="btn-sm btn-primary" onclick="openPlantModal()">+ Nova planta</button></div>
   <div id="plant-container"></div>
 </div>
 
-<!-- ══ COMPRAS ══ -->
-<div id="compras" class="view">
-  <div class="tab-bar-compras">
-    <button class="ctab active" onclick="showCat('despensa',this)">🛒 Despensa &amp; Higiene</button>
-    <button class="ctab" onclick="showCat('limpeza',this)">🧹 Limpeza &amp; Jardim</button>
-    <button class="ctab" onclick="showCat('utilidades',this)">🏠 Utilidades</button>
-  </div>
-  <div id="cat-despensa"></div>
-  <div id="cat-limpeza" style="display:none"></div>
-  <div id="cat-utilidades" style="display:none"></div>
+<!-- DESPENSA -->
+<div id="despensa" class="view">
+  <div class="desp-tab-bar" id="desp-tabs"></div>
+  <div id="desp-content"></div>
 </div>
 
-<!-- ══ MODAIS ══ -->
-<!-- Semana -->
+<!-- COMPRAS -->
+<div id="compras" class="view">
+  <div class="ctab-bar" id="compras-tabs">
+    <button class="ctab active" onclick="showCompCat('despensa',this)">🛒 Despensa &amp; Higiene</button>
+    <button class="ctab" onclick="showCompCat('limpeza',this)">🧹 Limpeza &amp; Jardim</button>
+    <button class="ctab" onclick="showCompCat('utilidades',this)">🏠 Utilidades</button>
+  </div>
+  <div id="comp-cat-despensa"></div>
+  <div id="comp-cat-limpeza" style="display:none"></div>
+  <div id="comp-cat-utilidades" style="display:none"></div>
+</div>
+
+<!-- tag picker popover (shared) -->
+<div class="tag-picker hidden" id="tag-picker"></div>
+
+<!-- MODAIS -->
 <div class="modal-overlay hidden" id="week-modal">
   <div class="modal">
     <h3 id="wm-title">Nova tarefa</h3>
@@ -307,7 +356,6 @@ header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
   </div>
 </div>
 
-<!-- Periódica -->
 <div class="modal-overlay hidden" id="per-modal">
   <div class="modal">
     <h3>Nova tarefa periódica</h3>
@@ -322,7 +370,6 @@ header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
   </div>
 </div>
 
-<!-- Data livre (periódica + planta) -->
 <div class="modal-overlay hidden" id="date-modal">
   <div class="modal">
     <h3 id="date-modal-title">Registrar data</h3>
@@ -334,7 +381,6 @@ header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
   </div>
 </div>
 
-<!-- Planta -->
 <div class="modal-overlay hidden" id="plant-modal">
   <div class="modal">
     <h3>Nova planta</h3>
@@ -343,7 +389,7 @@ header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
     <div class="form-row"><label>Dica de cuidado</label><textarea id="pl-tip" placeholder="ex: Luz indireta, solo úmido..."></textarea></div>
     <div class="form-row"><label>Grupo de rega</label>
       <select id="pl-group">
-          <option value="diario">🪴 3-7× por semana</option><option value="2x-semana">💦 2× por semana</option><option value="1x-semana">💧 1× por semana</option>
+        <option value="diario">🪴 3-7× por semana</option><option value="2x-semana">💦 2× por semana</option><option value="1x-semana">💧 1× por semana</option>
         <option value="quinzenal">🌿 A cada 10–14 dias</option><option value="mensal">🌵 A cada 2–3 semanas</option><option value="calice">🌺 Cálice (Bromélia)</option>
       </select></div>
     <div class="modal-actions">
@@ -353,7 +399,7 @@ header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
   </div>
 </div>
 
-<!-- Compra edit -->
+<!-- compra edit -->
 <div class="modal-overlay hidden" id="compra-modal">
   <div class="modal">
     <h3>Editar item</h3>
@@ -374,177 +420,174 @@ header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
   </div>
 </div>
 
+<!-- send to shop modal -->
+<div class="modal-overlay hidden" id="toshop-modal">
+  <div class="modal">
+    <h3 id="toshop-title">Adicionar à lista de compras</h3>
+    <div class="form-row"><label>Quantidade</label><input id="toshop-qty" placeholder="ex: 2" type="number" min="1"></div>
+    <div class="form-row"><label>Categoria na lista de compras</label>
+      <select id="toshop-cat">
+        <option value="despensa">🛒 Despensa &amp; Higiene</option>
+        <option value="limpeza">🧹 Limpeza &amp; Jardim</option>
+        <option value="utilidades">🏠 Utilidades</option>
+      </select></div>
+    <div class="modal-actions">
+      <button class="btn-sm" onclick="closeModal('toshop-modal')">Cancelar</button>
+      <button class="btn-sm btn-primary" onclick="confirmToShop()">Adicionar</button>
+    </div>
+  </div>
+</div>
+
+<!-- batch category modal (for despensa batch add) -->
+<div class="modal-overlay hidden" id="batch-cat-modal">
+  <div class="modal">
+    <h3>Adicionar itens em lote</h3>
+    <div class="form-row"><label>Texto (ex: 2 Tomate, 10 Alho, 1 Pão)</label>
+      <textarea id="bcm-text" placeholder="2 Tomate, 10 Alho, 1 Pão de forma" rows="3"></textarea></div>
+    <div class="form-row"><label>Categoria</label>
+      <select id="bcm-cat">
+        <option value="geladeira">🧊 Geladeira</option>
+        <option value="despensa-alim">🥫 Despensa</option>
+        <option value="higiene">🧴 Higiene Pessoal</option>
+        <option value="limpeza-pet">🧹 Limpeza, Jardim &amp; Pet</option>
+      </select></div>
+    <div class="form-row"><label>Tag (opcional)</label><select id="bcm-tag"></select></div>
+    <div class="modal-actions">
+      <button class="btn-sm" onclick="closeModal('batch-cat-modal')">Cancelar</button>
+      <button class="btn-sm btn-primary" onclick="saveBatchDesp()">Adicionar</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // ══════════════════════════════════════════════════════════════════
-// CONFIG — cole suas credenciais do Supabase aqui
+// CONFIG — Supabase
 // ══════════════════════════════════════════════════════════════════
 const SUPABASE_URL = 'https://qklikykhemthwssvkcxr.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFrbGlreWtoZW10aHdzc3ZrY3hyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NjUxNTcsImV4cCI6MjA5NTA0MTE1N30.SjryC8nkZyoVtz5pf4hUfsJkqGAaIE_NH91UOeruqXg';  // começa com eyJ...
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFrbGlreWtoZW10aHdzc3ZrY3hyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NjUxNTcsImV4cCI6MjA5NTA0MTE1N30.SjryC8nkZyoVtz5pf4hUfsJkqGAaIE_NH91UOeruqXg';
 
 // ══════════════════════════════════════════════════════════════════
-// STORAGE — Supabase (nuvem) + localStorage (offline/fallback)
+// STORAGE
 // ══════════════════════════════════════════════════════════════════
-const LOCAL_PREFIX = 'rot4_';
-const pendingWrites = {};
-const SB_CONFIGURED = SUPABASE_URL !== 'COLE_AQUI_A_URL';
+const LOCAL_PREFIX='rot4_';
+const pendingWrites={};
+const SB_CONFIGURED=SUPABASE_URL!=='COLE_AQUI_A_URL';
 
-// Indicador de status de sincronização
-function setSyncStatus(state) {
-  // state: 'ok' | 'syncing' | 'offline' | 'error'
-  const el = document.getElementById('sync-status');
-  if (!el) return;
-  const map = { ok: '☁️', syncing: '⏳', offline: '📴', error: '⚠️' };
-  const tip = { ok: 'Sincronizado', syncing: 'Salvando...', offline: 'Offline (dados locais)', error: 'Erro ao salvar' };
-  el.textContent = map[state] || '';
-  el.title = tip[state] || '';
+function setSyncStatus(s){
+  const el=document.getElementById('sync-status'); if(!el)return;
+  const m={ok:'☁️',syncing:'⏳',offline:'📴',error:'⚠️'};
+  const t={ok:'Sincronizado',syncing:'Salvando...',offline:'Offline',error:'Erro ao salvar'};
+  el.textContent=m[s]||''; el.title=t[s]||'';
 }
-
-async function sbFetch(method, body) {
-  if (!SB_CONFIGURED) return null;
-  try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/app_data`, {
-      method,
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`,
-        'Content-Type': 'application/json',
-        'Prefer': method === 'POST' ? 'resolution=merge-duplicates,return=minimal' : 'return=representation'
-      },
-      body: body ? JSON.stringify(body) : undefined
-    });
-    if (!res.ok) throw new Error(res.status);
+async function sbFetch(method,body){
+  if(!SB_CONFIGURED)return null;
+  try{
+    const res=await fetch(`${SUPABASE_URL}/rest/v1/app_data`,{
+      method,headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json',
+        'Prefer':method==='POST'?'resolution=merge-duplicates,return=minimal':'return=representation'},
+      body:body?JSON.stringify(body):undefined});
+    if(!res.ok)throw new Error(res.status);
     return res;
-  } catch (e) {
-    return null;
-  }
+  }catch{return null;}
 }
-
-async function sGet(k) {
-  // 1. tenta Supabase
-  if (SB_CONFIGURED) {
-    try {
-      const res = await fetch(
-        `${SUPABASE_URL}/rest/v1/app_data?key=eq.${encodeURIComponent(k)}&select=value`,
-        { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
-      );
-      if (res.ok) {
-        const rows = await res.json();
-        if (rows.length > 0) {
-          const val = rows[0].value;
-          // atualiza cache local
-          try { localStorage.setItem(LOCAL_PREFIX + k, JSON.stringify(val)); } catch {}
-          return val;
-        }
-        return null;
-      }
-    } catch {}
+async function sGet(k){
+  if(SB_CONFIGURED){
+    try{
+      const res=await fetch(`${SUPABASE_URL}/rest/v1/app_data?key=eq.${encodeURIComponent(k)}&select=value`,
+        {headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`}});
+      if(res.ok){const rows=await res.json();if(rows.length>0){const v=rows[0].value;try{localStorage.setItem(LOCAL_PREFIX+k,JSON.stringify(v));}catch{}return v;}return null;}
+    }catch{}
   }
-  // 2. fallback localStorage
   setSyncStatus('offline');
-  try { return JSON.parse(localStorage.getItem(LOCAL_PREFIX + k)); } catch { return null; }
+  try{return JSON.parse(localStorage.getItem(LOCAL_PREFIX+k));}catch{return null;}
 }
-
-async function sSet(k, v) {
-  // salva localmente imediatamente (UX rápida)
-  try { localStorage.setItem(LOCAL_PREFIX + k, JSON.stringify(v)); } catch {}
-  if (!SB_CONFIGURED) return;
-  // debounce: evita gravar a cada keystroke
+async function sSet(k,v){
+  try{localStorage.setItem(LOCAL_PREFIX+k,JSON.stringify(v));}catch{}
+  if(!SB_CONFIGURED)return;
   setSyncStatus('syncing');
   clearTimeout(pendingWrites[k]);
-  pendingWrites[k] = setTimeout(async () => {
-    const res = await sbFetch('POST', { key: k, value: v, updated_at: new Date().toISOString() });
-    setSyncStatus(res ? 'ok' : 'error');
-  }, 600);
+  pendingWrites[k]=setTimeout(async()=>{const res=await sbFetch('POST',{key:k,value:v,updated_at:new Date().toISOString()});setSyncStatus(res?'ok':'error');},600);
 }
 
 // ── Helpers ──────────────────────────────────────────────────────
-function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,6) }
-function todayISO(){ return new Date().toISOString().slice(0,10) }
-function fmtDate(iso){ if(!iso)return'—'; const[y,m,d]=iso.split('-'); return`${d}/${m}` }
-function fmtDateFull(iso){ if(!iso)return'—'; const[y,m,d]=iso.split('-'); return`${d}/${m}/${y}` }
-function addDays(iso,n){ const d=new Date(iso); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10) }
-function daysSince(iso){ if(!iso)return null; return Math.floor((new Date(todayISO())-new Date(iso))/86400000) }
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function todayISO(){return new Date().toISOString().slice(0,10)}
+function fmtDateFull(iso){if(!iso)return'—';const[y,m,d]=iso.split('-');return`${d}/${m}/${y}`}
+function addDays(iso,n){const d=new Date(iso);d.setDate(d.getDate()+n);return d.toISOString().slice(0,10)}
+function daysSince(iso){if(!iso)return null;return Math.floor((new Date(todayISO())-new Date(iso))/86400000)}
 function statusInfo(iso,days){
-  const ds=daysSince(iso);
-  if(ds===null) return{cls:'s-never',txt:'nunca feito'};
-  const rem=days-ds;
-  if(rem<0) return{cls:'s-over',txt:`${Math.abs(rem)}d atrasado`};
-  if(rem<=7) return{cls:'s-soon',txt:`em ${rem}d`};
-  return{cls:'s-ok',txt:`ok — faltam ${rem}d`};
+  const ds=daysSince(iso);if(ds===null)return{cls:'s-never',txt:'nunca feito'};
+  const rem=days-ds;if(rem<0)return{cls:'s-over',txt:`${Math.abs(rem)}d atrasado`};
+  if(rem<=7)return{cls:'s-soon',txt:`em ${rem}d`};return{cls:'s-ok',txt:`ok — faltam ${rem}d`};
 }
-function escHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') }
-function makeICS(title, iso) {
-  const d = iso.replace(/-/g,'');
-  const next = addDays(iso,1).replace(/-/g,'');
-  const blob = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nSUMMARY:${title}\nDTSTART;VALUE=DATE:${d}\nDTEND;VALUE=DATE:${next}\nEND:VEVENT\nEND:VCALENDAR`;
-  return 'data:text/calendar;charset=utf8,' + encodeURIComponent(blob);
+function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function makeICS(title,iso){const d=iso.replace(/-/g,'');const nx=addDays(iso,1).replace(/-/g,'');
+  const b=`BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nSUMMARY:${title}\nDTSTART;VALUE=DATE:${d}\nDTEND;VALUE=DATE:${nx}\nEND:VEVENT\nEND:VCALENDAR`;
+  return'data:text/calendar;charset=utf8,'+encodeURIComponent(b);}
+
+// ── Tag colors (shared between compras and despensa) ─────────────
+const TAG_COLORS=['tc-0','tc-1','tc-2','tc-3','tc-4','tc-5','tc-6','tc-7'];
+function tagColor(tag){
+  const idx=itemTags.indexOf(tag);
+  return idx>=0?TAG_COLORS[idx%TAG_COLORS.length]:'';
+}
+function tagPill(tag,extra=''){
+  if(!tag)return'';
+  const c=tagColor(tag);
+  return`<span class="item-tag-pill ${c} ${extra}">${escHtml(tag)}</span>`;
 }
 
-// ── Dark mode ─────────────────────────────────────────────────────
-function toggleDark(){
-  const on = document.documentElement.getAttribute('data-dark')==='1';
-  setDark(!on);
-  sSet('darkmode', !on);
-}
-function setDark(on){
-  document.documentElement.setAttribute('data-dark', on?'1':'0');
-  document.getElementById('dark-toggle').textContent = on ? '☀️' : '🌙';
-}
+// ── Dark mode ────────────────────────────────────────────────────
+function toggleDark(){const on=document.documentElement.getAttribute('data-dark')==='1';setDark(!on);sSet('darkmode',!on);}
+function setDark(on){document.documentElement.setAttribute('data-dark',on?'1':'0');document.getElementById('dark-toggle').textContent=on?'☀️':'🌙';}
 
-// ── Date header ───────────────────────────────────────────────────
-const todayDOW = new Date().getDay();
-(function(){
-  const months=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
-  const n=new Date();
-  document.getElementById('header-date').textContent=n.getDate()+' '+months[n.getMonth()]+'/'+n.getFullYear();
-})();
+// ── Date header ──────────────────────────────────────────────────
+const todayDOW=new Date().getDay();
+(function(){const months=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];const n=new Date();document.getElementById('header-date').textContent=n.getDate()+' '+months[n.getMonth()]+'/'+n.getFullYear();})();
 
-// ── Tab switching ─────────────────────────────────────────────────
+// ── Tab switching ────────────────────────────────────────────────
 function showTab(id,btn){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');btn.classList.add('active');
 }
+function closeModal(id){document.getElementById(id).classList.add('hidden')}
+function openModal(id){document.getElementById(id).classList.remove('hidden')}
+document.querySelectorAll('.modal-overlay').forEach(o=>{o.addEventListener('click',e=>{if(e.target===o)o.classList.add('hidden')});});
 
-// ── Modal helpers ─────────────────────────────────────────────────
-function closeModal(id){ document.getElementById(id).classList.add('hidden') }
-function openModal(id){ document.getElementById(id).classList.remove('hidden') }
-document.querySelectorAll('.modal-overlay').forEach(o=>{
-  o.addEventListener('click', e=>{ if(e.target===o) o.classList.add('hidden') });
-});
+// ── Tag picker popover ───────────────────────────────────────────
+let _tpCtx=null;
+function showTagPicker(anchorEl,onPick){
+  const pk=document.getElementById('tag-picker');
+  pk.innerHTML=itemTags.map(t=>`<span class="tp-chip item-tag-pill ${tagColor(t)}" onclick="_tpPick('${escHtml(t)}')">${escHtml(t)}</span>`).join('');
+  _tpCtx=onPick;
+  const r=anchorEl.getBoundingClientRect();
+  pk.style.top=(r.bottom+window.scrollY+4)+'px';
+  pk.style.left=Math.min(r.left,window.innerWidth-230)+'px';
+  pk.classList.remove('hidden');
+  setTimeout(()=>document.addEventListener('click',_tpClose,{once:true}),50);
+}
+function _tpPick(t){_tpCtx&&_tpCtx(t);document.getElementById('tag-picker').classList.add('hidden');}
+function _tpClose(){document.getElementById('tag-picker').classList.add('hidden');}
 
 // ══════════════════════════════════════════════════════════════════
-// SEMANA — CARROSSEL
+// SEMANA
 // ══════════════════════════════════════════════════════════════════
-const DAY_INFO=[
-  {dow:1,name:'SEG',fax:false},{dow:2,name:'TER',fax:false},{dow:3,name:'QUA',fax:true},
-  {dow:4,name:'QUI',fax:false},{dow:5,name:'SEX',fax:false},{dow:6,name:'SÁB',fax:false},{dow:0,name:'DOM',fax:false}
-];
+const DAY_INFO=[{dow:1,name:'SEG',fax:false},{dow:2,name:'TER',fax:false},{dow:3,name:'QUA',fax:true},{dow:4,name:'QUI',fax:false},{dow:5,name:'SEX',fax:false},{dow:6,name:'SÁB',fax:false},{dow:0,name:'DOM',fax:false}];
 const PERIOD_ORDER=['manha','tarde','noite',''];
 const PERIOD_LABEL={manha:'manhã',tarde:'tarde',noite:'noite','':'dia'};
 const DEFAULT_TASKS=[
-  {id:'t1',dow:1,period:'manha',cat:'t-roupa',name:'Roupas claras'},
-  {id:'t2',dow:1,period:'noite',cat:'t-org',name:'Escritório'},
-  {id:'t3',dow:2,period:'manha',cat:'t-cama',name:'Cama / banho'},
-  {id:'t4',dow:2,period:'tarde',cat:'t-prep',name:'Prep faxineira'},
-  {id:'t5',dow:3,period:'manha',cat:'t-fax',name:'Faxineira',fixed:true},
-  {id:'t6',dow:3,period:'manha',cat:'t-limpeza',name:'Sacada + tapete',fixed:true},
-  {id:'t7',dow:3,period:'manha',cat:'t-limpeza',name:'Troca cama/toalhas',fixed:true},
-  {id:'t8',dow:3,period:'manha',cat:'t-limpeza',name:'Limpeza geral',fixed:true},
-  {id:'t9',dow:4,period:'manha',cat:'t-roupa',name:'Roupas coloridas'},
-  {id:'t10',dow:5,period:'manha',cat:'t-limpeza',name:'Regar plantas'},
-  {id:'t11',dow:6,period:'tarde',cat:'t-sacada',name:'Balde sacada'},
-  {id:'t12',dow:6,period:'tarde',cat:'t-sacada',name:'Tapete higiênico'},
-  {id:'t13',dow:6,period:'tarde',cat:'t-limpeza',name:'Pia / balcão banh.'},
-  {id:'t14',dow:0,period:'manha',cat:'t-org',name:'Mercado'},
-  {id:'t15',dow:0,period:'noite',cat:'t-prep',name:'Planejar semana'},
-  {id:'t16',dow:0,period:'noite',cat:'t-limpeza',name:'Checar plantas'},
+  {id:'t1',dow:1,period:'manha',cat:'t-roupa',name:'Roupas claras'},{id:'t2',dow:1,period:'noite',cat:'t-org',name:'Escritório'},
+  {id:'t3',dow:2,period:'manha',cat:'t-cama',name:'Cama / banho'},{id:'t4',dow:2,period:'tarde',cat:'t-prep',name:'Prep faxineira'},
+  {id:'t5',dow:3,period:'manha',cat:'t-fax',name:'Faxineira',fixed:true},{id:'t6',dow:3,period:'manha',cat:'t-limpeza',name:'Sacada + tapete',fixed:true},
+  {id:'t7',dow:3,period:'manha',cat:'t-limpeza',name:'Troca cama/toalhas',fixed:true},{id:'t8',dow:3,period:'manha',cat:'t-limpeza',name:'Limpeza geral',fixed:true},
+  {id:'t9',dow:4,period:'manha',cat:'t-roupa',name:'Roupas coloridas'},{id:'t10',dow:5,period:'manha',cat:'t-limpeza',name:'Regar plantas'},
+  {id:'t11',dow:6,period:'tarde',cat:'t-sacada',name:'Balde sacada'},{id:'t12',dow:6,period:'tarde',cat:'t-sacada',name:'Tapete higiênico'},
+  {id:'t13',dow:6,period:'tarde',cat:'t-limpeza',name:'Pia / balcão banh.'},{id:'t14',dow:0,period:'manha',cat:'t-org',name:'Mercado'},
+  {id:'t15',dow:0,period:'noite',cat:'t-prep',name:'Planejar semana'},{id:'t16',dow:0,period:'noite',cat:'t-limpeza',name:'Checar plantas'},
 ];
-
-let weekTasks = DEFAULT_TASKS.slice();
-let carouselIdx = DAY_INFO.findIndex(d=>d.dow===todayDOW);
-if(carouselIdx<0) carouselIdx=0;
+let weekTasks=DEFAULT_TASKS.slice();
+let carouselIdx=DAY_INFO.findIndex(d=>d.dow===todayDOW); if(carouselIdx<0)carouselIdx=0;
 
 function renderWeek(){
   const track=document.getElementById('carousel-track');
@@ -557,101 +600,39 @@ function renderWeek(){
     const byPeriod={};PERIOD_ORDER.forEach(p=>{byPeriod[p]=dayTasks.filter(t=>t.period===p)});
     let body='';
     PERIOD_ORDER.forEach(p=>{
-      const pt=byPeriod[p]; if(!pt.length) return;
+      const pt=byPeriod[p];if(!pt.length)return;
       body+=`<div class="slabel">${PERIOD_LABEL[p]}</div>`;
       pt.forEach(t=>{
         const acts=t.fixed?'':`<span class="tag-act"><button class="tag-btn" onclick="openEditWeek('${t.id}')">✎</button><button class="tag-btn" onclick="delWeekTask('${t.id}')">×</button></span>`;
         body+=`<div class="tag ${t.cat}"><span class="tag-text">${escHtml(t.name)}</span>${acts}</div>`;
       });
     });
-    return`<div class="carousel-slide"><div class="${colCls}">
-      <div class="${headCls}"><span>${d.name}</span><button class="day-add-btn" onclick="openAddWeek(${d.dow})">+</button></div>
-      <div class="day-body">${body||'<div style="font-size:11px;color:var(--faint);padding:4px 2px">—</div>'}</div>
-    </div></div>`;
+    return`<div class="carousel-slide"><div class="${colCls}"><div class="${headCls}"><span>${d.name}</span><button class="day-add-btn" onclick="openAddWeek(${d.dow})">+</button></div><div class="day-body">${body||'<div style="font-size:11px;color:var(--faint);padding:4px 2px">—</div>'}</div></div></div>`;
   }).join('');
   dots.innerHTML=DAY_INFO.map((d,i)=>`<div class="cdot${i===carouselIdx?' active':''}" onclick="goSlide(${i})"></div>`).join('');
   applyCarousel();
 }
-function applyCarousel(){
-  const track=document.getElementById('carousel-track');
-  const isMobile=window.innerWidth<640;
-  if(!isMobile){track.style.transform='';return;}
-  track.style.transform=`translateX(-${carouselIdx*100}%)`;
-  document.querySelectorAll('.cdot').forEach((d,i)=>d.classList.toggle('active',i===carouselIdx));
-}
-function goSlide(i){ carouselIdx=Math.max(0,Math.min(6,i)); applyCarousel(); }
-function carouselMove(dir){ goSlide(carouselIdx+dir); }
+function applyCarousel(){const track=document.getElementById('carousel-track');const isMobile=window.innerWidth<640;if(!isMobile){track.style.transform='';return;}track.style.transform=`translateX(-${carouselIdx*100}%)`;document.querySelectorAll('.cdot').forEach((d,i)=>d.classList.toggle('active',i===carouselIdx));}
+function goSlide(i){carouselIdx=Math.max(0,Math.min(6,i));applyCarousel();}
+function carouselMove(dir){goSlide(carouselIdx+dir);}
 window.addEventListener('resize',applyCarousel);
-
-// touch swipe
 let _tx=null;
 document.getElementById('carousel-track').addEventListener('touchstart',e=>{_tx=e.touches[0].clientX},{passive:true});
-document.getElementById('carousel-track').addEventListener('touchend',e=>{
-  if(_tx===null)return;
-  const dx=e.changedTouches[0].clientX-_tx;
-  if(Math.abs(dx)>40) carouselMove(dx<0?1:-1);
-  _tx=null;
-},{passive:true});
+document.getElementById('carousel-track').addEventListener('touchend',e=>{if(_tx===null)return;const dx=e.changedTouches[0].clientX-_tx;if(Math.abs(dx)>40)carouselMove(dx<0?1:-1);_tx=null;},{passive:true});
 
-// week modal
 let weekEditId=null;
-function openAddWeek(dow){
-  weekEditId=null;
-  document.getElementById('wm-title').textContent='Nova tarefa';
-  document.getElementById('wm-day').value=dow;
-  document.getElementById('wm-period').value='manha';
-  document.getElementById('wm-cat').value='t-limpeza';
-  document.getElementById('wm-name').value='';
-  openModal('week-modal');
-  setTimeout(()=>document.getElementById('wm-name').focus(),60);
-}
-function openEditWeek(id){
-  const t=weekTasks.find(t=>t.id===id); if(!t) return;
-  weekEditId=id;
-  document.getElementById('wm-title').textContent='Editar tarefa';
-  document.getElementById('wm-day').value=t.dow;
-  document.getElementById('wm-period').value=t.period;
-  document.getElementById('wm-cat').value=t.cat;
-  document.getElementById('wm-name').value=t.name;
-  openModal('week-modal');
-}
-function saveWeekTask(){
-  const name=document.getElementById('wm-name').value.trim(); if(!name){alert('Digite o nome.');return;}
-  const dow=parseInt(document.getElementById('wm-day').value);
-  const period=document.getElementById('wm-period').value;
-  const cat=document.getElementById('wm-cat').value;
-  if(weekEditId){
-    weekTasks=weekTasks.map(t=>t.id===weekEditId?{...t,dow,period,cat,name}:t);
-  } else {
-    weekTasks.push({id:uid(),dow,period,cat,name});
-  }
-  sSet('week_tasks',weekTasks); closeModal('week-modal'); renderWeek();
-}
-function delWeekTask(id){
-  if(!confirm('Remover?'))return;
-  weekTasks=weekTasks.filter(t=>t.id!==id);
-  sSet('week_tasks',weekTasks); renderWeek();
-}
+function openAddWeek(dow){weekEditId=null;document.getElementById('wm-title').textContent='Nova tarefa';document.getElementById('wm-day').value=dow;document.getElementById('wm-period').value='manha';document.getElementById('wm-cat').value='t-limpeza';document.getElementById('wm-name').value='';openModal('week-modal');setTimeout(()=>document.getElementById('wm-name').focus(),60);}
+function openEditWeek(id){const t=weekTasks.find(t=>t.id===id);if(!t)return;weekEditId=id;document.getElementById('wm-title').textContent='Editar tarefa';document.getElementById('wm-day').value=t.dow;document.getElementById('wm-period').value=t.period;document.getElementById('wm-cat').value=t.cat;document.getElementById('wm-name').value=t.name;openModal('week-modal');}
+function saveWeekTask(){const name=document.getElementById('wm-name').value.trim();if(!name){alert('Digite o nome.');return;}const dow=parseInt(document.getElementById('wm-day').value);const period=document.getElementById('wm-period').value;const cat=document.getElementById('wm-cat').value;if(weekEditId){weekTasks=weekTasks.map(t=>t.id===weekEditId?{...t,dow,period,cat,name}:t);}else{weekTasks.push({id:uid(),dow,period,cat,name});}sSet('week_tasks',weekTasks);closeModal('week-modal');renderWeek();}
+function delWeekTask(id){if(!confirm('Remover?'))return;weekTasks=weekTasks.filter(t=>t.id!==id);sSet('week_tasks',weekTasks);renderWeek();}
 
 // ══════════════════════════════════════════════════════════════════
 // RECADOS
 // ══════════════════════════════════════════════════════════════════
 let recados=[];
-function addRecado(){
-  const inp=document.getElementById('recado-input');
-  const txt=inp.value.trim(); if(!txt) return;
-  recados.unshift({id:uid(),text:txt,date:todayISO()});
-  sSet('recados',recados); inp.value=''; renderRecados();
-}
-function delRecado(id){ recados=recados.filter(r=>r.id!==id); sSet('recados',recados); renderRecados(); }
-function renderRecados(){
-  const list=document.getElementById('recados-list');
-  if(!recados.length){list.innerHTML='<div style="font-size:12px;color:var(--faint);padding:6px 2px">Nenhum recado ainda.</div>';return;}
-  list.innerHTML=recados.map(r=>`<div class="recado-item">
-    <div style="flex:1"><div class="recado-text">${escHtml(r.text)}</div><div class="recado-date">${fmtDateFull(r.date)}</div></div>
-    <button class="recado-del" onclick="delRecado('${r.id}')">×</button>
-  </div>`).join('');
-}
+function addRecado(){const inp=document.getElementById('recado-input');const txt=inp.value.trim();if(!txt)return;recados.unshift({id:uid(),text:txt,date:todayISO()});sSet('recados',recados);inp.value='';renderRecados();}
+function delRecado(id){recados=recados.filter(r=>r.id!==id);sSet('recados',recados);renderRecados();}
+function renderRecados(){const list=document.getElementById('recados-list');if(!recados.length){list.innerHTML='<div style="font-size:12px;color:var(--faint);padding:6px 2px">Nenhum recado ainda.</div>';return;}list.innerHTML=recados.map(r=>`<div class="recado-item"><div style="flex:1"><div class="recado-text">${escHtml(r.text)}</div><div class="recado-date">${fmtDateFull(r.date)}</div></div><button class="recado-del" onclick="delRecado('${r.id}')">×</button></div>`).join('');}
 
 // ══════════════════════════════════════════════════════════════════
 // PERIÓDICAS
@@ -663,341 +644,364 @@ const DEFAULT_PER=[
   {id:'despensa_task',label:'📦 Despensa',days:15,freq:'quinzenal',desc:'Olhada quinzenal para validades e lista de compras.'},
   {id:'sacada_geral',label:'🌿 Sacada — geral',days:30,freq:'mensal',desc:'Além do balde semanal, limpeza completa do piso e vasos.'},
 ];
-let perTasks=[];
-let perDates={};
-
-function renderPeriodicas(){
-  document.getElementById('pgrid').innerHTML=perTasks.map(t=>{
-    const iso=perDates[t.id]||null;
-    const next=iso?addDays(iso,t.days):null;
-    const st=statusInfo(iso,t.days);
-    const calLink=next?`<a class="cal-link" href="${makeICS(t.label,next)}" download="lembrete.ics">📅 add ao calendário</a>`:'';
-    return`<div class="pcard">
-      <div class="pcard-top"><h4>${escHtml(t.label)}</h4><span class="freq-badge">${escHtml(t.freq)}</span></div>
-      <p>${escHtml(t.desc||'')}</p>
-      <div class="pcard-footer">
-        <div class="pcard-dates">
-          <div class="date-row">última: <strong>${fmtDateFull(iso)}</strong></div>
-          <div class="date-row">próxima: <strong>${fmtDateFull(next)}</strong> ${calLink}</div>
-          <span class="sbadge ${st.cls}">${st.txt}</span>
-        </div>
-        <div class="pcard-actions" style="margin-top:8px">
-          <button class="btn-done" onclick="markPerDone('${t.id}')">✓ fiz hoje</button>
-          <button class="btn-done" onclick="openFreeDate('per','${t.id}')">📅 outra data</button>
-          <button class="btn-del" onclick="delPerTask('${t.id}')">remover</button>
-        </div>
-      </div>
-    </div>`;
-  }).join('');
-}
-function markPerDone(id){ perDates[id]=todayISO(); sSet('per_dates',perDates); renderPeriodicas(); }
-function delPerTask(id){
-  if(!confirm('Remover esta tarefa?'))return;
-  perTasks=perTasks.filter(t=>t.id!==id); sSet('per_tasks',perTasks); renderPeriodicas();
-}
-function openPerModal(){ openModal('per-modal'); }
-function savePerTask(){
-  const label=document.getElementById('pm-label').value.trim();
-  const days=parseInt(document.getElementById('pm-days').value);
-  const freq=document.getElementById('pm-freq').value.trim();
-  const desc=document.getElementById('pm-desc').value.trim();
-  if(!label||!days||!freq){alert('Preencha nome, intervalo e frequência.');return;}
-  perTasks.push({id:uid(),label,days,freq,desc});
-  sSet('per_tasks',perTasks); closeModal('per-modal');
-  ['pm-label','pm-desc','pm-freq'].forEach(i=>document.getElementById(i).value='');
-  document.getElementById('pm-days').value='';
-  renderPeriodicas();
-}
-
-// ── free date modal ────────────────────────────────────────────────
+let perTasks=[];let perDates={};
+function renderPeriodicas(){document.getElementById('pgrid').innerHTML=perTasks.map(t=>{const iso=perDates[t.id]||null;const next=iso?addDays(iso,t.days):null;const st=statusInfo(iso,t.days);const calLink=next?`<a class="cal-link" href="${makeICS(t.label,next)}" download="lembrete.ics">📅 add ao calendário</a>`:'';return`<div class="pcard"><div class="pcard-top"><h4>${escHtml(t.label)}</h4><span class="freq-badge">${escHtml(t.freq)}</span></div><p>${escHtml(t.desc||'')}</p><div class="pcard-footer"><div class="pcard-dates"><div class="date-row">última: <strong>${fmtDateFull(iso)}</strong></div><div class="date-row">próxima: <strong>${fmtDateFull(next)}</strong> ${calLink}</div><span class="sbadge ${st.cls}">${st.txt}</span></div><div class="pcard-actions" style="margin-top:8px"><button class="btn-done" onclick="markPerDone('${t.id}')">✓ fiz hoje</button><button class="btn-done" onclick="openFreeDate('per','${t.id}')">📅 outra data</button><button class="btn-del" onclick="delPerTask('${t.id}')">remover</button></div></div></div>`;}).join('');}
+function markPerDone(id){perDates[id]=todayISO();sSet('per_dates',perDates);renderPeriodicas();}
+function delPerTask(id){if(!confirm('Remover esta tarefa?'))return;perTasks=perTasks.filter(t=>t.id!==id);sSet('per_tasks',perTasks);renderPeriodicas();}
+function openPerModal(){openModal('per-modal');}
+function savePerTask(){const label=document.getElementById('pm-label').value.trim();const days=parseInt(document.getElementById('pm-days').value);const freq=document.getElementById('pm-freq').value.trim();const desc=document.getElementById('pm-desc').value.trim();if(!label||!days||!freq){alert('Preencha nome, intervalo e frequência.');return;}perTasks.push({id:uid(),label,days,freq,desc});sSet('per_tasks',perTasks);closeModal('per-modal');['pm-label','pm-desc','pm-freq'].forEach(i=>document.getElementById(i).value='');document.getElementById('pm-days').value='';renderPeriodicas();}
 let freeDateCtx=null;
-function openFreeDate(type,id){
-  freeDateCtx={type,id};
-  document.getElementById('date-modal-title').textContent=type==='per'?'Registrar data da tarefa':'Registrar data de rega';
-  document.getElementById('date-input').value=todayISO();
-  openModal('date-modal');
-}
-function saveFreeDate(){
-  const iso=document.getElementById('date-input').value;
-  if(!iso)return;
-  if(freeDateCtx.type==='per'){
-    perDates[freeDateCtx.id]=iso; sSet('per_dates',perDates); renderPeriodicas();
-  } else {
-    waterDates[freeDateCtx.id]=iso; sSet('water_dates',waterDates); renderPlants();
-  }
-  closeModal('date-modal');
-}
+function openFreeDate(type,id){freeDateCtx={type,id};document.getElementById('date-modal-title').textContent=type==='per'?'Registrar data da tarefa':'Registrar data de rega';document.getElementById('date-input').value=todayISO();openModal('date-modal');}
+function saveFreeDate(){const iso=document.getElementById('date-input').value;if(!iso)return;if(freeDateCtx.type==='per'){perDates[freeDateCtx.id]=iso;sSet('per_dates',perDates);renderPeriodicas();}else{waterDates[freeDateCtx.id]=iso;sSet('water_dates',waterDates);renderPlants();}closeModal('date-modal');}
 
 // ══════════════════════════════════════════════════════════════════
 // PLANTAS
 // ══════════════════════════════════════════════════════════════════
-const PLANT_GROUPS=[
-  {id:'diario',label:'🪴 3-7× por semana',badge:'diariamente',tip_next:1},
-  {id:'2x-semana',label:'💦 2× por semana',badge:'alta frequência',tip_next:3},
-  {id:'1x-semana',label:'💧 1× por semana',badge:'frequência média',tip_next:7},
-  {id:'quinzenal',label:'🌿 A cada 10–14 dias',badge:'baixa frequência',tip_next:12},
-  {id:'mensal',label:'🌵 A cada 2–3 semanas',badge:'muito baixa',tip_next:18},
-  {id:'calice',label:'🌺 Cálice (trocar água)',badge:'bromélia',tip_next:14},
-];
-const DEFAULT_PLANTS=[
-  { id: 'majericao', name: 'Manjericão', freq: 'diariamente', tip: 'Solo sempre úmido. Luz direta. Muito sensível.', group: 'diario' },
-  { id: 'taioba', name: 'Taioba', freq: '2x/semana', tip: 'Solo sempre úmido. Meia sombra, evitar sol forte.', group: '2x-semana' },
-  {id:'begonia',name:'Begônia',freq:'2x/semana',tip:'Solo úmido. Luz indireta. Sensível a correntes de ar.',group:'2x-semana'},
-  {id:'antúrio',name:'Antúrio',freq:'1x/semana',tip:'Solo levemente úmido. Luz indireta. Borrifar folhas ajuda.',group:'1x-semana'},
-  {id:'rafa',name:'Ráfia',freq:'1x/semana',tip:'Deixar solo secar entre regas. Meia sombra.',group:'1x-semana'},
-  {id:'costela',name:'Costela-de-adão',freq:'1x/semana',tip:'Deixar vaso drenar. Luz indireta brilhante.',group:'1x-semana'},
-  {id:'jiboias',name:'Jiboias',freq:'1x/semana',tip:'Regar quando solo seco. Muito resistente.',group:'1x-semana'},
-  {id:'elefante',name:'Pé-de-elefante',freq:'a cada 10–14 dias',tip:'Tolerante à seca. Sol direto ou meia sombra.',group:'quinzenal'},
-  {id:'espada',name:'Espada-de-são-jorge',freq:'a cada 2 sem.',tip:'Extremamente resistente. Qualquer luminosidade.',group:'mensal'},
-  {id:'cactos',name:'Cactos',freq:'a cada 2–3 sem.',tip:'Não molhar demais — raiz apodrece. Sol pleno.',group:'mensal'},
-  {id:'bromelia',name:'Bromélia',freq:'trocar água 2x/mês',tip:'Manter água no cálice central. Solo raramente regado.',group:'calice'},
-];
-let plants=[];
-let waterDates={};
+const PLANT_GROUPS=[{id:'diario',label:'🪴 3-7× por semana',badge:'diariamente',tip_next:1},{id:'2x-semana',label:'💦 2× por semana',badge:'alta frequência',tip_next:3},{id:'1x-semana',label:'💧 1× por semana',badge:'frequência média',tip_next:7},{id:'quinzenal',label:'🌿 A cada 10–14 dias',badge:'baixa frequência',tip_next:12},{id:'mensal',label:'🌵 A cada 2–3 semanas',badge:'muito baixa',tip_next:18},{id:'calice',label:'🌺 Cálice (trocar água)',badge:'bromélia',tip_next:14}];
+const DEFAULT_PLANTS=[{id:'majericao',name:'Manjericão',freq:'diariamente',tip:'Solo sempre úmido. Luz direta. Muito sensível.',group:'diario'},{id:'taioba',name:'Taioba',freq:'2x/semana',tip:'Solo sempre úmido. Meia sombra, evitar sol forte.',group:'2x-semana'},{id:'begonia',name:'Begônia',freq:'2x/semana',tip:'Solo úmido. Luz indireta. Sensível a correntes de ar.',group:'2x-semana'},{id:'antúrio',name:'Antúrio',freq:'1x/semana',tip:'Solo levemente úmido. Luz indireta. Borrifar folhas ajuda.',group:'1x-semana'},{id:'rafa',name:'Ráfia',freq:'1x/semana',tip:'Deixar solo secar entre regas. Meia sombra.',group:'1x-semana'},{id:'costela',name:'Costela-de-adão',freq:'1x/semana',tip:'Deixar vaso drenar. Luz indireta brilhante.',group:'1x-semana'},{id:'jiboias',name:'Jiboias',freq:'1x/semana',tip:'Regar quando solo seco. Muito resistente.',group:'1x-semana'},{id:'elefante',name:'Pé-de-elefante',freq:'a cada 10–14 dias',tip:'Tolerante à seca. Sol direto ou meia sombra.',group:'quinzenal'},{id:'espada',name:'Espada-de-são-jorge',freq:'a cada 2 sem.',tip:'Extremamente resistente. Qualquer luminosidade.',group:'mensal'},{id:'cactos',name:'Cactos',freq:'a cada 2–3 sem.',tip:'Não molhar demais — raiz apodrece. Sol pleno.',group:'mensal'},{id:'bromelia',name:'Bromélia',freq:'trocar água 2x/mês',tip:'Manter água no cálice central. Solo raramente regado.',group:'calice'}];
+let plants=[];let waterDates={};
+function renderPlants(){document.getElementById('plant-container').innerHTML=PLANT_GROUPS.map(g=>{const gp=plants.filter(p=>p.group===g.id);if(!gp.length)return'';const iso=waterDates[g.id]||null;const next=iso?addDays(iso,g.tip_next):null;const ds=daysSince(iso);return`<div class="plant-group"><div class="pg-header"><span class="pg-title">${g.label}</span><span class="pg-badge">${g.badge}</span></div><div class="pg-water-row"><button class="btn-water" onclick="markWater('${g.id}')">💧 reguei agora</button><button class="btn-water" style="font-size:11px" onclick="openFreeDate('water','${g.id}')">📅 outra data</button><div class="water-info"><div>última rega: <span>${fmtDateFull(iso)}${ds!==null?' ('+ds+'d atrás)':''}</span></div><div>próxima rega: <span>${fmtDateFull(next)}</span></div></div></div><div class="plant-list">${gp.map(p=>`<div class="plant-row"><div class="plant-row-info"><div class="plant-name">${escHtml(p.name)}</div><div class="plant-freq">${escHtml(p.freq)}</div><div class="plant-tip">${escHtml(p.tip)}</div></div><button class="btn-icon" onclick="delPlant('${p.id}')">×</button></div>`).join('')}</div></div>`;}).join('');}
+function markWater(gid){waterDates[gid]=todayISO();sSet('water_dates',waterDates);renderPlants();}
+function delPlant(id){if(!confirm('Remover esta planta?'))return;plants=plants.filter(p=>p.id!==id);sSet('plants',plants);renderPlants();}
+function openPlantModal(){openModal('plant-modal');}
+function savePlant(){const name=document.getElementById('pl-name').value.trim();const freq=document.getElementById('pl-freq').value.trim();const tip=document.getElementById('pl-tip').value.trim();const group=document.getElementById('pl-group').value;if(!name||!freq){alert('Preencha nome e frequência.');return;}plants.push({id:uid(),name,freq,tip,group});sSet('plants',plants);closeModal('plant-modal');['pl-name','pl-freq','pl-tip'].forEach(i=>document.getElementById(i).value='');renderPlants();}
 
-function renderPlants(){
-  document.getElementById('plant-container').innerHTML=PLANT_GROUPS.map(g=>{
-    const gp=plants.filter(p=>p.group===g.id); if(!gp.length) return'';
-    const iso=waterDates[g.id]||null;
-    const next=iso?addDays(iso,g.tip_next):null;
-    const ds=daysSince(iso);
-    return`<div class="plant-group">
-      <div class="pg-header"><span class="pg-title">${g.label}</span><span class="pg-badge">${g.badge}</span></div>
-      <div class="pg-water-row">
-        <button class="btn-water" onclick="markWater('${g.id}')">💧 reguei agora</button>
-        <button class="btn-water" style="font-size:11px" onclick="openFreeDate('water','${g.id}')">📅 outra data</button>
-        <div class="water-info">
-          <div>última rega: <span>${fmtDateFull(iso)}${ds!==null?' ('+ds+'d atrás)':''}</span></div>
-          <div>próxima rega: <span>${fmtDateFull(next)}</span></div>
-        </div>
+// ══════════════════════════════════════════════════════════════════
+// SHARED TAGS (compras + despensa)
+// ══════════════════════════════════════════════════════════════════
+let itemTags=['dia-a-dia','higiene','pet','jardim','receita'];
+function tagsOpts(selected=''){return'<option value="">— sem tag</option>'+itemTags.map(t=>`<option value="${escHtml(t)}"${t===selected?' selected':''}>${escHtml(t)}</option>`).join('');}
+function addTag(inputId,renderFn){const inp=document.getElementById(inputId);const t=inp.value.trim().toLowerCase();if(!t||itemTags.includes(t))return;itemTags.push(t);sSet('item_tags',itemTags);inp.value='';renderFn();}
+function delTag(t,renderFn){if(!confirm(`Remover tag "${t}"?`))return;itemTags=itemTags.filter(x=>x!==t);sSet('item_tags',itemTags);renderFn();}
+function renderTagsManager(inputId,addFn,curCat){
+  return`<div class="tags-section"><div class="tags-header"><h4>🏷 Tags</h4></div><div class="tags-list">${itemTags.map(t=>`<div class="tag-chip" style="border-color:transparent" class="${tagColor(t)}">${tagPill(t)} <button class="tag-chip-del" onclick="delTag('${escHtml(t)}',()=>${addFn})">×</button></div>`).join('')}</div><div class="tags-add-row"><input id="${inputId}" placeholder="Nova tag..."><button class="btn-sm" onclick="addTag('${inputId}',()=>${addFn})">+ Tag</button></div></div>`;
+}
+
+// ══════════════════════════════════════════════════════════════════
+// DESPENSA (Pantry Inventory)
+// ══════════════════════════════════════════════════════════════════
+const DESP_CATS=[
+  {id:'geladeira',  label:'🧊 Geladeira'},
+  {id:'despensa-alim',label:'🥫 Despensa'},
+  {id:'higiene',    label:'🧴 Higiene Pessoal'},
+  {id:'limpeza-pet',label:'🧹 Limpeza, Jardim & Pet'},
+];
+let inventory={}; // {geladeira:[], 'despensa-alim':[], higiene:[], 'limpeza-pet':[]}
+let currentDespCat='geladeira';
+
+function renderDespTabs(){
+  const bar=document.getElementById('desp-tabs');
+  bar.innerHTML=DESP_CATS.map(c=>`<button class="dtab${c.id===currentDespCat?' active':''}" onclick="showDespCat('${c.id}',this)">${c.label}</button>`).join('');
+}
+function showDespCat(cat,btn){
+  currentDespCat=cat;
+  document.querySelectorAll('.dtab').forEach(t=>t.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  renderDespContent();
+}
+function renderDespContent(){
+  const cat=currentDespCat;
+  const items=(inventory[cat]||[]).slice().sort((a,b)=>a.name.localeCompare(b.name,'pt'));
+  const el=document.getElementById('desp-content');
+  el.innerHTML=`
+    <div class="section-hdr">
+      <div><div class="section-title">${DESP_CATS.find(c=>c.id===cat).label}</div></div>
+      <div class="section-acts">
+        <button class="btn-sm btn-primary" onclick="openBatchDesp()">+ Lote</button>
       </div>
-      <div class="plant-list">${gp.map(p=>`
-        <div class="plant-row">
-          <div class="plant-row-info">
-            <div class="plant-name">${escHtml(p.name)}</div>
-            <div class="plant-freq">${escHtml(p.freq)}</div>
-            <div class="plant-tip">${escHtml(p.tip)}</div>
+    </div>
+    <div class="batch-help">Dica: use "+ Lote" para adicionar vários itens de uma vez (ex: 2 Tomate, 10 Alho)</div>
+    <div class="inv-list">
+      ${items.length?items.map(item=>{
+        const c=tagColor(item.tag);
+        return`<div class="inv-item${item.qty===0?' inv-low':''}">
+          <div style="flex:1;min-width:0">
+            <div class="inv-name">${escHtml(item.name)}</div>
+            ${item.tag?`<span class="inv-tag-pill ${c}">${escHtml(item.tag)}</span>`:''}
           </div>
-          <button class="btn-icon" onclick="delPlant('${p.id}')">×</button>
-        </div>`).join('')}
-      </div>
-    </div>`;
-  }).join('');
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="adjInv('${cat}','${item.id}',-1)">−</button>
+            <span class="qty-num">${item.qty}</span>
+            <button class="qty-btn" onclick="adjInv('${cat}','${item.id}',1)">+</button>
+          </div>
+          <div class="inv-btns">
+            <button class="to-shop-btn" onclick="openToShop('${cat}','${item.id}')">🛒</button>
+            <button class="btn-icon" onclick="delInvItem('${cat}','${item.id}')">×</button>
+          </div>
+        </div>`;
+      }).join(''):'<div style="font-size:12px;color:var(--faint);padding:8px 2px">Nenhum item ainda.</div>'}
+    </div>
+    <div class="batch-row" style="margin-top:4px">
+      <input class="batch-inp" id="desp-single-name" placeholder="Nome do item..." onkeydown="if(event.key==='Enter')addSingleInv()">
+      <input style="width:56px" id="desp-single-qty" type="number" min="1" value="1" placeholder="qtd">
+      <select id="desp-single-tag">${tagsOpts()}</select>
+      <button class="btn-sm btn-primary" onclick="addSingleInv()">+</button>
+    </div>
+    ${renderTagsManager('desp-tag-input','renderDespContent()',cat)}`;
 }
-function markWater(gid){ waterDates[gid]=todayISO(); sSet('water_dates',waterDates); renderPlants(); }
-function delPlant(id){
-  if(!confirm('Remover esta planta?'))return;
-  plants=plants.filter(p=>p.id!==id); sSet('plants',plants); renderPlants();
+
+function addSingleInv(){
+  const name=document.getElementById('desp-single-name').value.trim();if(!name)return;
+  const qty=parseInt(document.getElementById('desp-single-qty').value)||1;
+  const tag=document.getElementById('desp-single-tag').value||'';
+  if(!inventory[currentDespCat])inventory[currentDespCat]=[];
+  // merge if exists
+  const ex=inventory[currentDespCat].find(i=>i.name.toLowerCase()===name.toLowerCase());
+  if(ex){ex.qty+=qty;}else{inventory[currentDespCat].push({id:uid(),name,qty,tag});}
+  sSet('inventory',inventory);
+  document.getElementById('desp-single-name').value='';
+  document.getElementById('desp-single-qty').value='1';
+  renderDespContent();
 }
-function openPlantModal(){ openModal('plant-modal'); }
-function savePlant(){
-  const name=document.getElementById('pl-name').value.trim();
-  const freq=document.getElementById('pl-freq').value.trim();
-  const tip=document.getElementById('pl-tip').value.trim();
-  const group=document.getElementById('pl-group').value;
-  if(!name||!freq){alert('Preencha nome e frequência.');return;}
-  plants.push({id:uid(),name,freq,tip,group});
-  sSet('plants',plants); closeModal('plant-modal');
-  ['pl-name','pl-freq','pl-tip'].forEach(i=>document.getElementById(i).value='');
-  renderPlants();
+
+function adjInv(cat,id,delta){
+  const item=(inventory[cat]||[]).find(i=>i.id===id);if(!item)return;
+  item.qty=Math.max(0,item.qty+delta);sSet('inventory',inventory);renderDespContent();
+}
+function delInvItem(cat,id){
+  if(!confirm('Remover item?'))return;
+  inventory[cat]=(inventory[cat]||[]).filter(i=>i.id!==id);sSet('inventory',inventory);renderDespContent();
+}
+
+// batch for despensa
+function openBatchDesp(){
+  document.getElementById('bcm-text').value='';
+  document.getElementById('bcm-cat').value=currentDespCat;
+  document.getElementById('bcm-tag').innerHTML=tagsOpts();
+  openModal('batch-cat-modal');setTimeout(()=>document.getElementById('bcm-text').focus(),60);
+}
+function saveBatchDesp(){
+  const raw=document.getElementById('bcm-text').value.trim();if(!raw)return;
+  const cat=document.getElementById('bcm-cat').value;
+  const tag=document.getElementById('bcm-tag').value||'';
+  parseBatch(raw).forEach(({name,qty})=>{
+    if(!inventory[cat])inventory[cat]=[];
+    const ex=inventory[cat].find(i=>i.name.toLowerCase()===name.toLowerCase());
+    if(ex){ex.qty+=qty;}else{inventory[cat].push({id:uid(),name,qty,tag});}
+  });
+  sSet('inventory',inventory);closeModal('batch-cat-modal');
+  currentDespCat=cat;renderDespTabs();renderDespContent();
+}
+
+// send to shopping list
+let _toshopCtx=null;
+function openToShop(cat,id){
+  const item=(inventory[cat]||[]).find(i=>i.id===id);if(!item)return;
+  _toshopCtx={item,cat};
+  document.getElementById('toshop-title').textContent=`Adicionar "${item.name}" à lista de compras`;
+  document.getElementById('toshop-qty').value=1;
+  openModal('toshop-modal');
+}
+function confirmToShop(){
+  if(!_toshopCtx)return;
+  const qty=document.getElementById('toshop-qty').value||'1';
+  const compCat=document.getElementById('toshop-cat').value;
+  const {item}=_toshopCtx;
+  if(!comprasData[compCat])comprasData[compCat]=[];
+  comprasData[compCat].push({id:uid(),name:item.name,qty:String(qty),tag:item.tag||'',prio:'',comprado:false});
+  sSet('compras',comprasData);closeModal('toshop-modal');
+  alert(`"${item.name}" adicionado à lista de compras!`);
 }
 
 // ══════════════════════════════════════════════════════════════════
 // COMPRAS
 // ══════════════════════════════════════════════════════════════════
-const CAT_CONFIG={
+const COMP_CAT_CFG={
   despensa:{label:'🛒 Despensa & Higiene',subtitle:'Alimentos, higiene pessoal e limpeza do corpo',hasPrio:false},
   limpeza:{label:'🧹 Limpeza & Jardim',subtitle:'Produtos de limpeza da casa, jardim e sacada',hasPrio:false},
   utilidades:{label:'🏠 Utilidades domésticas',subtitle:'Móveis, utensílios e itens para qualidade de vida',hasPrio:true},
 };
 let comprasData={despensa:[],limpeza:[],utilidades:[]};
-let itemTags=['dia-a-dia','higiene','pet','jardim','receita'];
 let savedItems=[];
-let currentCat='despensa';
-let compraEditId=null;
-let compraEditCat=null;
+let currentCompCat='despensa';
+let compraEditId=null;let compraEditCat=null;
+
+function showCompCat(cat,btn){
+  currentCompCat=cat;
+  document.querySelectorAll('#compras-tabs .ctab').forEach(t=>t.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  ['despensa','limpeza','utilidades'].forEach(c=>{document.getElementById('comp-cat-'+c).style.display=c===cat?'block':'none';});
+  renderCompras(cat);
+}
 
 function renderCompras(cat){
-  const cfg=CAT_CONFIG[cat];
-  const items=comprasData[cat];
+  const cfg=COMP_CAT_CFG[cat];
+  const items=comprasData[cat]||[];
   const prioOrder={alta:0,media:1,baixa:2};
+
+  // group by tag, then sort within group
   const sorted=[...items].sort((a,b)=>{
-    if(a.comprado!==b.comprado) return a.comprado?1:-1;
-    if(cfg.hasPrio){const pa=prioOrder[a.prio]??3,pb=prioOrder[b.prio]??3; return pa-pb;}
+    if(a.comprado!==b.comprado)return a.comprado?1:-1;
+    const ta=a.tag||'zzz',tb=b.tag||'zzz';
+    if(ta!==tb)return ta.localeCompare(tb,'pt');
+    if(cfg.hasPrio){const pa=prioOrder[a.prio]??3,pb=prioOrder[b.prio]??3;return pa-pb;}
     return 0;
   });
-  const tagsOpts=['<option value="">— sem tag</option>',...itemTags.map(t=>`<option value="${escHtml(t)}">${escHtml(t)}</option>`)].join('');
-  const tagFilterOpts=`<option value="">todas as tags</option>`+itemTags.map(t=>`<option value="${escHtml(t)}">${escHtml(t)}</option>`).join('');
-  const curFilter=document.getElementById('tag-filter-'+cat)?.value||'';
-  const filtered=curFilter?sorted.filter(i=>i.tag===curFilter):sorted;
 
-  const el=document.getElementById('cat-'+cat);
+  // build grouped list HTML
+  let lastTag=undefined;
+  let listHtml='';
+  sorted.forEach(item=>{
+    const tagLabel=item.tag||'';
+    if(tagLabel!==lastTag){
+      lastTag=tagLabel;
+      listHtml+=`<div class="item-group-label">${tagLabel?escHtml(tagLabel):'Sem tag'}</div>`;
+    }
+    const c=tagColor(item.tag);
+    const tagEl=item.tag
+      ?`<span class="item-tag-pill ${c}" style="cursor:pointer" onclick="openTagPick('comp','${cat}','${item.id}',this)">${escHtml(item.tag)}</span>`
+      :`<button class="item-tag-empty" title="Adicionar tag" onclick="openTagPick('comp','${cat}','${item.id}',this)">🏷</button>`;
+    listHtml+=`<div class="item-row${item.comprado?' comprado':''}">
+      <div class="item-check${item.comprado?' checked':''}" onclick="toggleCompra('${cat}','${item.id}')">
+        ${item.comprado?'<svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1.5,6 4.5,9 10.5,3"/></svg>':''}
+      </div>
+      <span class="item-name">${escHtml(item.name)}</span>
+      ${item.qty?`<span class="item-qty-badge">${escHtml(item.qty)}</span>`:''}
+      ${tagEl}
+      ${cfg.hasPrio&&item.prio?`<span class="prio-badge p-${item.prio}">${item.prio}</span>`:''}
+      <div class="item-acts">
+        <button class="btn-icon" onclick="openCompraEdit('${cat}','${item.id}')" style="font-size:13px">✎</button>
+        <button class="btn-icon" onclick="delCompra('${cat}','${item.id}')">×</button>
+      </div>
+    </div>`;
+  });
+
+  const el=document.getElementById('comp-cat-'+cat);
+  const curTagFilter=document.getElementById('comp-tag-filter-'+cat)?.value||'';
   el.innerHTML=`
-    <div class="compras-header">
-      <div><div class="compras-title">${cfg.label}</div><div class="compras-subtitle">${cfg.subtitle}</div></div>
-      <div class="compras-actions">
-        <select style="border:1px solid var(--border);border-radius:8px;padding:5px 8px;font-size:12px;background:var(--surface);color:var(--text);cursor:pointer" id="tag-filter-${cat}" onchange="renderCompras('${cat}')">
-          ${tagFilterOpts}
+    <div class="section-hdr">
+      <div><div class="section-title">${cfg.label}</div><div class="section-sub">${cfg.subtitle}</div></div>
+      <div class="section-acts">
+        <select style="border:1px solid var(--border);border-radius:8px;padding:5px 8px;font-size:12px;background:var(--surface);color:var(--text)" id="comp-tag-filter-${cat}" onchange="renderCompras('${cat}')">
+          <option value="">todas as tags</option>${itemTags.map(t=>`<option value="${escHtml(t)}">${escHtml(t)}</option>`).join('')}
         </select>
         <button class="btn-sm" onclick="clearComprados('${cat}')">Limpar ✓</button>
       </div>
     </div>
-    <div class="compras-list">
-      ${filtered.map(item=>`
-      <div class="compra-item${item.comprado?' comprado':''}">
-        <div class="compra-check${item.comprado?' checked':''}" onclick="toggleCompra('${cat}','${item.id}')">
-          ${item.comprado?'<svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1.5,6 4.5,9 10.5,3"/></svg>':''}
-        </div>
-        <span class="compra-name">${escHtml(item.name)}</span>
-        ${item.qty?`<span class="compra-qty">${escHtml(item.qty)}</span>`:''}
-        ${item.tag?`<span class="item-tag-chip">${escHtml(item.tag)}</span>`:''}
-        ${cfg.hasPrio&&item.prio?`<span class="prio-badge p-${item.prio}">${item.prio}</span>`:''}
-        <div class="compra-btns">
-          <button class="btn-icon" onclick="openCompraEdit('${cat}','${item.id}')" style="font-size:13px">✎</button>
-          <button class="btn-icon" onclick="delCompra('${cat}','${item.id}')">×</button>
-        </div>
-      </div>`).join('')}
+    <div class="item-list">${listHtml||'<div style="font-size:12px;color:var(--faint);padding:8px 2px">Nenhum item.</div>'}</div>
+    <div class="batch-help">Digite um item ou vários separados por vírgula (ex: 2 Tomate, 1 Pão)</div>
+    <div class="batch-row">
+      <input class="batch-inp" id="comp-batch-${cat}" placeholder="Item ou lista com vírgulas..." onkeydown="if(event.key==='Enter')addCompraBatch('${cat}')">
+      <input style="width:56px" id="comp-qty-${cat}" placeholder="qtd">
+      <select id="comp-tag-${cat}">${tagsOpts()}</select>
+      ${cfg.hasPrio?`<select id="comp-prio-${cat}"><option value="">— prio</option><option value="alta">🔴 alta</option><option value="media">🟡 média</option><option value="baixa">🟢 baixa</option></select>`:''}
+      <button class="btn-sm btn-primary" onclick="addCompraBatch('${cat}')">+</button>
     </div>
-    <div class="compra-add-row">
-      <input class="cn" id="ci-name-${cat}" placeholder="Adicionar item..." onkeydown="if(event.key==='Enter')addCompra('${cat}')">
-      <input class="cq" id="ci-qty-${cat}" placeholder="qtd">
-      <select id="ci-tag-${cat}">${tagsOpts}</select>
-      ${cfg.hasPrio?`<select id="ci-prio-${cat}"><option value="">— prio</option><option value="alta">🔴 alta</option><option value="media">🟡 média</option><option value="baixa">🟢 baixa</option></select>`:''}
-      <button class="btn-sm btn-primary" onclick="addCompra('${cat}')">+</button>
-    </div>
-
-    <!-- Itens salvos -->
-    ${savedItems.filter(s=>s.cat===cat).length?`
-    <div class="saved-section">
-      <div class="saved-header"><h4>⭐ Itens recorrentes</h4></div>
-      <div class="saved-list">${savedItems.filter(s=>s.cat===cat).map(s=>`
-        <span class="saved-chip" onclick="addSavedItem('${cat}','${s.id}')">
-          + ${escHtml(s.name)}
-          <button class="saved-chip-del" onclick="event.stopPropagation();delSaved('${s.id}')">×</button>
-        </span>`).join('')}
-      </div>
-    </div>`:''}
-
-    <!-- Gerenciar tags -->
-    <div class="tags-section">
-      <div class="tags-header"><h4>🏷 Tags</h4></div>
-      <div class="tags-list">${itemTags.map(t=>`
-        <div class="tag-chip">${escHtml(t)}<button class="tag-chip-del" onclick="delTag('${escHtml(t)}')">×</button></div>`).join('')}
-      </div>
-      <div class="tags-add-row">
-        <input id="new-tag-input" placeholder="Nova tag..." onkeydown="if(event.key==='Enter')addTag()">
-        <button class="btn-sm" onclick="addTag()">+ Tag</button>
-      </div>
+    ${savedItems.filter(s=>s.cat===cat).length?`<div class="saved-section"><div class="saved-header"><h4>⭐ Itens recorrentes</h4></div><div class="saved-list">${savedItems.filter(s=>s.cat===cat).map(s=>`<span class="saved-chip" onclick="addSavedItem('${cat}','${s.id}')">+ ${escHtml(s.name)}<button class="saved-chip-del" onclick="event.stopPropagation();delSaved('${s.id}')">×</button></span>`).join('')}</div></div>`:''}
+    <div class="tags-section"><div class="tags-header"><h4>🏷 Tags <span style="font-size:10px;color:var(--faint)">(compartilhadas com Despensa)</span></h4></div>
+      <div class="tags-list">${itemTags.map(t=>`<div class="tag-chip">${tagPill(t)} <button class="tag-chip-del" onclick="delSharedTag('${escHtml(t)}')">×</button></div>`).join('')}</div>
+      <div class="tags-add-row"><input id="comp-new-tag" placeholder="Nova tag..." onkeydown="if(event.key==='Enter')addSharedTag()"><button class="btn-sm" onclick="addSharedTag()">+ Tag</button></div>
     </div>`;
-  // restore filter value after re-render
-  if(curFilter) { const f=document.getElementById('tag-filter-'+cat); if(f) f.value=curFilter; }
+  if(curTagFilter){const f=document.getElementById('comp-tag-filter-'+cat);if(f)f.value=curTagFilter;}
 }
 
-function showCat(cat,btn){
-  currentCat=cat;
-  document.querySelectorAll('.ctab').forEach(t=>t.classList.remove('active')); btn.classList.add('active');
-  ['despensa','limpeza','utilidades'].forEach(c=>{ document.getElementById('cat-'+c).style.display=c===cat?'block':'none'; });
-  renderCompras(cat);
+function addSharedTag(){const inp=document.getElementById('comp-new-tag');const t=inp.value.trim().toLowerCase();if(!t||itemTags.includes(t))return;itemTags.push(t);sSet('item_tags',itemTags);inp.value='';renderCompras(currentCompCat);if(document.getElementById('desp-content').innerHTML)renderDespContent();}
+function delSharedTag(t){if(!confirm(`Remover tag "${t}"?`))return;itemTags=itemTags.filter(x=>x!==t);sSet('item_tags',itemTags);renderCompras(currentCompCat);if(document.getElementById('desp-content').innerHTML)renderDespContent();}
+
+// tag picker for individual items
+function openTagPick(context,cat,itemId,anchorEl){
+  showTagPicker(anchorEl,t=>{
+    if(context==='comp'){const item=(comprasData[cat]||[]).find(i=>i.id===itemId);if(item){item.tag=t;sSet('compras',comprasData);renderCompras(cat);}}
+    else if(context==='inv'){const item=(inventory[cat]||[]).find(i=>i.id===itemId);if(item){item.tag=t;sSet('inventory',inventory);renderDespContent();}}
+  });
 }
 
-function addCompra(cat){
-  const nameEl=document.getElementById('ci-name-'+cat);
-  const name=nameEl.value.trim(); if(!name)return;
-  const qty=(document.getElementById('ci-qty-'+cat)||{}).value||'';
-  const tag=(document.getElementById('ci-tag-'+cat)||{}).value||'';
-  const prio=(document.getElementById('ci-prio-'+cat)||{}).value||'';
-  comprasData[cat].push({id:uid(),name,qty,tag,prio,comprado:false});
-  sSet('compras',comprasData); nameEl.value='';
-  if(document.getElementById('ci-qty-'+cat)) document.getElementById('ci-qty-'+cat).value='';
-  renderCompras(cat);
+// batch parse: "2 Tomate, 10 Alho, Pão" → [{name,qty}]
+function parseBatch(raw){
+  return raw.split(',').map(s=>s.trim()).filter(Boolean).map(s=>{
+    const m=s.match(/^(\d+)\s+(.+)$/);
+    if(m)return{qty:parseInt(m[1]),name:m[2].trim()};
+    return{qty:1,name:s};
+  });
 }
+
+function addCompraBatch(cat){
+  const inp=document.getElementById('comp-batch-'+cat);
+  const raw=inp.value.trim();if(!raw)return;
+  const singleQty=document.getElementById('comp-qty-'+cat)?.value||'';
+  const tag=document.getElementById('comp-tag-'+cat)?.value||'';
+  const prio=document.getElementById('comp-prio-'+cat)?.value||'';
+  const parsed=parseBatch(raw);
+  parsed.forEach(({name,qty})=>{
+    const qtyFinal=parsed.length===1&&singleQty?singleQty:String(qty);
+    if(!comprasData[cat])comprasData[cat]=[];
+    comprasData[cat].push({id:uid(),name,qty:qtyFinal,tag,prio,comprado:false});
+  });
+  sSet('compras',comprasData);inp.value='';if(document.getElementById('comp-qty-'+cat))document.getElementById('comp-qty-'+cat).value='';renderCompras(cat);
+}
+
 function toggleCompra(cat,id){
-  const item=comprasData[cat].find(i=>i.id===id); if(item) item.comprado=!item.comprado;
-  sSet('compras',comprasData); renderCompras(cat);
+  const item=(comprasData[cat]||[]).find(i=>i.id===id);
+  if(!item)return;
+  item.comprado=!item.comprado;
+  // when checked → add to inventory
+  if(item.comprado){
+    const despCat=guessDespCat(item.tag);
+    if(!inventory[despCat])inventory[despCat]=[];
+    const qty=parseInt(item.qty)||1;
+    const ex=inventory[despCat].find(i=>i.name.toLowerCase()===item.name.toLowerCase());
+    if(ex){ex.qty+=qty;}else{inventory[despCat].push({id:uid(),name:item.name,qty,tag:item.tag||''});}
+    sSet('inventory',inventory);
+  }
+  sSet('compras',comprasData);renderCompras(cat);
 }
-function delCompra(cat,id){
-  comprasData[cat]=comprasData[cat].filter(i=>i.id!==id);
-  sSet('compras',comprasData); renderCompras(cat);
+// guess which despensa category based on tag
+function guessDespCat(tag){
+  if(!tag)return'geladeira';
+  if(['higiene'].includes(tag))return'higiene';
+  if(['jardim','pet','limpeza'].includes(tag))return'limpeza-pet';
+  return'despensa-alim';
 }
-function clearComprados(cat){
-  comprasData[cat]=comprasData[cat].filter(i=>!i.comprado);
-  sSet('compras',comprasData); renderCompras(cat);
-}
+
+function delCompra(cat,id){comprasData[cat]=(comprasData[cat]||[]).filter(i=>i.id!==id);sSet('compras',comprasData);renderCompras(cat);}
+function clearComprados(cat){comprasData[cat]=(comprasData[cat]||[]).filter(i=>!i.comprado);sSet('compras',comprasData);renderCompras(cat);}
 function openCompraEdit(cat,id){
-  const item=comprasData[cat].find(i=>i.id===id); if(!item)return;
-  compraEditId=id; compraEditCat=cat;
+  const item=(comprasData[cat]||[]).find(i=>i.id===id);if(!item)return;
+  compraEditId=id;compraEditCat=cat;
   document.getElementById('cem-name').value=item.name;
   document.getElementById('cem-qty').value=item.qty||'';
   document.getElementById('cem-prio').value=item.prio||'';
   document.getElementById('cem-save').checked=false;
-  // populate tag select
   const sel=document.getElementById('cem-tag');
-  sel.innerHTML='<option value="">— sem tag</option>'+itemTags.map(t=>`<option value="${escHtml(t)}">${escHtml(t)}</option>`).join('');
-  sel.value=item.tag||'';
+  sel.innerHTML=tagsOpts(item.tag||'');sel.value=item.tag||'';
   openModal('compra-modal');
 }
 function saveCompraEdit(){
-  const item=comprasData[compraEditCat].find(i=>i.id===compraEditId); if(!item)return;
+  const item=(comprasData[compraEditCat]||[]).find(i=>i.id===compraEditId);if(!item)return;
   item.name=document.getElementById('cem-name').value.trim()||item.name;
   item.qty=document.getElementById('cem-qty').value;
   item.tag=document.getElementById('cem-tag').value;
   item.prio=document.getElementById('cem-prio').value;
-  if(document.getElementById('cem-save').checked){
-    if(!savedItems.find(s=>s.name===item.name&&s.cat===compraEditCat)){
-      savedItems.push({id:uid(),name:item.name,cat:compraEditCat,tag:item.tag});
-      sSet('saved_items',savedItems);
-    }
-  }
-  sSet('compras',comprasData); closeModal('compra-modal'); renderCompras(compraEditCat);
+  if(document.getElementById('cem-save').checked){if(!savedItems.find(s=>s.name===item.name&&s.cat===compraEditCat)){savedItems.push({id:uid(),name:item.name,cat:compraEditCat,tag:item.tag});sSet('saved_items',savedItems);}}
+  sSet('compras',comprasData);closeModal('compra-modal');renderCompras(compraEditCat);
 }
-function addSavedItem(cat,sid){
-  const s=savedItems.find(i=>i.id===sid); if(!s)return;
-  comprasData[cat].push({id:uid(),name:s.name,qty:'',tag:s.tag||'',prio:'',comprado:false});
-  sSet('compras',comprasData); renderCompras(cat);
-}
-function delSaved(id){ savedItems=savedItems.filter(s=>s.id!==id); sSet('saved_items',savedItems); renderCompras(currentCat); }
-function addTag(){
-  const inp=document.getElementById('new-tag-input');
-  const t=inp.value.trim().toLowerCase(); if(!t||itemTags.includes(t))return;
-  itemTags.push(t); sSet('item_tags',itemTags); inp.value=''; renderCompras(currentCat);
-}
-function delTag(t){
-  if(!confirm(`Remover tag "${t}"?`))return;
-  itemTags=itemTags.filter(x=>x!==t); sSet('item_tags',itemTags); renderCompras(currentCat);
-}
+function addSavedItem(cat,sid){const s=savedItems.find(i=>i.id===sid);if(!s)return;if(!comprasData[cat])comprasData[cat]=[];comprasData[cat].push({id:uid(),name:s.name,qty:'',tag:s.tag||'',prio:'',comprado:false});sSet('compras',comprasData);renderCompras(cat);}
+function delSaved(id){savedItems=savedItems.filter(s=>s.id!==id);sSet('saved_items',savedItems);renderCompras(currentCompCat);}
 
 // ══════════════════════════════════════════════════════════════════
-// INIT — load all from storage
+// INIT
 // ══════════════════════════════════════════════════════════════════
 async function init(){
-  if (SB_CONFIGURED) setSyncStatus('syncing');
-  else setSyncStatus('offline');
-
-  const [dark,wt,rec,pt,pd,pl,wd,cd,tags,saved]=await Promise.all([
-    sGet('darkmode'),sGet('week_tasks'),sGet('recados'),
-    sGet('per_tasks'),sGet('per_dates'),
-    sGet('plants'),sGet('water_dates'),
-    sGet('compras'),sGet('item_tags'),sGet('saved_items')
+  if(SB_CONFIGURED)setSyncStatus('syncing');else setSyncStatus('offline');
+  const [dark,wt,rec,pt,pd,pl,wd,cd,tags,saved,inv]=await Promise.all([
+    sGet('darkmode'),sGet('week_tasks'),sGet('recados'),sGet('per_tasks'),sGet('per_dates'),
+    sGet('plants'),sGet('water_dates'),sGet('compras'),sGet('item_tags'),sGet('saved_items'),sGet('inventory')
   ]);
-
-  if (SB_CONFIGURED) setSyncStatus('ok');
-
+  if(SB_CONFIGURED)setSyncStatus('ok');
   setDark(!!dark);
-  weekTasks = wt || DEFAULT_TASKS.slice();
-  recados   = rec || [];
-  perTasks  = pt  || DEFAULT_PER.slice();
-  perDates  = pd  || {};
-  plants    = pl  || DEFAULT_PLANTS.slice();
-  waterDates= wd  || {};
-  if(cd){ comprasData=cd; }
-  if(tags){ itemTags=tags; }
-  if(saved){ savedItems=saved; }
-
-  renderWeek();
-  goSlide(carouselIdx);
-  renderRecados();
-  renderPeriodicas();
-  renderPlants();
+  weekTasks=wt||DEFAULT_TASKS.slice();
+  recados=rec||[];
+  perTasks=pt||DEFAULT_PER.slice();
+  perDates=pd||{};
+  plants=pl||DEFAULT_PLANTS.slice();
+  waterDates=wd||{};
+  if(cd)comprasData=cd;
+  if(tags)itemTags=tags;
+  if(saved)savedItems=saved;
+  if(inv)inventory=inv;
+  renderWeek();goSlide(carouselIdx);
+  renderRecados();renderPeriodicas();renderPlants();
+  renderDespTabs();renderDespContent();
   renderCompras('despensa');
 }
 init();
