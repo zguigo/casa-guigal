@@ -218,6 +218,7 @@ header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
 <header>
   <h1>Casa 🏠</h1>
   <span id="header-date"></span>
+  <span id="sync-status" title="Status de sincronização" style="font-size:14px;cursor:default"></span>
   <button class="dark-btn" id="dark-toggle" onclick="toggleDark()">🌙</button>
 </header>
 
@@ -375,29 +376,85 @@ header span{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
 
 <script>
 // ══════════════════════════════════════════════════════════════════
-// STORAGE — Claude persistent (shared) com fallback localStorage
+// CONFIG — cole suas credenciais do Supabase aqui
 // ══════════════════════════════════════════════════════════════════
-const STORAGE_READY = typeof window.storage !== 'undefined';
+const SUPABASE_URL = 'https://qklikykhemthwssvkcxr.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFrbGlreWtoZW10aHdzc3ZrY3hyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NjUxNTcsImV4cCI6MjA5NTA0MTE1N30.SjryC8nkZyoVtz5pf4hUfsJkqGAaIE_NH91UOeruqXg';  // começa com eyJ...
+
+// ══════════════════════════════════════════════════════════════════
+// STORAGE — Supabase (nuvem) + localStorage (offline/fallback)
+// ══════════════════════════════════════════════════════════════════
 const LOCAL_PREFIX = 'rot4_';
 const pendingWrites = {};
+const SB_CONFIGURED = SUPABASE_URL !== 'COLE_AQUI_A_URL';
+
+// Indicador de status de sincronização
+function setSyncStatus(state) {
+  // state: 'ok' | 'syncing' | 'offline' | 'error'
+  const el = document.getElementById('sync-status');
+  if (!el) return;
+  const map = { ok: '☁️', syncing: '⏳', offline: '📴', error: '⚠️' };
+  const tip = { ok: 'Sincronizado', syncing: 'Salvando...', offline: 'Offline (dados locais)', error: 'Erro ao salvar' };
+  el.textContent = map[state] || '';
+  el.title = tip[state] || '';
+}
+
+async function sbFetch(method, body) {
+  if (!SB_CONFIGURED) return null;
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/app_data`, {
+      method,
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': method === 'POST' ? 'resolution=merge-duplicates,return=minimal' : 'return=representation'
+      },
+      body: body ? JSON.stringify(body) : undefined
+    });
+    if (!res.ok) throw new Error(res.status);
+    return res;
+  } catch (e) {
+    return null;
+  }
+}
 
 async function sGet(k) {
-  try {
-    if (STORAGE_READY) {
-      const r = await window.storage.get(k);
-      return r ? JSON.parse(r.value) : null;
-    }
-  } catch {}
+  // 1. tenta Supabase
+  if (SB_CONFIGURED) {
+    try {
+      const res = await fetch(
+        `${SUPABASE_URL}/rest/v1/app_data?key=eq.${encodeURIComponent(k)}&select=value`,
+        { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+      );
+      if (res.ok) {
+        const rows = await res.json();
+        if (rows.length > 0) {
+          const val = rows[0].value;
+          // atualiza cache local
+          try { localStorage.setItem(LOCAL_PREFIX + k, JSON.stringify(val)); } catch {}
+          return val;
+        }
+        return null;
+      }
+    } catch {}
+  }
+  // 2. fallback localStorage
+  setSyncStatus('offline');
   try { return JSON.parse(localStorage.getItem(LOCAL_PREFIX + k)); } catch { return null; }
 }
+
 async function sSet(k, v) {
-  const str = JSON.stringify(v);
-  try { localStorage.setItem(LOCAL_PREFIX + k, str); } catch {}
-  if (!STORAGE_READY) return;
+  // salva localmente imediatamente (UX rápida)
+  try { localStorage.setItem(LOCAL_PREFIX + k, JSON.stringify(v)); } catch {}
+  if (!SB_CONFIGURED) return;
+  // debounce: evita gravar a cada keystroke
+  setSyncStatus('syncing');
   clearTimeout(pendingWrites[k]);
   pendingWrites[k] = setTimeout(async () => {
-    try { await window.storage.set(k, str); } catch {}
-  }, 400);
+    const res = await sbFetch('POST', { key: k, value: v, updated_at: new Date().toISOString() });
+    setSyncStatus(res ? 'ok' : 'error');
+  }, 600);
 }
 
 // ── Helpers ──────────────────────────────────────────────────────
@@ -913,12 +970,18 @@ function delTag(t){
 // INIT — load all from storage
 // ══════════════════════════════════════════════════════════════════
 async function init(){
+  if (SB_CONFIGURED) setSyncStatus('syncing');
+  else setSyncStatus('offline');
+
   const [dark,wt,rec,pt,pd,pl,wd,cd,tags,saved]=await Promise.all([
     sGet('darkmode'),sGet('week_tasks'),sGet('recados'),
     sGet('per_tasks'),sGet('per_dates'),
     sGet('plants'),sGet('water_dates'),
     sGet('compras'),sGet('item_tags'),sGet('saved_items')
   ]);
+
+  if (SB_CONFIGURED) setSyncStatus('ok');
+
   setDark(!!dark);
   weekTasks = wt || DEFAULT_TASKS.slice();
   recados   = rec || [];
@@ -926,12 +989,11 @@ async function init(){
   perDates  = pd  || {};
   plants    = pl  || DEFAULT_PLANTS.slice();
   waterDates= wd  || {};
-  if(cd){ comprasData=cd; } // keep default empty arrays if null
+  if(cd){ comprasData=cd; }
   if(tags){ itemTags=tags; }
   if(saved){ savedItems=saved; }
 
   renderWeek();
-  // jump carousel to today
   goSlide(carouselIdx);
   renderRecados();
   renderPeriodicas();
